@@ -1,0 +1,106 @@
+<style>
+
+#post {
+	display: block;
+	position: relative;
+	background: #fff;
+	margin: 0 0 6px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	padding: 10px;
+	height: 150px;
+	border: 1px solid #C3CED5;
+	font-size: 14px;
+	line-height: 17px;
+}
+
+ul {
+	list-style-type: none;
+}
+
+#postMedia {
+	position: absolute;
+	width: 110px;
+	float: left;
+}
+
+#media {
+	position: relative;
+	width: 140px;
+	float: left;
+	height: 140px;
+}
+
+#articleRight {
+	float:right;
+	width: 235px;
+}
+
+#container {
+padding: 75px 0 15px 10px;
+margin: 0 auto 0;
+width: 950px;
+overflow: hidden;
+min-height: 100%;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+
+
+#posts{
+overflow: hidden;
+float: left;
+width: 100%;
+top: 0px; /*Set top value to HeightOfTopFrameDiv*/
+bottom: 20px; /*Set bottom value to HeightOfBottomFrameDiv*/
+left: 350px; /*Set left value to WidthOfLeftFrameDiv*/
+right: 850px; /*Set right value to WidthOfRightFrameDiv*/
+width: 850px;
+height: auto;
+min-height: 570px;
+background: #ecf6f8;
+}
+
+</style>
+
+<div fade-in>
+    <div class="container">
+		
+		
+
+       <h1>Latest posts</h1>
+	
+		<div id='posts' ng-controller="PostsCtrl">
+			
+		  <form ng-submit="addPost(post.message, currentUser.name)">
+		     <input id="message" type="text" placeholder="Post…" ng-model="post.message">
+		     <input type="submit" value="Add">
+		  </form>
+		  
+
+		  <ul>
+		      <div id='post' ng-repeat="post in posts track by $id($index)">
+				  <div id='postMedia'>
+				  <img id='media' ng-click="go('/post')" ng-src={{post.attachment}} />
+				  </div>
+				  <div id="articleRight" ng-click="go('/post')">
+					  <div ng-click="go('/post')">{{post.message}}</div>
+					  <div ng-click="go('/post')">{{post.created_at}}</div>
+					  <div ng-click="go('/post')">{{post.submitter}}</div>
+				  </div>
+				  <div>
+				  <img width=30px src="img/heart_icon_deselected.jpg" ng-click="count = count + 1" ng-init="count=0">
+				      {{count}}
+				  </div>
+			  </div>
+		  </ul>
+		</div>
+
+    </div>
+
+</div>

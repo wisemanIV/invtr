@@ -1,0 +1,69 @@
+<!-- add navbar-inverse class for black/google-like bar -->
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar navbar-fixed-top" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="#">Inviter</a>
+
+            <div class="nav-collapse collapse">
+
+       
+						
+                    <li ng-controller="InboxCtrl" ng-show="authService.isLoggedIn()" class="dropdown">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                            <span>
+                              <i class="icon-envelope"></i>&nbsp;Messages ({{recentMail.length}})
+                            </span>
+
+                            <b class="caret"></b>
+
+                        </a>
+
+                        <!-- TODO mail should be managed as a service -->
+                        <ul class="dropdown-menu">
+                            <div ng-include="'partials/mail-subsections.html'"></div>
+                        </ul>
+                    </li>
+					
+
+                    <li ng-show="authService.isLoggedIn()" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-user"></i>
+                            User
+                            <b class="caret"></b>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a href="#/">User Profile</a></li>
+                            <li><a href="#/">Change password</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+                <div class="nav navbar-form pull-right">
+ 			 	   <div ng-controller="UsersCtrl">
+ 			 		   <div id="loginDiv">
+						   
+ 			 		     <span ng-show="user">
+						 <img ng-src="http://graph.facebook.com/{{user.username}}/picture/">
+ 			 		       Welcome {{user.name}} | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
+ 			 		     </span>
+ 						 <a ng-hide="user" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
+ 			 		   </div>
+	   	
+ 			 		</div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

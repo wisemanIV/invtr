@@ -1,0 +1,44 @@
+{
+    "users": [
+        {
+            "fb_token": "testing",
+            "fb_id": "1234",
+            "created_at": "http",
+            "first_name": "Stephen",
+            "last_name": "McCurry",
+            "profile_picture": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
+            "hometown": "San Francisco"
+        }
+    ],
+    "posts": [
+        {
+            "submitter": "testing",
+            "created_at": "http",
+            "message": "A test message",
+            "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
+            "city": "San Francisco",
+            "state": "CA",
+            "comments": [
+                {
+                    "body": "Quite cool!"
+                },
+                {
+                    "body": "new cool!"
+                }
+            ]
+        },
+        {
+            "submitter": "testing",
+            "created_at": "http",
+            "message": "A test message",
+            "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
+            "city": "San Francisco",
+            "state": "CA",
+            "comments": [
+                {
+                    "body": "different!"
+                }
+            ]
+        }
+    ]
+}
