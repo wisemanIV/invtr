@@ -32,31 +32,40 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire',
   }
 ]);
 
-myApp.controller('UsersCtrl', ['$scope', 'angularFire', 'angularFireAuth',
-  function UsersCtrl($scope, angularFire, angularFireAuth) {
-    var url = 'https://inviter-dev.firebaseio.com';
+myApp.controller('AuthCtrl', ['$scope', 'angularFire', 'angularFireAuth',
+  function ($scope, angularFire, angularFireAuth) {
+    var url = 'https://inviter-dev.firebaseio.com/accounts';
+	$scope.acct_items = angularFire(url, $scope, 'accounts',  [] );
+	
 	angularFireAuth.initialize(url, {scope: $scope, name: "user", path: "/login"});
-	
-	
-	$scope.addUser = function(user) {
-		console.debug("new user", user)
-	    users.push(user);
-	}
 	
 	$scope.login = function() {
 		console.debug("logging in")
-	    angularFireAuth.login("facebook");
+	    angularFireAuth.login("facebook",{
+  		 rememberMe: true,
+  	   	 scope: 'user_hometown, user_location'
+	 	});
 	};
 	
 	$scope.logout = function() {
-		console.debug("logging out")
+		console.debug("logging out");
 		angularFireAuth.logout();
 	};
 	
 	$scope.$on("angularFireAuth:login", function(evt, user) {
-	  console.debug("login event", user)
+	  console.debug("login event", evt);
 	  $scope.$parent.doLogin(user);
+	  $scope.$emit("AuthCtrl:bbbb",user);
 	});
+		
+	$scope.$on("AuthCtrl:bbbb", function(evt, user) {
+	  console.debug("adding account");
+	  console.debug(evt);
+	  $scope.$apply(function () {
+	//     evt.currentScope.accounts.push({id:user.id, first_name:user.first_name, last_name:user.last_name});
+	  });
+	});
+	
 	$scope.$on("angularFireAuth:logout", function(evt) {
 	   console.debug("logout event")
 	   $scope.$parent.doLogout();
@@ -70,21 +79,59 @@ myApp.controller('UsersCtrl', ['$scope', 'angularFire', 'angularFireAuth',
   }
 ]);
 
-myApp.controller('PostsCtrl', ['$scope', 'angularFire',
-  function MyCtrl($scope, angularFire) {
+myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', 'angularFire', '$routeParams',
+  function ($scope, $filter, $location, angularFire, $routeParams) {
     var url = 'https://inviter-dev.firebaseio.com/posts';
-    $scope.items = angularFire(url, $scope, 'posts',  [] );
+    $scope.boo = angularFire(url, $scope, 'posts',  [] );
 	
-	$scope.addComment = function(post,comment) {
-	    post.comments.push({body:comment});
+	$scope.selectedItem = $routeParams.postid ;
+	
+	$scope.boo.then(function() {
+		$scope.orderedPosts = $scope.orderPosts();
+		$scope.post = $scope.orderedPosts[$scope.selectedItem];
+	});
+	
+	$scope.$watch('posts', function() { $scope.orderedPosts = $scope.orderPosts(); });
+	
+	$scope.addComment = function(post) {
+		
+		$scope.comment.submitter_id = $scope.$parent.currentUser.id
+		$scope.comment.submitter_name = $scope.$parent.currentUser.name
+		
+		if (typeof post.comments == "undefined") post.comments = new Array();
+	    post.comments.push($scope.comment);
+		
+		$scope.comment = {};
 	}
 	
-	$scope.addPost = function(post, submitter) {
+	$scope.addPost = function() {
+		
 		var now = new Date();
-	    $scope.posts.push({message:post, created_at:now, submitter:submitter});
+		$scope.post.created_at = now
+		$scope.post.submitter_id = $scope.$parent.currentUser.id
+		$scope.post.submitter_name = $scope.$parent.currentUser.name
+		$scope.post.likes_count = 0 ;
+		$scope.post.attachment = $filter('youtube_id')($scope.post.attachment);
+	    $scope.posts.push($scope.post);
+		$scope.post = {};
 	}
 	
-  }
+	$scope.incrementLike = function() {
+	    $scope.post.likes_count = $scope.post.likes_count + 1;
+		
+	}
+	
+    $scope.goPost = function (post) {
+		console.debug($scope.posts);
+    	$location.path('post/'+post);
+    };
+	
+	$scope.orderPosts = function () {
+		return $scope.posts.sort(function(a, b) {
+		    return a.created_at < b.created_at;
+		});
+	};
+}
 ]);
 
 

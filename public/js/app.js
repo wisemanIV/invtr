@@ -9,7 +9,8 @@ var myApp = angular.module('myApp',
         'ngSanitize', // for html-bind in ckeditor
 		'firebase',
         'ui.bootstrap', // jquery ui bootstrap
-        '$strap.directives' // angular strap
+        '$strap.directives', // angular strap
+		'angularjs.media.directives'
     ]);
 
 // bootstrap angular
@@ -27,9 +28,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     $routeProvider.when('/about', {
         templateUrl:'partials/about.html'
     })
-    $routeProvider.when('/post', {
+    $routeProvider.when('/post/:postid', {
         templateUrl:'partials/post.html',
-		authRequired: true
+		authRequired: true,
+		controller:'ContentCtrl'
     })
     $routeProvider.when('/community', {
         templateUrl:'partials/community.html',
@@ -57,8 +59,11 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService) {
     // *****
     // Eager load some data using simple REST client
     // *****
+	
+	$rootScope.acct_items = {}
 
     $rootScope.restService = RESTService;
+	$rootScope.selectedPost = {};
 	
 	$rootScope.loggedIn = false 
 	$rootScope.currentUser = {} 
@@ -90,7 +95,10 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService) {
     $rootScope.clickLogin = function () {
     	$location.path("community");
     };
-
+    $rootScope.go = function (place) {
+		console.debug(place);
+    	$location.path(place);
+    };
   
 
 });

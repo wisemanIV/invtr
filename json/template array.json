@@ -1,6 +1,6 @@
 {
-    "users": {
-        "users1":{
+    "accounts": [
+        {
             "fb_token": "testing",
             "fb_id": "1234",
             "created_at": "http",
@@ -9,9 +9,10 @@
             "profile_picture": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
             "hometown": "San Francisco"
         }
-	},
-    "posts": {
-        "post1": {
+    ],
+    "posts": [
+        {
+			"title":"A title for the post",
             "submitter": "Stephen McCurry",
             "likes_count": "0",
             "created_at": "2013-08-19T06:22:32.613Z",
@@ -19,16 +20,21 @@
             "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
             "city": "San Francisco",
             "state": "CA",
-            "comments": {
-                "comment1": {
-                    "body": "Quite cool!"
+            "comments": [
+                {
+                    "body": "Quite cool!",
+					"submitter_id": "stephen.mccurry",
+					"submitter": "Stephen McCurry"
                 },
-                "comment2": {
-                    "body": "new cool!"
+                {
+                    "body": "new cool!",
+					"submitter_id": "stephen.mccurry",
+					"submitter": "Stephen McCurry"
                 }
-            }
+            ]
         },
-        "post2": {
+        {
+			"title":"A different title for the post",
             "submitter": "Stephen McCurry",
             "created_at": "2013-08-16T06:22:32.613Z",
             "likes_count": "0",
@@ -36,11 +42,13 @@
             "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
             "city": "San Francisco",
             "state": "CA",
-            "comments": {
-                "comment3": {
-                    "body": "different!"
+            "comments": [
+                {
+                    "body": "different!",
+					"submitter_id": "stephen.mccurry",
+					"submitter": "Stephen McCurry"
                 }
-            }
+            ]
         }
-    }
+    ]
 }
