@@ -74,12 +74,12 @@ angular.module('myApp.filters', []).
 */
 myApp.filter('youtube_id', function() {
   return function(url) {
-  var matches = new Array():
-  var pattern = '%^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=/watch\?v=))([\w-]{10,12})$%x';
-  var result = preg_match(pattern, url, matches);
-  if (false !== result) {
-      return matches[1];
-  }
-  return false;
+	  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+	     var match = url.match(regExp);
+	     if (match&&match[7].length==11){
+	         return match[7];
+	     }else{
+	         alert("Url unsupported format");
+	     }
 };
 });

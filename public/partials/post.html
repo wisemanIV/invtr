@@ -99,7 +99,7 @@ h1 {
 			  
 			  <div id='postMedia'>
 				  
-				  <youtube width="566" height="280" v="m7SkCAuMqfs" autoplay="0"></youtube>
+				  <youtube width="566" height="280" v="{{post.attachment}}" autoplay="0"></youtube>
 				  
 				  </div>
 				  <div id="like">
@@ -124,7 +124,7 @@ h1 {
 				
 				  <div id="commentRight">
 				  	<div id="commentBody">{{comment.body}}</div>
-					<div id="createdAt">2 days ago by Stephen McCurry</div>
+					<div id="createdAt">2 days ago by {{comment.submitter_name}}</div>
   				  <div id="arrow">
   				  </div>
 				  </div>

@@ -122,7 +122,7 @@ margin:20px 10px 0 0;
 		      <div ng-click="goPost(key)" id="post" ng-repeat="(key, post) in posts | orderBy:'created_at':true">
 				  <div id='postMedia'>
 				<!--  <img id='media' ng-click="go('post/{{key}}')" ng-src={{post.attachment}} />-->
-				  <img id='media' ng-src="http://img.youtube.com/vi/m7SkCAuMqfs/3.jpg" />
+				  <img id='media' ng-src="http://img.youtube.com/vi/{{post.attachment}}/3.jpg" />
 				  </div>
 				  <div id="articleRight">
 					  <div id="articleTitle">{{post.title}}</div>

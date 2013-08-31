@@ -53,8 +53,12 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 
 }]);
 
+myApp.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+}]);
+
 // this is run after angular is instantiated and bootstrapped
-myApp.run(function ($rootScope, $location, $http, $timeout, RESTService) {
+myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService) {
 
     // *****
     // Eager load some data using simple REST client
@@ -63,6 +67,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService) {
 	$rootScope.acct_items = {}
 
     $rootScope.restService = RESTService;
+	$rootScope.forceService = ForceService;
 	$rootScope.selectedPost = {};
 	
 	$rootScope.loggedIn = false 

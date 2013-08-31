@@ -1,9 +1,9 @@
 'use strict'
 
-myApp.controller('InboxCtrl', ['$scope', 'angularFire',
-  function MyCtrl($scope, angularFire) {
-    var url = 'https://inviter-dev.firebaseio.com/messages';
-    $scope.items = angularFire(url, $scope, 'messages',  {});
+myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
+  function MyCtrl($scope, angularFire, angularFireAuth) {
+    var url = 'https://inviter-dev.firebaseio.com/accounts';
+    $scope.items = angularFire(url, $scope, 'msgaccounts',  []);
 	
     // modal
     $scope.open = function () {
@@ -15,14 +15,26 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire',
         $scope.shouldBeOpen = false;
     };
     // end modal
-
-    $scope.recentMail = [
-        { type:'unread', from:'Phil Jenkins', msg:'Your password will expire in 23 days' },
-        { type:'unread', from:'Paul Terry', msg:'CRM system updated.' },
-        { type:'read', from:'Matt Lundquist', msg:'Successfully deployed Oracle 11g' },
-        { type:'read', from:'Lindsay Dugan', msg:'Closed support ticket #4455' },
-        { type:'read', from:'Lindsay Dugan', msg:'Reminder: Offsite in San Diego (comicon)' }
-    ];
+	$scope.getMail = function() {
+		console.debug("getmail");
+	//	if (!(typeof $scope.$parent.currentUser == "undefined")) {
+	//		console.debug($scope.$parent.currentUser.id);
+	//		console.debug($scope.msgaccounts);
+			
+		//	for (var j = 0 ; j < $scope.msgaccounts.length ; j++) {
+			
+		//		if ($scope.$parent.currentUser.id == $scope.msgaccounts[j].id) return  $scope.msgaccounts[j].messages ;
+		//	}
+	//	}
+		return [{}];	
+	};
+	
+	$scope.items.then(function() {
+		console.debug("jit");
+		$scope.recentMail = $scope.getMail();
+	});
+	
+    
 
     $scope.closeMail = function (index) {
         //console.log("closing mail " + index);
@@ -60,10 +72,17 @@ myApp.controller('AuthCtrl', ['$scope', 'angularFire', 'angularFireAuth',
 		
 	$scope.$on("AuthCtrl:bbbb", function(evt, user) {
 	  console.debug("adding account");
+	  console.debug($scope.accounts[user.id]);
 	  console.debug(evt);
-	  $scope.$apply(function () {
-	//     evt.currentScope.accounts.push({id:user.id, first_name:user.first_name, last_name:user.last_name});
-	  });
+	  
+	  var u = $scope.accounts[user.id];
+	  if (typeof u == "undefined") {
+	  
+		  $scope.$apply(function () {
+			  evt.currentScope.accounts.push({id:user.id, first_name:user.first_name, last_name:user.last_name, messages:[{ type:'unread', from:'Home Office', msg:'Welcome to the incentive' }]});
+		  });
+	  
+  	  }
 	});
 	
 	$scope.$on("angularFireAuth:logout", function(evt) {
@@ -132,6 +151,62 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', 'angularFire'
 		});
 	};
 }
+]);
+
+myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParams', 'ForceService',
+	function ($scope, $location, $http, $routeParams, ForceService) {
+		
+		$scope.versions = [{}] ;
+		$scope.objects = [{}] ;
+		
+		
+  	$scope.CLIENT_ID ='3MVG9A2kN3Bn17hsQNq5RSRPi9TkUNS8ySH2iQJW2Z0rA25ePO.sz2dNhuD4.FnzOW_hzGcOuQMHgSpWshqLk';
+  	$scope.AUTHORIZATION_ENDPOINT = "https://login.salesforce.com/services/oauth2/authorize";
+  	
+	$scope.init = function () {
+	   console.debug("init auth");
+		
+	   $scope.token = $scope.extractToken('access_token');
+ 	   console.debug($scope.token);
+   	}; 
+	
+	$scope.jsonp_callback = function(data) {
+		console.debug("callback");
+		$scope.versions = data;
+
+		console.debug($scope.versions);
+	};
+	
+	$scope.getVersions = function() {
+		console.debug("SalesforceCtrl getVersions");
+		ForceService.getVersions($scope.jsonp_callback);
+	};
+	
+	$scope.getObjects = function() {
+		console.debug("SalesforceCtrl getObjects");
+		$scope.objects = ForceService.get($scope.jsonp_callback, $scope.token);
+	};
+	
+	$scope.auth = function () {
+		
+		var authUrl = $scope.AUTHORIZATION_ENDPOINT + 
+		        "?response_type=token" +
+		        "&client_id="    + $scope.CLIENT_ID +
+		        "&redirect_uri=" + "https://www.invtr.co/auth.html";
+
+		     window.location = authUrl ;
+	};
+  
+	$scope.extractToken = function (name) {
+	//	console.debug($location.search().access_token);
+	//	console.debug($routeParams.access_token);
+	  return decodeURI(
+	      (RegExp(name + '=' + '(.+?)(&|$)').exec($location.url())||[,null])[1]
+	  );
+	};
+	
+}  
+	  
 ]);
 
 
