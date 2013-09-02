@@ -25,6 +25,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     $routeProvider.when('/contact', {
         templateUrl:'partials/contact.html'
     });
+    $routeProvider.when('/dashboard', {
+        templateUrl:'partials/dashboard.html',
+		controller:'DashboardCtrl'
+    });
     $routeProvider.when('/about', {
         templateUrl:'partials/about.html'
     })

@@ -1,0 +1,143 @@
+<style>
+
+#post {
+	display: block;
+	position: relative;
+	background: #fff;
+	margin: 0 0 6px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	padding: 10px;
+	height: 140px;
+	border: 1px solid #C3CED5;
+	font-size: 14px;
+	line-height: 17px;
+}
+
+ul {
+	list-style-type: none;
+}
+
+#postMedia {
+	position: absolute;
+	width: 180px;
+	float: left;
+}
+
+#like {
+	position: relative;
+	margin-top:65px;
+	left:20%;
+}
+
+#media {
+	position: relative;
+	width: 200px;
+	float: left;
+	height: 140px;
+}
+
+#articleRight {
+	position: relative;
+	left:20%;
+	top:25%;
+	border: 5px;
+}
+
+#container {
+padding: 75px 0 15px 10px;
+margin: 0 auto 0;
+width: 950px;
+overflow: hidden;
+min-height: 100%;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+
+
+#posts{
+overflow: hidden;
+float: left;
+width: 100%;
+top: 0px; /*Set top value to HeightOfTopFrameDiv*/
+bottom: 20px; /*Set bottom value to HeightOfBottomFrameDiv*/
+left: 350px; /*Set left value to WidthOfLeftFrameDiv*/
+right: 850px; /*Set right value to WidthOfRightFrameDiv*/
+width: 850px;
+height: auto;
+min-height: 570px;
+background: #ecf6f8;
+}
+
+#articleTitle{
+font-size: 22pt;
+margin:0 50px 0 0;
+}
+
+#createdAt{
+font-size: 12pt;
+color: #7C7C7C;	
+margin:20px 10px 0 0;
+}
+
+#createdBy{
+ color: #5FB312;
+}
+
+#submitterImage{
+	float:right;
+	right: 20%; 
+	z-index:1;
+}
+
+#commentCount{
+	float:right;
+	z-index:1;
+}
+
+</style>
+
+<div fade-in>
+    <div class="container">
+		
+		
+
+       <h1>Latest posts</h1>
+	
+		<div ng-controller="ContentCtrl">
+			
+		  <form ng-submit="addPost()">
+			 <input id="title" type="text" placeholder="Title…" ng-model="post.title">
+		     <input id="message" type="text" placeholder="Post…" ng-model="post.message">
+			 <input id="attach" type="text" placeholder="Link…" ng-model="post.attachment">
+		     <input type="submit" value="Add">
+		  </form>
+		  
+		  <ul>
+		      <div ng-click="goPost(key)" id="post" ng-repeat="(key, post) in posts | orderBy:'created_at':true">
+				  <div id='postMedia'>
+				<!--  <img id='media' ng-click="go('post/{{key}}')" ng-src={{post.attachment}} />-->
+				  <img id='media' ng-src="http://img.youtube.com/vi/{{post.attachment}}/3.jpg" />
+				  </div>
+				  <div id="articleRight">
+					  <div id="articleTitle">{{post.title}}</div>
+					  <div id="createdAt">{{post.created_at|since}} by <span id="createdBy"> {{post.submitter_name}}</span></div>
+				  </div>
+				  <div id="submitterImage">
+					  <img ng-src="http://graph.facebook.com/{{post.submitter_id}}/picture/">
+				  </div>
+				  <div id="like">
+				      	<span ng-model="post.likes_count">{{post.likes_count}} likes | {{ post.comments.length}} <span ng-hide="post.comments.length">0</span> comments</span>	
+				  </div>
+			  </div>
+		  </ul>
+		</div>
+
+    </div>
+
+</div>

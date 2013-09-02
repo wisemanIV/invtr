@@ -1,0 +1,16 @@
+<div fade-in>
+    <div class="container">
+
+       <h1>Create a microsite</h1>
+	
+		<div ng-controller="SiteCtrl">
+			
+		  <form ng-submit="createSite()">
+			  <input id="subdomain" type="text" placeholder="yourdomain.invtr.co" ng-model="site.subdomain">
+			  <input type="radio" ng-model="site.auth" value="fbconnect">Facebook Connect <br/>
+			  <input type="radio" ng-model="site.auth" value="sfconnect">Salesforce Connect<br/>
+		  </form>
+	  </div>
+	  
+  </div>
+</div>

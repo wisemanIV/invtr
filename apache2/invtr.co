@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+     ServerAdmin webmaster@example.com
+     ServerName %SUBDOMAIN%.invtr.co
+     ServerAlias www.%SUBDOMAIN%.invtr.co
+     DocumentRoot /srv/www/invtr.co/%SUBDOMAIN%/public_html/
+     ErrorLog /srv/www/invtr.co/%SUBDOMAIN%/logs/error.log
+     CustomLog /srv/www/invtr.co/%SUBDOMAIN%/logs/access.log combined
+</VirtualHost>

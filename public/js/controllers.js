@@ -157,7 +157,7 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
 	function ($scope, $location, $http, $routeParams, ForceService) {
 		
 		$scope.versions = [{}] ;
-		$scope.objects = [{}] ;
+		$scope.sfobjects = [{}] ;
 		
 		
   	$scope.CLIENT_ID ='3MVG9A2kN3Bn17hsQNq5RSRPi9TkUNS8ySH2iQJW2Z0rA25ePO.sz2dNhuD4.FnzOW_hzGcOuQMHgSpWshqLk';
@@ -167,6 +167,11 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
 	   console.debug("init auth");
 		
 	   $scope.token = $scope.extractToken('access_token');
+	   $scope.user_id =  $scope.extractToken('id');
+	   console.debug($scope.user_id);
+	   $scope.user_id = $scope.extractUserId($scope.user_id);
+	   console.debug($scope.user_id);
+	   $scope.base_url = $scope.extractToken('instance_url');
  	   console.debug($scope.token);
    	}; 
 	
@@ -177,14 +182,41 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
 		console.debug($scope.versions);
 	};
 	
+	$scope.obj_callback = function(data) {
+		console.debug("callback");
+		$scope.sfobjects = data.sobjects;
+	};
+	
+	$scope.rev_callback = function(data) {
+		console.debug("rev callback");
+		$scope.revenue = data.records[0].expr0;
+	};
+	
+	$scope.opp_callback = function(data) {
+		console.debug("opp callback");
+		$scope.opportunities = data.records[0].expr0;
+	};
+	
 	$scope.getVersions = function() {
 		console.debug("SalesforceCtrl getVersions");
-		ForceService.getVersions($scope.jsonp_callback);
+		ForceService.getVersions($scope.jsonp_callback, $scope.base_url);
 	};
 	
 	$scope.getObjects = function() {
 		console.debug("SalesforceCtrl getObjects");
-		$scope.objects = ForceService.get($scope.jsonp_callback, $scope.token);
+		ForceService.getObjects($scope.obj_callback, $scope.token, $scope.base_url);
+	};
+	
+	$scope.getOpportunities = function() {
+		console.debug("SalesforceCtrl getObjects");
+		var query = "SELECT count(Id) FROM Opportunity where Owner.Id = '"+$scope.user_id+"'" ;
+		ForceService.get($scope.opp_callback, $scope.token, $scope.base_url, query);
+	};
+	
+	$scope.getOpportunitiesRev = function() {
+		console.debug("SalesforceCtrl getObjects");
+		var query = "SELECT sum(ExpectedRevenue) FROM Opportunity where Owner.Id = '"+$scope.user_id+"'" ;
+		ForceService.get($scope.rev_callback, $scope.token, $scope.base_url, query);
 	};
 	
 	$scope.auth = function () {
@@ -199,14 +231,54 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
   
 	$scope.extractToken = function (name) {
 	//	console.debug($location.search().access_token);
-	//	console.debug($routeParams.access_token);
 	  return decodeURI(
 	      (RegExp(name + '=' + '(.+?)(&|$)').exec($location.url())||[,null])[1]
 	  );
 	};
 	
+	$scope.extractUserId = function (id) {
+	  return RegExp('[^/]*$').exec(id)||[,null][1] ;
+	};
+	
 }  
 	  
+]);
+
+myApp.controller('DashboardCtrl', ['$scope', 'angularFire', 'angularFireAuth', 'ForceService',
+  function ($scope, angularFire, angularFireAuth, ForceService) {
+
+  // initialize the model
+  $scope.user = 'angular';
+  $scope.repo = 'angular.js';
+
+  
+  $scope.revData = [200,600]; 
+  $scope.oppData = [200,600]; 
+}
+
+  
+]);
+
+
+myApp.controller('SiteCtrl', ['$scope', 'angularFire', 'angularFireAuth', 'SiteService',
+  function ($scope, angularFire, angularFireAuth, SiteService) {
+
+  // initialize the model
+  $scope.user = 'angular';
+  $scope.repo = 'angular.js';
+
+  
+  $scope.createSite = function () {
+	  console.debug("creating new subdomain: "+ $scope.site.subdomain);
+	  SiteService.buildSite($scope.build_callback, $scope.site.subdomain, $scope.site.auth)
+  };
+  
+  $scope.build_callback = function (data) {
+	  console.debug("new subdomain successfully created: "+ $scope.site.subdomain);
+  };
+}
+
+  
 ]);
 
 

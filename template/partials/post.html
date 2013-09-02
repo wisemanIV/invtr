@@ -1,0 +1,139 @@
+<style>
+#commentBlock {
+ margin: 15px 10px 0 0 ;
+}
+
+#commentBody {
+	font-size: 14pt;
+	margin: 0 10px 0 0 ;
+}
+#createdAt {
+	font-size: 12pt;
+	margin: 10px 0 0 0 ;
+}
+
+#commentSubmitter {
+display: inline;
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+#submitterImg {
+	width: 45px;
+	height: 45px;
+	background: none repeat scroll 0 0 #FFF;
+	padding: 5px;
+	border: 1px solid #C5D1D9;
+	border-radius: 5px;
+}
+
+div {
+display: block;
+}
+
+#commentRight {
+    border: 1px solid #C3CED5;
+    box-shadow: 3px 3px 3px #c5d1d9;
+    -webkit-box-shadow: 3px 3px 3px #c5d1d9;
+	width: 450px;
+	float: right;
+	position: relative;
+	margin-bottom: 12px;
+	background: none repeat scroll 0 0 #FFF;
+	color: #122433;
+	padding: 10px;
+	left: -52%;
+	top: -5%;
+}
+
+.clr, .clear {
+overflow: hidden;
+width: 0;
+line-height: 0;
+clear: both;
+display: block;
+}
+
+#arrow {
+	background: url("img/arrow-gr.png") no-repeat scroll left top transparent;
+	z-index: -1;
+	height: 12px;
+	left: -12px;
+	position: absolute;
+	top: 18px;
+	width: 13px;
+}
+.textarea {
+	font-size: 16px;
+	height: 17px;
+	margin: 11px 0;
+	padding: 9px 5px 8px;
+	resize: none;
+	width: 205px;
+	color: #1E6E9E;
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #C3CED5;
+}
+
+.bodytext {
+	margin: 0 0 5px 0;
+	padding: 10px 0;
+	line-height: 21px;
+	color: #102434;
+	font-size: 20px;
+	font-weight: normal;
+	word-wrap: break-word;
+}
+
+h1 {
+	padding: 25px 40px 0 0 ;
+	
+}
+</style>
+
+<div fade-in>
+    <div ng-controller="ContentCtrl" class="container">
+		  <div>
+			  <h1>{{post.title}}</h1>
+			  
+			  <div id='postMedia'>
+				  
+				  <youtube width="566" height="280" v="{{post.attachment}}" autoplay="0"></youtube>
+				  
+				  </div>
+				  <div id="like">
+				  		<img width=30px src="img/heart_icon_deselected.jpg" ng-click="incrementLike()">
+				      	<span>{{post.likes_count}}</span>
+						
+				  </div>
+				  <div>
+					  <div><p class="bodytext">{{post.message}}</p></div>
+					  <div>{{post.created_at|since}}</div>
+				  </div>
+		      <h2>Comments</h2>
+			  <form ng-submit="addComment(post)">
+			     <input maxlength="411" id="body" class="textarea" type="text" placeholder="Reply…" ng-model="comment.body">
+			  </form>
+			  
+			  <div id='commentBlock' ng-repeat="comment in post.comments | reverse">
+				  <div class="clr"></div>
+				  <div id="commentSubmitter">
+					  <img id="submitterImg" ng-src="http://graph.facebook.com/{{comment.submitter_id}}/picture/">
+				  </div>
+				
+				  <div id="commentRight">
+				  	<div id="commentBody">{{comment.body}}</div>
+					<div id="createdAt">2 days ago by {{comment.submitter_name}}</div>
+  				  <div id="arrow">
+  				  </div>
+				  </div>
+			  </div>
+			 
+			
+
+	  </div>
+	  </div>
+	</div>
+
+</div>
