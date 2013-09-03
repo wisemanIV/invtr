@@ -57,7 +57,6 @@ myApp.factory('ForceService',
  		   	   });
  		     }
 		 };
-	 
 	
     }
 );

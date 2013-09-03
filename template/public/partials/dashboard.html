@@ -19,7 +19,15 @@ form {
 
 </style>
 
+<div id="d3" ng-controller="DashboardCtrl" ng-init="getData()">
+	<div>
+		Number of opportunities <span ng-bind="oppData">{{oppData}}</span>
+		<gh-visualization val="oppData"></gh-visualization>
+	</div>
+</div>
 <div id="d3" ng-controller="DashboardCtrl">
-	<gh-visualization val="oppData"></gh-visualization>
-	<gh-visualization val="revdata"></gh-visualization>
+	<div>
+		Total expected revenue <span ng-bind="revData">${{revData}}</span>
+		<gh-visualization val="revData"></gh-visualization>
+	</div>
 </div>

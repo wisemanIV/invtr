@@ -1,25 +1,27 @@
 <VirtualHost *:80>
      ServerAdmin webmaster@example.com
-     ServerName www.invtr.co
-     DocumentRoot /srv/www/invtr.co/public_html
-     ErrorLog /srv/www/invtr.co/logs/error.log
-     CustomLog /srv/www/invtr.co/logs/access.log combined
- <Directory    /srv/www/invtr.co/public_html>
-    Order       allow,deny
-    Allow       from all
-  </Directory>
+     ServerName %SUBDOMAIN%.invtr.co
+     ServerAlias www.%SUBDOMAIN%.invtr.co
+     DocumentRoot /srv/www/invtr.co/%SUBDOMAIN%/public/
+     ErrorLog /srv/www/invtr.co/%SUBDOMAIN%/logs/error.log
+     CustomLog /srv/www/invtr.co/%SUBDOMAIN%/logs/access.log combined
+	 <Directory    /srv/www/invtr.co/%SUBDOMAIN%/public/>
+	    Order       allow,deny
+	    Allow       from all
+	  </Directory>
 </VirtualHost>
 <VirtualHost *:443>
      ServerAdmin webmaster@example.com
-     ServerName www.invtr.co
+     ServerName %SUBDOMAIN%.invtr.co
+     ServerAlias www.%SUBDOMAIN%.invtr.co
      SSLEngine On
      SSLCertificateFile /etc/apache2/ssl/www.invtr.co.crt
      SSLCertificateKeyFile /etc/apache2/ssl/www.invtr.co.key
-     SSLCACertificateFile /etc/apache2/ssl/intermediate.crt
-     DocumentRoot /srv/www/invtr.co/public_html
-     ErrorLog /srv/www/invtr.co/logs/error.log
-     CustomLog /srv/www/invtr.co/logs/access.log combined
- <Directory    /srv/www/invtr.co/public_html>
+	 SSLCertificateChainFile /etc/apache2/ssl/www.invtr.co.ca-bundle
+     DocumentRoot /srv/www/invtr.co/%SUBDOMAIN%/public/
+     ErrorLog /srv/www/invtr.co/%SUBDOMAIN%/logs/error.log
+     CustomLog /srv/www/invtr.co/%SUBDOMAIN%/logs/access.log combined
+ <Directory    /srv/www/invtr.co/%SUBDOMAIN%/public/>
     Order       allow,deny
     Allow       from all
   </Directory>

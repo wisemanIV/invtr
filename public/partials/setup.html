@@ -6,9 +6,25 @@
 		<div ng-controller="SiteCtrl">
 			
 		  <form ng-submit="createSite()">
-			  <input id="subdomain" type="text" placeholder="yourdomain.invtr.co" ng-model="site.subdomain">
-			  <input type="radio" ng-model="site.auth" value="fbconnect">Facebook Connect <br/>
-			  <input type="radio" ng-model="site.auth" value="sfconnect">Salesforce Connect<br/>
+			  <label class="control-label" for="subdomain">Enter domain:</label>
+			  <div class="controls">
+				  <div class="input-append">
+			  		<input id="subdomain" class="input-xlarge" type="text" placeholder="yourdomain" ng-model="site.subdomain">
+					<span class="add-on">.invtr.co</span>
+				  </div>
+			  </div>
+			  <div class="control-group">
+			  	  <label class="control-label" for="radios">Select auth:</label>
+				  <div class="controls">
+					  <label class="radio" for="fbconnect">
+			  		  <input type="radio" name="radios" id="fbconnect" ng-model="site.auth" value="fbconnect">Facebook Connect <br/>
+				  	  </label>
+					  <label class="radio" for="sfconnect">
+			  		  <input type="radio" name="radios" id="sfconnect" ng-model="site.auth" value="sfconnect">Salesforce Connect<br/>
+				  	  </label>
+				  </div>
+		  	  </div>
+			  <button id="save" class="btn btn-info">Save</button>
 		  </form>
 	  </div>
 	  

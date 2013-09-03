@@ -32,8 +32,8 @@ directives.directive('ghVisualization', function () {
 
   // constants
   var margin = 20,
-    width = 960,
-    height = 500,
+    width = 420,
+    height = 300,
 	radius = Math.min(width, height) / 2,
     color = d3.scale.category20();
 

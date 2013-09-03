@@ -25,6 +25,9 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     $routeProvider.when('/contact', {
         templateUrl:'partials/contact.html'
     });
+    $routeProvider.when('/site-ready', {
+        templateUrl:'partials/ready.html'
+    });
     $routeProvider.when('/dashboard', {
         templateUrl:'partials/dashboard.html',
 		controller:'DashboardCtrl'
@@ -79,6 +82,8 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	$rootScope.selectedPost = {};
 	
 	$rootScope.loggedIn = false 
+	$rootScope.mode = "fbconnect";
+	$rootScope.subdomain = "www";
 	$rootScope.currentUser = {} 
 	
     // async load constants
@@ -112,7 +117,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 		console.debug(place);
     	$location.path(place);
     };
-  
+	
 
 });
 

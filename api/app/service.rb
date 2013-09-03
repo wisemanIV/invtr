@@ -21,7 +21,7 @@ subdomain = params['subdomain']
 auth = params['auth']
 token = params['token']
 puts "BUILDING SITE AT SUBDOMAIN: #{subdomain}"
-response['Access-Control-Allow-Origin'] = 'http://www.invtr.co'
+response['Access-Control-Allow-Origin'] = 'https://www.invtr.co'
 
 command = "/var/bin/sitegen.sh "+subdomain
 puts "EXECUTING #{command}"

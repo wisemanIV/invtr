@@ -44,19 +44,90 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
   }
 ]);
 
-myApp.controller('AuthCtrl', ['$scope', 'angularFire', 'angularFireAuth',
-  function ($scope, angularFire, angularFireAuth) {
-    var url = 'https://inviter-dev.firebaseio.com/accounts';
+myApp.controller('AuthCtrl', ['$scope', '$location', 'angularFire', 'angularFireAuth',
+  function ($scope, $location, angularFire, angularFireAuth) {
+	var url = 'https://inviter-dev.firebaseio.com/accounts';
 	$scope.acct_items = angularFire(url, $scope, 'accounts',  [] );
 	
+  	$scope.SF_CLIENT_ID ='3MVG9A2kN3Bn17hsQNq5RSRPi9TkUNS8ySH2iQJW2Z0rA25ePO.sz2dNhuD4.FnzOW_hzGcOuQMHgSpWshqLk';
+  	$scope.SF_AUTHORIZATION_ENDPOINT = "https://login.salesforce.com/services/oauth2/authorize";
+  	
 	angularFireAuth.initialize(url, {scope: $scope, name: "user", path: "/login"});
 	
 	$scope.login = function() {
 		console.debug("logging in")
-	    angularFireAuth.login("facebook",{
-  		 rememberMe: true,
-  	   	 scope: 'user_hometown, user_location'
-	 	});
+		
+		if ($scope.$parent.mode === "fbconnect") {
+			console.debug("facebook login")
+		    angularFireAuth.login("facebook",{
+	  		 rememberMe: true,
+	  	   	 scope: 'user_hometown, user_location'
+		 	});
+		} else {
+			console.debug("salesforce login")
+			var authUrl = $scope.SF_AUTHORIZATION_ENDPOINT + 
+			        "?response_type=token" +
+			        "&client_id="    + $scope.SF_CLIENT_ID +
+					"&state=" + $scope.$parent.subdomain +
+			        "&redirect_uri=" + "https://www.invtr.co/auth.html";
+
+			window.location = authUrl ;
+		}
+	};
+	
+	$scope.writeCookie = function(cname, cvalue, cexpire) {
+	    document.cookie = cname + '=' + escape(cvalue) +
+	    (typeof cexpire == 'date' ? 'expires=' + cexpire.toGMTString() : '') +
+	    ';domain=.invtr.co;path=/';  
+	 };
+	 
+	 $scope.getCookie = function(c_name){
+	       var i,x,y,ARRcookies=document.cookie.split(";");
+	       for (i=0;i<ARRcookies.length;i++)
+	       {
+	              x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+	              y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+	              x=x.replace(/^\s+|\s+$/g,"");
+	              if (x==c_name)
+	        	  {
+	        		  return unescape(y);
+				  }
+			}
+	};
+	
+	$scope.getSubdomain = function () {
+		var host = window.location.host;
+		var sub = host.split('.')[0];
+	};
+	
+	$scope.redirectAuth = function() {
+		console.debug("redirecting successful auth");
+		// save token in session cookie
+		var sf_token = $scope.extractToken('access_token');
+		$scope.writeCookie("sf_token",sf_token,3600);
+		
+		var sf_base_uri = $scope.extractToken('instance_url');
+		$scope.writeCookie("sf_base_uri",sf_base_uri,3600);
+		
+ 	    var sf_user_id =  $scope.extractToken('id');
+ 	    console.debug(sf_user_id);
+ 	    sf_user_id = $scope.extractSfUserId(sf_user_id);
+		$scope.writeCookie("sf_user_id",sf_user_id,3600);
+		
+		var sub = $scope.extractToken('state');
+		
+		window.location = 'https://'+sub+'.invtr.co';
+	};
+	
+	$scope.extractToken = function (name) {
+	//	console.debug($location.search().access_token);
+	  return decodeURI(
+	      (RegExp(name + '=' + '(.+?)(&|$)').exec($location.url())||[,null])[1]
+	  );
+	};
+	
+	$scope.extractSfUserId = function (id) {
+	  return RegExp('[^/]*$').exec(id)||[,null][1] ;
 	};
 	
 	$scope.logout = function() {
@@ -245,39 +316,104 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
 ]);
 
 myApp.controller('DashboardCtrl', ['$scope', 'angularFire', 'angularFireAuth', 'ForceService',
-  function ($scope, angularFire, angularFireAuth, ForceService) {
+	function ($scope, angularFire, angularFireAuth, ForceService) {
 
-  // initialize the model
-  $scope.user = 'angular';
-  $scope.repo = 'angular.js';
-
+		// initialize the model
+		$scope.user = 'angular';
+		$scope.repo = 'angular.js';
   
-  $scope.revData = [200,600]; 
-  $scope.oppData = [200,600]; 
-}
-
+		$scope.revData = [200000]; 
+		$scope.oppData = [10]; 
+		
+		$scope.rev_callback = function(data) {
+			console.debug("rev callback");
+			$scope.revData[$scope.revData.length+1] = data.records[0].expr0;
+		};
+	
+		$scope.opp_callback = function(data) {
+			console.debug("opp callback");
+			$scope.oppData[$scope.oppData.length+1] = data.records[0].expr0;
+		};
+	
+		$scope.getData = function() {
+			console.debug("DashboardCtrl getData");
+			var sf_token = $scope.getCookie("sf_token") ;
+			var sf_base_uri = $scope.getCookie("sf_base_uri") ;
+			var sf_user_id = $scope.getCookie("sf_user_id") ;
+			console.debug("Sf token from cookie: "+sf_token);
+			console.debug("Sf base uri from cookie: "+sf_base_uri);
+			console.debug("Sf user id from cookie: "+sf_user_id);
+			
+			var query = "SELECT count(Id) FROM Opportunity where Owner.Id = '"+sf_user_id+"'" ;
+			ForceService.get($scope.opp_callback, sf_token, sf_base_uri, query);
+			var query = "SELECT sum(ExpectedRevenue) FROM Opportunity where Owner.Id = '"+sf_user_id+"'" ;
+			ForceService.get($scope.rev_callback, sf_token, sf_base_uri, query);
+		};
+		
+   	 	$scope.getCookie = function(c_name) {
+   	        var i,x,y,ARRcookies=document.cookie.split(";");
+   	        for (i=0;i<ARRcookies.length;i++)
+   	        {
+   	              x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+   	              y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+   	              x=x.replace(/^\s+|\s+$/g,"");
+   	              if (x==c_name)
+	        	  {
+	        		  return unescape(y);
+				  }
+			}
+   	        
+   		 };
+	
+	}
   
 ]);
 
 
 myApp.controller('SiteCtrl', ['$scope', 'angularFire', 'angularFireAuth', 'SiteService',
-  function ($scope, angularFire, angularFireAuth, SiteService) {
+	function ($scope, angularFire, angularFireAuth, SiteService) {
+  		var url = 'https://inviter-dev.firebaseio.com/sites';
+    	$scope.items = angularFire(url, $scope, 'sites',  [] );
 
-  // initialize the model
-  $scope.user = 'angular';
-  $scope.repo = 'angular.js';
+  	    // initialize the model
+		$scope.user = 'angular';
+		$scope.repo = 'angular.js';
+		
+		$scope.items.then(function() {
+			$scope.getMode() ;
+		});
 
+	  	$scope.createSite = function () {
+			console.debug("creating new subdomain: "+ $scope.site.subdomain);
+			$scope.sites.push($scope.site);
+			SiteService.buildSite($scope.build_callback, $scope.site.subdomain, $scope.site.auth)
+	  	};
+		
+		$scope.build_callback = function (data) {
+			console.debug("new subdomain successfully created: "+ $scope.site.subdomain);
+			console.debug(data);
+			$scope.parent.go('/site-ready');
+	  	};
   
-  $scope.createSite = function () {
-	  console.debug("creating new subdomain: "+ $scope.site.subdomain);
-	  SiteService.buildSite($scope.build_callback, $scope.site.subdomain, $scope.site.auth)
-  };
-  
-  $scope.build_callback = function (data) {
-	  console.debug("new subdomain successfully created: "+ $scope.site.subdomain);
-  };
-}
+		$scope.getMode = function () {
+			console.debug("get mode");
+			
+			var host = window.location.host;
+			var sub = host.split('.')[0];
+			
+			console.debug("subdomain: "+sub);
+			
+			for (var j = 0 ; j < $scope.sites.length ; j ++) {
+				if ($scope.sites[j].subdomain === sub) {
+					console.debug("mode: "+$scope.sites[j].auth);
+					$scope.$parent.mode = $scope.sites[j].auth ;
+					$scope.$parent.subdomain = sub ;
+					break ;
+				}
+			}
+		};
 
+	}
   
 ]);
 

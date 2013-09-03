@@ -33,31 +33,20 @@
     <link rel="stylesheet" href="css/vendor/animate/animate.css">
     <link rel="stylesheet" type="text/css" href="css/app.css"/>
 	
-    <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
-     <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase-auth-client.js"></script>
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.js"></script>
-     <script type="text/javascript" src="https://connect.facebook.net/en_US/all.js"></script>
+    <script type="text/javascript" src="//cdn.firebase.com/v0/firebase.js"></script>
+     <script type="text/javascript" src="//cdn.firebase.com/v0/firebase-auth-client.js"></script>
+     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.js"></script>
+     <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
      <script type="text/javascript" src="js/vendor/angular/angularFire.js"></script>
-	 <script type="text/javascript"src="https://cdn.firebase.com/v0/firebase-simple-login.js"></script>
-	 <script src="https://na15.salesforce.com/soap/ajax/28.0/connection.js"></script>
+	 <script type="text/javascript"src="//cdn.firebase.com/v0/firebase-simple-login.js"></script>
+	 <script src="//na15.salesforce.com/soap/ajax/28.0/connection.js"></script>
 	 <script type="text/javascript" src="js/vendor/xml2json.js"></script>
 	 
 </head>
 
 <body ng-app="myApp">
 	
-<div ng-controller="SalesforceCtrl" ng-init="init()">
-	<div class="authenticated" style="display:none">Successfully authenticated</div>
-	<div class="failedAuth" style="display:none">Failed authentication</div>
-	
-	<a class="btn btn-primary" ng-click="getVersions()">Get Salesforce API versions</a>
-	<div id="ver" ng-repeat="version in versions ">
-		{{version.label}}, {{version.url}}, {{version.version}}
-	</div>
-	<a class="btn btn-primary" ng-click="getOpportunities()">Get Number of Opportunities</a>
-		<span ng-bind="opportunities"></span>
-	<a class="btn btn-primary" ng-click="getOpportunitiesRev()">Get Opportunity Revenue</a>
-		<span ng-bind="revenue"></span>
+<div ng-controller="AuthCtrl" ng-init="redirectAuth()">
 	
 </div>
 
