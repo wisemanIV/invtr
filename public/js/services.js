@@ -20,7 +20,7 @@ myApp.factory('RESTService',
 
 // simple stub that could use a lot of work...
 myApp.factory('ForceService',
-    function ($http) 
+    function ($http) {
 		var ForceBase = 'http://api.invtr.co/force' ;
         return {
             getObjects:function (callback, token, base) {
@@ -51,33 +51,31 @@ myApp.factory('ForceService',
 				var url = ForceBase+ "?url="+ base + "/services/data/v26.0/query/?q="+query+"&token="+token ;
 				console.debug("GETTING URL: "+url) ;
 				
- 		   	    $http.get(encodeURI(url)kkkkjikmkimlo, {withCredentials:false}).success(function (data) {
+ 		   	    $http.get(encodeURI(url), {withCredentials:false}).success(function (data) {
  		   		   console.debug(data);
  				   callback(data);
  		   	   });
  		     }
-		 }
+		 };
 	 
 	
     }
 );
 
 myApp.factory('SiteService',
-    function ($http) 
+    function ($http) {
 		var UrlBase = 'http://api.invtr.co/sitebuilder' ;
         return {
             buildSite:function (callback, subdomain, auth) {
 				console.debug("Site builder for subdomain: "+subdomain);
 				
-		   	    $http.get(UrlBase+'&subdomain='+subdomain+"&auth="+auth, {withCredentials:false}).success(function (data) {
+		   	    $http.get(UrlBase+'?subdomain='+subdomain+"&auth="+auth, {withCredentials:false}).success(function (data) {
 		   		   console.debug(data);
 				   callback(data);
 		   	   });
 		     }
-		 }
-	 
-	
-    }
+		 };
+	 }
 );
 
 

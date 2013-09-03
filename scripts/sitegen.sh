@@ -7,5 +7,5 @@ cp -r /srv/www/invtr.co/template/* /srv/www/invtr.co/$1
 
 sed -i 's/\%SUBDOMAIN\%/'$1'/g' $SITES/$1
 
-a2ensite $1
+/usr/sbin/a2ensite $1
 /etc/init.d/apache2 reload

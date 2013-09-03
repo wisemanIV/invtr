@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+     ServerAdmin webmaster@example.com
+     ServerName %SUBDOMAIN%.invtr.co
+     ServerAlias www.%SUBDOMAIN%.invtr.co
+     DocumentRoot /srv/www/invtr.co/%SUBDOMAIN%/public/
+     ErrorLog /srv/www/invtr.co/%SUBDOMAIN%/logs/error.log
+     CustomLog /srv/www/invtr.co/%SUBDOMAIN%/logs/access.log combined
+	 <Directory    /srv/www/invtr.co/%SUBDOMAIN%/public/>
+	    Order       allow,deny
+	    Allow       from all
+	  </Directory>
+</VirtualHost>
+<VirtualHost *:443>
+     ServerAdmin webmaster@example.com
+     ServerName %SUBDOMAIN%.invtr.co
+     ServerAlias www.%SUBDOMAIN%.invtr.co
+     SSLEngine On
+     SSLCertificateFile /etc/apache2/ssl/www.invtr.co.crt
+     SSLCertificateKeyFile /etc/apache2/ssl/www.invtr.co.key
+     SSLCACertificateFile /etc/apache2/ssl/intermediate.crt
+     DocumentRoot /srv/www/invtr.co/%SUBDOMAIN%/public/
+     ErrorLog /srv/www/invtr.co/%SUBDOMAIN%/logs/error.log
+     CustomLog /srv/www/invtr.co/%SUBDOMAIN%/logs/access.log combined
+ <Directory    /srv/www/invtr.co/%SUBDOMAIN%/public/>
+    Order       allow,deny
+    Allow       from all
+  </Directory>
+</VirtualHost>
