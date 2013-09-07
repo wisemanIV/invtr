@@ -10,8 +10,11 @@ var myApp = angular.module('myApp',
 		'firebase',
         'ui.bootstrap', // jquery ui bootstrap
         '$strap.directives', // angular strap
-		'angularjs.media.directives'
+		'angularjs.media.directives',
+		'ngDragDrop',
+		'ngCookies'
     ]);
+	
 
 // bootstrap angular
 myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
@@ -30,11 +33,20 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     });
     $routeProvider.when('/dashboard', {
         templateUrl:'partials/dashboard.html',
+	//	authRequired: true,
 		controller:'DashboardCtrl'
+    });
+    $routeProvider.when('/metrics', {
+        templateUrl:'partials/metrics.html',
+		controller:'MetricsCtrl'
+    });
+    $routeProvider.when('/metrics-admin', {
+        templateUrl:'partials/metrics-admin.html',
+		controller:'MetricsCtrl'
     });
     $routeProvider.when('/create', {
         templateUrl:'partials/setup.html',
-		controller:'SiteCtrl'
+		controller:'SiteBuilderCtrl'
     });
     $routeProvider.when('/about', {
         templateUrl:'partials/about.html'
@@ -69,7 +81,7 @@ myApp.config(['$httpProvider', function($httpProvider) {
 }]);
 
 // this is run after angular is instantiated and bootstrapped
-myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService) {
+myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService, SiteConfigService, UserService) {
 
     // *****
     // Eager load some data using simple REST client
@@ -78,13 +90,16 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	$rootScope.acct_items = {}
 
     $rootScope.restService = RESTService;
+	$rootScope.siteConfigService = SiteConfigService;
 	$rootScope.forceService = ForceService;
+	$rootScope.userService = UserService ;
 	$rootScope.selectedPost = {};
 	
 	$rootScope.loggedIn = false 
 	$rootScope.mode = "fbconnect";
 	$rootScope.subdomain = "www";
 	$rootScope.currentUser = {} 
+	$rootScope.siteConfigs = [];
 	
     // async load constants
     $rootScope.constants = [];
@@ -92,6 +107,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
             $rootScope.constants = data[0];
         }
     );
+	
 
     // async load data do be used in table (playgound grid widget)
     $rootScope.listData = [];
@@ -103,7 +119,9 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
     $rootScope.doLogin = function (user) {
     	$location.path("community");
 		$rootScope.loggedIn = true ;
-		$rootScope.currentUser = user; 
+		$rootScope.currentUser = user;
+		
+	//	window.location = 'https://'+$cookies.subdomain+'.invtr.co';
     };
     $rootScope.doLogout = function () {
     	$location.path("logout");

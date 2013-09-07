@@ -17,17 +17,38 @@ form {
   top: 10px;
 }
 
+  
+  .background {
+    fill: #DFEAFD;
+  }
+  
+  .foreground {
+    fill: #2E7AF9;
+  }
+  
+  text {
+    font-family: 'Georgia' sans-serif;
+    font-size: 90px;
+  }
+  
+  .text2 {
+    font-family: 'Georgia' sans-serif;
+    font-size: 20px;
+  }
+
+
+
 </style>
 
-<div id="d3" ng-controller="DashboardCtrl" ng-init="getData()">
-	<div>
-		Number of opportunities <span ng-bind="oppData">{{oppData}}</span>
-		<gh-visualization val="oppData"></gh-visualization>
-	</div>
-</div>
-<div id="d3" ng-controller="DashboardCtrl">
-	<div>
-		Total expected revenue <span ng-bind="revData">${{revData}}</span>
-		<gh-visualization val="revData"></gh-visualization>
+<div ng-controller="DashboardCtrl" ng-init="init();">
+	<div ng-repeat="item in metrics">
+	  <div ng-switch on="item.type">
+	    <div ng-switch-when="dial">
+			<gh-dial val="item.data" data-format="item.data-format" metric-title="item.title"></gh-dial>
+		</div>
+	    <div ng-switch-when="meter">
+			<gh-meter val="item.data" data-format="item.data-format" metric-title="item.title"></gh-meter>
+		</div>
+	  </div>
 	</div>
 </div>

@@ -1,54 +1,59 @@
 {
-    "accounts": [
-        {
-            "fb_token": "testing",
-            "fb_id": "1234",
-            "created_at": "http",
-            "first_name": "Stephen",
-            "last_name": "McCurry",
-            "profile_picture": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
-            "hometown": "San Francisco"
-        }
-    ],
-    "posts": [
-        {
-			"title":"A title for the post",
-            "submitter": "Stephen McCurry",
-            "likes_count": "0",
-            "created_at": "2013-08-19T06:22:32.613Z",
-            "message": "A test message",
-            "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
-            "city": "San Francisco",
-            "state": "CA",
-            "comments": [
-                {
-                    "body": "Quite cool!",
-					"submitter_id": "stephen.mccurry",
-					"submitter": "Stephen McCurry"
-                },
-                {
-                    "body": "new cool!",
-					"submitter_id": "stephen.mccurry",
-					"submitter": "Stephen McCurry"
-                }
-            ]
-        },
-        {
-			"title":"A different title for the post",
-            "submitter": "Stephen McCurry",
-            "created_at": "2013-08-16T06:22:32.613Z",
-            "likes_count": "0",
-            "message": "A test message",
-            "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
-            "city": "San Francisco",
-            "state": "CA",
-            "comments": [
-                {
-                    "body": "different!",
-					"submitter_id": "stephen.mccurry",
-					"submitter": "Stephen McCurry"
-                }
-            ]
-        }
-    ]
+	"sites": { 
+		"demo": {
+		    "accounts": [
+		        {
+		            "fb_token": "testing",
+		            "fb_id": "1234",
+		            "created_at": "http",
+		            "first_name": "Stephen",
+		            "last_name": "McCurry",
+		            "profile_picture": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
+		            "hometown": "San Francisco"
+		        }
+		    ],
+		    "posts": [
+		        {
+					"title":"A title for the post",
+		            "submitter": "Stephen McCurry",
+		            "likes_count": "0",
+		            "created_at": "2013-08-19T06:22:32.613Z",
+		            "message": "A test message",
+		            "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
+		            "city": "San Francisco",
+		            "state": "CA",
+		            "comments": [
+		                {
+		                    "body": "Quite cool!",
+							"submitter_id": "stephen.mccurry",
+							"submitter": "Stephen McCurry"
+		                },
+		                {
+		                    "body": "new cool!",
+							"submitter_id": "stephen.mccurry",
+							"submitter": "Stephen McCurry"
+		                }
+		            ]
+		        },
+		        {
+					"title":"A different title for the post",
+		            "submitter": "Stephen McCurry",
+		            "created_at": "2013-08-16T06:22:32.613Z",
+		            "likes_count": "0",
+		            "message": "A test message",
+		            "attachment": "http://img-cache.cdn.gaiaonline.com/4ca2ac6724da705e75d6c6b25ba0641a/http://cache.gizmodo.com/assets/resources/2007/10/cupcake_timer.jpg",
+		            "city": "San Francisco",
+		            "state": "CA",
+		            "comments": [
+		                {
+		                    "body": "different!",
+							"submitter_id": "stephen.mccurry",
+							"submitter": "Stephen McCurry"
+		                }
+		            ]
+		        }
+		    ],
+			"site": { "subdomain":"default", "incentivename":"A demo incentive", "auth":"sfconnect"}
+		}
+	}
 }

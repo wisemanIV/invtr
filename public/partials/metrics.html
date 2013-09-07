@@ -1,0 +1,72 @@
+<style>
+
+.content {
+	width:950px;
+}
+
+.continue-right {
+	width:950px;
+	height:90px;
+}
+
+div#metrics {
+	width:320px; 
+	float:left;
+}
+
+.btn-droppable {
+	min-width:250px;
+	min-height:34px;
+	margin: 10px 0 0 0;
+}
+
+.thumbnail {
+	
+	float:right;
+	width:600px;
+	height:400px;
+}
+
+ul
+{
+    list-style-type: none;
+}
+
+</style>
+<div fade-in>
+	<div class="container">
+	<h1>Select metrics</h1>
+	
+    <div class="continue-right">
+		<span> 
+        	<button class="btn btn-large btn-primary" ng-click="continue()">Continue to site</button>
+        	<br>
+		</span>
+       
+    </div>
+	
+    <div class="content" ng-controller="MetricsCtrl" ng-init="init()">
+	   
+		<div id="metrics">
+         
+				<ul>
+	           		<li ng-repeat="item in list5">
+			 			<div class="btn btn-droppable" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
+						<div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.title">{{item.title}}</div>
+						</div>
+					</li>
+			 	</ul>
+	    </div>
+	
+	  
+		<div class="thumbnail" data-drop="true" ng-model='metrics' data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true}">
+		                    <div class="caption">
+		                      <div class="btn btn-info btn-draggable" ng-repeat="item in metrics" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="metrics" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</div>
+		                    </div>
+		 </div>
+			
+	
+			
+	</div>
+</div>
+</div>
