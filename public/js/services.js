@@ -58,6 +58,18 @@ myApp.factory('ForceService',
  				   callback(data);
  		   	   });
  		     },
+			 getUserDetails:function (callback, user_uri, token) {
+			 	
+				var url = ForceBase+ '/user?url='+ user_uri + '&token='+token;
+				
+				console.debug("Get user details: "+url) ;
+				
+ 		   	    $http.get(url, {withCredentials:false}).success(function (data) {
+ 				   callback(data);
+ 		   	   });
+				
+				
+			 },
              postAuth:function (callback, url, body) {
  				console.debug("ForceService post auth");
 				
@@ -117,43 +129,55 @@ myApp.factory('SiteConfigService', ['$http','angularFire', '$rootScope', '$locat
 	 }
 ]);
 
-myApp.factory('UserService', ['$http','angularFire', '$rootScope', '$location', '$cookies', 'ForceService',
-    function ($http, angularFire, $rootScope, $location, $cookies, ForceService) {
+myApp.factory('UserService', ['$http','angularFire', '$route', '$rootScope', '$location', '$cookies', 'ForceService', 'localStorageService',
+    function ($http, angularFire, $route, $rootScope, $location, $cookies, ForceService, localStorageService) {
 		
 	  	var SF_CLIENT_ID ='3MVG9A2kN3Bn17hsQNq5RSRPi9TkUNS8ySH2iQJW2Z0rA25ePO.sz2dNhuD4.FnzOW_hzGcOuQMHgSpWshqLk';
 	  	var SF_AUTHORIZATION_ENDPOINT = "https://login.salesforce.com/services/oauth2/authorize";
 		var SF_TOKEN_ENDPOINT = "https://login.salesforce.com/services/oauth2/token";
-		var SF_SECRET = '7341473135225385204';
-  		
-		var currentUser = {};
-		var auth_state = 0 ;
 		
-        return {
+		var currentUser = {}; 
+		var authenticated = false ;
+		
+		return {
+			
+			isAuthenticated:function() {
+				authenticated = false ;
+				var token = localStorageService.get('invtr.sf_token') ;
+				console.debug("token:"+token);
+				if (typeof token != 'undefined' && token != null) {
+					authenticated = true ;
+				}
+				console.debug("isauthenticated:"+authenticated);
+				return authenticated ;
+			},
 			login:function(mode) {
 				console.debug("logging in: "+mode);
 		
-				if (mode === "fbconnect") {
-					console.debug("facebook login")
-			//	    angularFireAuth.login("facebook",{
-			 // 		 rememberMe: true,
-			 // 	   	 scope: 'user_hometown, user_location'
-		//		 	});
-				} else {
+				
 					console.debug("salesforce login")
 					var authUrl = SF_AUTHORIZATION_ENDPOINT + 
-					        "?response_type=code" +
+					        "?response_type=token" +
 					        "&client_id="    + SF_CLIENT_ID +
-							"&state=" + $cookies.subdomain +
-							"&immediate=false" +
+							"&state=" + localStorageService.get('invtr.subdomain') +
 					        "&redirect_uri=" + "https://www.invtr.co/auth.html";
-
+							
 					window.location.assign(authUrl);
-				}
+			
+			},
+			logout:function() {
+				console.debug("User service logout");
+				localStorageService.remove('invtr.sf_user_id');
+				localStorageService.remove('invtr.sf_base_uri');
+				localStorageService.remove('invtr.sf_token');
+				authenticated = false ;
+		        window.location = 'https://'+localStorageService.get('invtr.subdomain')+'.invtr.co/#/?logout=true';
+				
 			},
 			callback:function(data) {
 				console.debug("auth callback");
 				console.debug(data);
-				
+				/*
 				console.debug("auth successful");
 		
 					var user = {}; 
@@ -181,9 +205,11 @@ myApp.factory('UserService', ['$http','angularFire', '$rootScope', '$location', 
 	
 		    		currentUser = user;
 					
-					window.location = 'https://'+$cookies.subdomain+'.invtr.co/#/?sf_user_id='+user.sf_user_id;
+					window.location = 'https://'+$cookies.subdomain+'.invtr.co/#/?sf_user_id='+user.sf_user_id;*/
 			},
 			redirectAuth:function() {
+				
+				/* This is for the other auth flow
 				console.debug("redirecting successful auth");
 				
 				var sf_code = this.extractToken('code');
@@ -200,53 +226,69 @@ myApp.factory('UserService', ['$http','angularFire', '$rootScope', '$location', 
 						
 				
 				ForceService.postAuth(this.callback, authUrl, body) ;
+				*/
+				
+				console.debug("auth successful");
+					
+					// save token in session cookie
+					var sf_token = this.extractToken('access_token');
+					var sf_refresh_token = this.extractToken('refresh_token');
+	
+					var sf_base_uri = this.extractToken('instance_url');
+					console.debug(sf_base_uri);
+	
+			 	    var sf_user_uri =  this.extractToken('id');
+			 	    console.debug(sf_user_uri);
+			 	    var out = RegExp('[^/]*$').exec(sf_user_uri)||[,null][1];
+					var sf_user_id = out[0];
+					
+					var currentUser = new Object();
+					currentUser = {"sf_token":sf_token,"sf_base_uri":decodeURI(sf_base_uri),"sf_user_id":sf_user_id,"sf_user_uri":sf_user_uri,"sf_refresh_token":sf_refresh_token}; 
+		  
+		        /*    console.debug(this.extractToken("state"));
+		            var url = 'https://inviter-dev.firebaseio.com/sites/'+this.extractToken("state")+'/accounts';
+					console.debug("url:"+url);
+		  		  	var ref = new Firebase(url);
+		 
+		  		  	var acct = ref.child(currentUser.sf_user_id).set(currentUser);*/
+				
+					console.debug(this.extractToken("state"));
+					
+					window.location = 'https://'+this.extractToken('state')+'.invtr.co/#/?sf_user_id='+currentUser.sf_user_id 
+						+ '&token='+ currentUser.sf_token
+						+ '&refresh_token='+ currentUser.sf_refresh_token
+						+ '&base_uri=' + currentUser.sf_base_uri
+						+ '&user_uri=' + currentUser.sf_user_uri;
+					
 					
 			},
-			 setUser:function(user) {
-				currentUser = user ;
-			 },
-             getUser:function () {
+             getCurrentUser:function () {
 				 
-				 console.debug("get user");
+				console.debug("get current user");
 				
-				if (typeof currentUser != "undefined" && Object.keys(currentUser).length > 0 ) {
-					console.debug("current user defined");
-				 	return currentUser ;
+				 // first check if there is a current object
+				if (typeof $rootScope.currentUser != "undefined" && Object.keys($rootScope.currentUser).length > 0 ) {
+					console.debug("current user exists");
+				// then check local storage to see if there is a valid user there
 	     		} else {
 					console.debug("current user not defined");
-					var url  = 'https://inviter-dev.firebaseio.com/sites/'+$cookies.subdomain+'/accounts/'+$cookies.sf_user_id;
-					console.debug(url);
-					var ref = new Firebase(url);
-					
 					currentUser = new Object();
+					currentUser.sf_token = localStorageService.get('invtr.sf_token');
+					currentUser.sf_base_uri = localStorageService.get('invtr.sf_base_uri');
+					currentUser.sf_user_id = localStorageService.get('invtr.sf_user_id');
 					
-					ref.on('value', function(snapshot) {
-					  if(snapshot.val() === null) {
-					    alert('User does not exist.');
-					  } else {
-					    var sf_token = snapshot.val().sf_token;
-					    var sf_base_uri = snapshot.val().sf_base_uri;
-					    var sf_user_id = snapshot.val().sf_user_id ;
-						
-						currentUser.sf_token = sf_token;
-						currentUser.sf_base_uri = sf_base_uri;
-						currentUser.sf_user_id = sf_user_id;
-						
-					  }
-					});
-					
-					return currentUser ;
 				}
+				 
+				 return currentUser ;  
  		   	    
  		     },
 			 extractToken:function (name) {
-			  console.debug($location.url());
+			  
 			  return decodeURI(
 			      (RegExp(name + '=' + '(.+?)(&|$)').exec($location.url())||[,null])[1]
 			  );
 		  	}
-			 
-		 };
+		}
 	 }
 ]);
 

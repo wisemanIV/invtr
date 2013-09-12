@@ -30,37 +30,44 @@ directives.directive('stopEvent', function () {
 
 directives.directive('ghDial', function () {
 
-	var width = 370,
-	    height = 370,
+	var width = 270,
+	    height = 270,
 	    twoPi = 2 * Math.PI,
-	    progress = 0,
-	    total = 100;
+		progress = 0.00001;
 		
   return {
     restrict: 'E',
+	transclude: true,
     scope: {
       val: '=',
 	  dataFormat: '=',
-	  metricTitle: '='
+	  metricTitle: '=',
+	  ghTarget: '='
     },
     link: function (scope, element, attrs) {
+	
+	   var formatPercent = d3.format(scope.dataFormat);
+	   var total = scope.ghTarget.valueOf() ;
+	   var prepend = "" ;
+	   if (scope.dataFormat === "$") prepend = "$" ;
+	   console.debug("prepend: "+scope.prepend);
+	   console.debug("data format: "+scope.dataFormat );
+	   
+	   var index = document.querySelector("#d3Parent").childNodes.length-1 ;
+	   
+	   var column = [170, 500];
+	   var row = [140, 200, 300]
 
       // set up initial svg object
-	var vis = d3.select(element[0]).append("svg")
-	    .attr("width", width)
-	    .attr("height", height)
-	    .attr('fill', '#2E7AF9')
-	    .append("g")
-	    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-      
+	var vis = d3.select("#d3Parent")
+		    .append("g")
+		    .attr("transform", "translate(" + column[index%2] + "," + row[0] + ")");  
 
       scope.$watch('val', function (newVal, oldVal) {
 		  
-		  console.debug(scope.dataFormat);
-		   var formatPercent = d3.format(scope.dataFormat);
-
-	        // clear the elements inside of the directive
-	        //vis.selectAll('*').remove();
+		  console.debug("directive watch fired:"+scope.metricTitle);
+		  
+		  vis.selectAll('*').remove();
 
 	        // if 'val' is undefined, exit
 	        if (!newVal) {
@@ -69,8 +76,8 @@ directives.directive('ghDial', function () {
 		
 			var arc = d3.svg.arc()
 			    .startAngle(0)
-			    .innerRadius(140)
-			    .outerRadius(170)
+			    .innerRadius(110)
+			    .outerRadius(130)
 			;
 			
 			var meter = vis.append("g")
@@ -84,34 +91,34 @@ directives.directive('ghDial', function () {
 			    .attr("class", "foreground");
 
 			var text = meter.append("text")
-			    .attr("text-anchor", "middle");
+			    .attr("text-anchor", "middle")
+				.style("font-size","24px");
 
 			var text2 = meter.append("text")
 			    .attr("y", 40)
 			    .attr("text-anchor", "middle")
 			    .attr("class", "text2");
 
+console.debug("halfway");
 				console.debug(scope.metricTitle);
-			text2.text(scope.metricTitle);
+				text2.text(scope.metricTitle);
+				
+			var percentage = newVal.expr0.valueOf() ;
 
-			var animate = function(percentage) {
-			    var i = d3.interpolate(progress, percentage);
-
-			    d3.transition().duration(1200).tween("progress", function () {
+			
+				console.debug("animate progress: "+progress+" percentage:"+percentage+" total:"+total);
+			    var i = d3.interpolateNumber(progress, percentage/total);
+			   
+			    d3.select(vis).transition().duration(800).tween("progress", function () {
 			        return function (t) {
 			            progress = i(t);
-			            foreground.attr("d", arc.endAngle(twoPi * (progress/total)));
-			            text.text(formatPercent(progress));
+			            foreground.attr("d", arc.endAngle(twoPi * progress));
+						console.debug("progress:"+progress);
+			            text.text(prepend+''+percentage);
 			        };
 			    });
-			}; 
-
-			setTimeout(function () {
-			//  scope.animate($('#inputVal').val());
-			console.debug("deep in directive");
-			console.debug(newVal.records[0].expr0);
-			animate(newVal.records[0].expr0);
-			}, 500);
+			
+			
        
       });
   }
@@ -121,5 +128,15 @@ directives.directive('ghDial', function () {
 directives.directive('ghMeter', function () {
  return {
  };
-
 });
+ 
+directives.directive('autoScroll', function($timeout) {
+   return function(scope, elements, attrs) {
+     scope.$watch("messages.length", function() {
+       $timeout(function() {
+         elements[0].scrollTop = elements[0].scrollHeight
+       });
+     });
+   }
+});
+

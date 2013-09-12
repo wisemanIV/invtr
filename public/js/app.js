@@ -12,7 +12,8 @@ var myApp = angular.module('myApp',
         '$strap.directives', // angular strap
 		'angularjs.media.directives',
 		'ngDragDrop',
-		'ngCookies'
+		'ngCookies',
+		'LocalStorageModule'
     ]);
 	
 
@@ -33,7 +34,7 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     });
     $routeProvider.when('/dashboard', {
         templateUrl:'partials/dashboard.html',
-	//	authRequired: true,
+		authRequired: true,
 		controller:'DashboardCtrl'
     });
     $routeProvider.when('/metrics', {
@@ -47,6 +48,9 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     $routeProvider.when('/create', {
         templateUrl:'partials/setup.html',
 		controller:'SiteBuilderCtrl'
+    });
+    $routeProvider.when('/logout', {
+		controller:'LogoutCtrl'
     });
     $routeProvider.when('/about', {
         templateUrl:'partials/about.html'
@@ -95,10 +99,8 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	$rootScope.userService = UserService ;
 	$rootScope.selectedPost = {};
 	
-	$rootScope.loggedIn = false 
-	$rootScope.mode = "fbconnect";
+	$rootScope.mode = "sfconnect";
 	$rootScope.subdomain = "www";
-	$rootScope.currentUser = {} 
 	$rootScope.siteConfigs = [];
 	
     // async load constants
@@ -115,19 +117,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
             $rootScope.listData = data;
         }
     );
-	
-    $rootScope.doLogin = function (user) {
-    	$location.path("community");
-		$rootScope.loggedIn = true ;
-		$rootScope.currentUser = user;
-		
-	//	window.location = 'https://'+$cookies.subdomain+'.invtr.co';
-    };
-    $rootScope.doLogout = function () {
-    	$location.path("logout");
-		$rootScope.loggedIn = false ;
-		$rootScope.currentUser = {} ;
-    };
+   
     $rootScope.clickLogin = function () {
     	$location.path("community");
     };
@@ -135,6 +125,18 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 		console.debug(place);
     	$location.path(place);
     };
+	
+	$rootScope.$on( "$routeChangeStart", function(event, next, current) {
+		console.debug("route change");
+		
+		
+	      if ( next.authRequired && !$rootScope.userService.isAuthenticated() ) {
+			  console.debug("auth required but not authenticated")
+			  $location.path( "/" );
+			 
+		  }
+	 
+	  });
 	
 
 });

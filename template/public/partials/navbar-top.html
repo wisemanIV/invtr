@@ -42,13 +42,14 @@
                 </ul>
 
                 <div class="nav navbar-form pull-right">
- 			 	   <div ng-controller="AuthCtrl">
+ 			 	   <div ng-controller="UserCtrl" ng-init="init()">
  			 		  	   
- 			 		     <span ng-show="user">
-						 <img ng-src="http://graph.facebook.com/{{user.username}}/picture/">
- 			 		       Welcome {{user.name}} | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
+ 			 		     <span ng-show="isAuthenticated()">
+						<!-- FB only <img ng-src="http://graph.facebook.com/{{user.username}}/picture/"> -->
+						<img ng-src="{{currentUser.photo_url_thumb}}">
+ 			 		       Welcome {{currentUser.first_name}} | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
  			 		     </span>
- 						 <a ng-hide="user" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
+ 						 <a ng-hide="isAuthenticated()" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
  			 		 
  			 		</div>
                   
