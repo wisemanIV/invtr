@@ -40,18 +40,16 @@ directives.directive('ghDial', function () {
 	transclude: true,
     scope: {
       val: '=',
-	  dataFormat: '=',
+	  ghFormat: '=',
 	  metricTitle: '=',
 	  ghTarget: '='
     },
     link: function (scope, element, attrs) {
+		
+ 	   console.debug("data format: "+scope.ghFormat );
 	
-	   var formatPercent = d3.format(scope.dataFormat);
+	   //var formatPercent = d3.format(scope.dataFormat);
 	   var total = scope.ghTarget.valueOf() ;
-	   var prepend = "" ;
-	   if (scope.dataFormat === "$") prepend = "$" ;
-	   console.debug("prepend: "+scope.prepend);
-	   console.debug("data format: "+scope.dataFormat );
 	   
 	   var index = document.querySelector("#d3Parent").childNodes.length-1 ;
 	   
@@ -99,7 +97,6 @@ directives.directive('ghDial', function () {
 			    .attr("text-anchor", "middle")
 			    .attr("class", "text2");
 
-console.debug("halfway");
 				console.debug(scope.metricTitle);
 				text2.text(scope.metricTitle);
 				
@@ -114,7 +111,7 @@ console.debug("halfway");
 			            progress = i(t);
 			            foreground.attr("d", arc.endAngle(twoPi * progress));
 						console.debug("progress:"+progress);
-			            text.text(prepend+''+percentage);
+			            text.text(scope.ghFormat+''+percentage);
 			        };
 			    });
 			
@@ -138,5 +135,21 @@ directives.directive('autoScroll', function($timeout) {
        });
      });
    }
+});
+
+directives.directive('datepicker', function() {
+  return {
+    link: function(scope, el, attr) {
+      $(el).datepicker({
+        onSelect: function(dateText) {
+          console.log(dateText);
+          var expression = attr.ngModel + " = " + "'" + dateText + "'";
+          scope.$apply(expression);
+          console.log(scope.startDate);
+          // how do i set this elements model property ?
+        }
+      });
+    }
+  };
 });
 

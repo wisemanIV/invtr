@@ -92,6 +92,8 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
     // *****
 	
 	$rootScope.acct_items = {}
+	
+	$rootScope.currentUser = {} ;
 
     $rootScope.restService = RESTService;
 	$rootScope.siteConfigService = SiteConfigService;

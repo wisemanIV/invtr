@@ -102,26 +102,20 @@ myApp.factory('SiteBuilderService',
 	 }
 );
 
-myApp.factory('SiteConfigService', ['$http','angularFire', '$rootScope', '$location', '$cookies',
-    function ($http, angularFire, $rootScope, $location, $cookies) {
+myApp.factory('SiteConfigService', ['$http','angularFire', '$rootScope', '$location',
+    function ($http, angularFire, $rootScope, $location) {
   		
         return {
              saveConfig:function (site) {
 				
  				console.debug("Save site configuration: "+site);
-				console.debug($rootScope.siteConfig);
 			
-				var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+site.subdomain);
-				ref.child("auth").set(site.auth);
-				ref.child("incentivename").set(site.incentivename);
-				ref.child("subdomain").set(site.subdomain);
-				var ref2 = ref.child("metrics");
-				var metrics = [{"placeholder":"metric"}] ;
-				ref2.push(metrics);
-				var ref3 = ref.child("accounts");
-				var ref4 = ref3.child("bob").set("placeholder");
+				var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/');
+			  	var siteRef = ref.child(site.subdomain);
+				siteRef.set(site);
 				
-				$cookies.subdomain = site.subdomain ;
+				//var ref2 = siteRef.child("metrics").set([{"placeholder":"metric"}]) ;
+				var ref3 = siteRef.child("accounts").set([{"placeholder":"bob"}]);
  		   	    
  		     }
 			 
@@ -136,19 +130,19 @@ myApp.factory('UserService', ['$http','angularFire', '$route', '$rootScope', '$l
 	  	var SF_AUTHORIZATION_ENDPOINT = "https://login.salesforce.com/services/oauth2/authorize";
 		var SF_TOKEN_ENDPOINT = "https://login.salesforce.com/services/oauth2/token";
 		
-		var currentUser = {}; 
 		var authenticated = false ;
 		
 		return {
 			
 			isAuthenticated:function() {
+				
 				authenticated = false ;
+				
 				var token = localStorageService.get('invtr.sf_token') ;
-				console.debug("token:"+token);
+				
 				if (typeof token != 'undefined' && token != null) {
 					authenticated = true ;
 				}
-				console.debug("isauthenticated:"+authenticated);
 				return authenticated ;
 			},
 			login:function(mode) {
@@ -262,26 +256,6 @@ myApp.factory('UserService', ['$http','angularFire', '$route', '$rootScope', '$l
 					
 					
 			},
-             getCurrentUser:function () {
-				 
-				console.debug("get current user");
-				
-				 // first check if there is a current object
-				if (typeof $rootScope.currentUser != "undefined" && Object.keys($rootScope.currentUser).length > 0 ) {
-					console.debug("current user exists");
-				// then check local storage to see if there is a valid user there
-	     		} else {
-					console.debug("current user not defined");
-					currentUser = new Object();
-					currentUser.sf_token = localStorageService.get('invtr.sf_token');
-					currentUser.sf_base_uri = localStorageService.get('invtr.sf_base_uri');
-					currentUser.sf_user_id = localStorageService.get('invtr.sf_user_id');
-					
-				}
-				 
-				 return currentUser ;  
- 		   	    
- 		     },
 			 extractToken:function (name) {
 			  
 			  return decodeURI(

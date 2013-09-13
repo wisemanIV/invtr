@@ -79,6 +79,35 @@ input.ng-pristine + .input-help {
 						  	</div>	
 				  	  </div>
 			  	</div>
+			    <div class="component">
+				 	<div class="control-group">
+							<label class="control-label" for="incentivetagline"><span>Incentive Tagline:</span></label>
+						  	<div class="controls">
+							  <input id="incentivetagline" name="incentivetagline" ng-model="site.incentivetagline" placeholder="tagline" class="input-xlarge" required>
+						  	</div>	
+				  	  </div>
+			  	</div>
+			    <div class="component">
+				 	<div class="control-group">
+							<label class="control-label" for="incentiveblurb"><span>Incentive Description:</span></label>
+						  	<div class="controls">
+							  <input id="incentiveblurb" name="incentiveblurb" ng-model="site.incentiveblurb" placeholder="description" class="input-xlarge" required>
+						  	</div>	
+				  	  </div>
+			  	</div>
+			    <div class="component">
+					<div class="control-group input-append">
+					  <input type="text" ng-model="site.startdate" data-date-format="dd/mm/yyyy" bs-datepicker>
+					  <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+					</div>
+				 	
+			  	</div>
+			    <div class="component">
+					<div class="control-group input-append">
+					  <input type="text" ng-model="site.enddate" data-date-format="dd/mm/yyyy" bs-datepicker>
+					  <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+					</div>
+			  	</div>
 			     <div class="component">
 				 	<div class="control-group">
 				  	  <label class="control-label" for="radios"><span class="radio">Authentication:</span></label>
@@ -87,11 +116,15 @@ input.ng-pristine + .input-help {
 				  		  <input type="radio" name="radios" id="fbconnect" ng-model="site.auth" value="fbconnect" ><span>Facebook Connect</span><br/>
 					  	  </label>
 						  <label class="radio" for="radio-1">
-				  		  <input type="radio" name="radios" id="sfconnect" ng-model="site.auth" value="sfconnect" ><span>Salesforce Connect</span><br/>
+				  		  <input type="radio" name="radios" id="sfconnect" ng-model="site.auth" value="sfconnect" checked><span>Salesforce Connect</span><br/>
 					  	  </label>
 					  </div>
 			  	   </div>
 			   </div>
+			   
+			   
+			   
+			   
 			   <div class="component">
 			   		<div class="controls">
 						<button id="save" class="btn btn-success">Create site</button>

@@ -46,8 +46,8 @@
  			 		  	   
  			 		     <span ng-show="isAuthenticated()">
 						<!-- FB only <img ng-src="http://graph.facebook.com/{{user.username}}/picture/"> -->
-						<img ng-src="{{currentUser.photo_url_thumb}}">
- 			 		       Welcome {{currentUser.first_name}} | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
+						<img ng-src="{{user.photo_url_thumb}}">
+ 			 		       Welcome {{user.first_name}} | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
  			 		     </span>
  						 <a ng-hide="isAuthenticated()" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
  			 		 
