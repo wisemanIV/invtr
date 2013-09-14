@@ -14,18 +14,17 @@
 				    </header>
 					<div class="body no-margin">
 						
-						<div ng-controller="DashboardCtrl">
+						<div ng-controller="DashboardCtrl" ng-init="init();">
 							<div id="visits-chart" class="chart visits-chart">
 								<svg id="d3Parent" fill="#2E7AF9">
 								</svg>
 								<div ng-repeat="item in metrics">
-									{{item.dataformat}}
 								  	  <div ng-switch on="item.type">
 								    	  <div ng-switch-when="dial">
-											  <gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
+											  <gh-dial val="item.data" data-format="item.dataFormat" metric-title="item.title" gh-target="item.target"></gh-dial>
 										  </div>
 								    	  <div ng-switch-when="meter">
-											  <gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
+											  <gh-meter val="item.data" data-format="item.dataFormat" metric-title="item.title" gh-target="item.target"></gh-meter>
 										  </div>
 								  	 </div>
 							   </div>
@@ -49,8 +48,8 @@
                        
                                 <div class="text">
                                     <a href="#">
-               						 {{site.incentiveblurb}}
-								 	</a>
+                Want to be the first to carry upcoming Holiday Hostess exclusives (...and use them to book your Holiday Trunk Shows!)? Well, get ready - we're about to rock the summer! Make your 6 week plan, book & sell - and up to 4 exclusive items (over $400 retail) could be yours this September!
+			</a>
                                 </div>
                             </div>
 					</div>
@@ -76,17 +75,21 @@
 					    	<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 240px;">
 								<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
 					
-										<div ng-cloak ng-repeat="message in messages" class="chat-message">
-											<div class="sender pull-right">
-												  <div class="icon"><img ng-src="{{message.photo}}" class="img-circle" alt=""></div>
-												  <div class="time">{{message.created_at|since}}</div>
-											</div>
-											<div class="chat-message-body on-left">
-												    <span class="arrow"></span>
-											    	<div class="sender"><a href="#">{{message.from}}</a></div>
-											    	<div class="text">{{message.content}}</div>
-											</div>
-										</div>
+									<div ng-cloak ng-repeat="message in messages" class="chat-message">
+										<div class="sender pull-right">
+										    <div class="icon">
+										         <img src="//www.invtr.co/img/1.jpg" class="img-circle" alt="">
+										    </div>
+										    <div class="time">
+										         3 min
+										    </div>
+										 </div>
+										 <div class="chat-message-body on-left">
+										    <span class="arrow"></span>
+									    	<div class="sender"><a href="#">{{message.from}}</a></div>
+									    	<div class="text">{{message.content}}</div>
+										 </div>
+									</div>
 								</div>
 								<div class="slimScrollBar ui-draggable"></div>
 								<div class="slimScrollRail"></div>
@@ -94,10 +97,10 @@
 						
 							
 								<form ng-submit="addMessage()" class="chat-footer row">
-									<div class="span5">
-										<input id="new-message" type="text" ng-model="message.body" class="form-control input-transparent" placeholder="Enter your message.."></input>
+									<div class="col-xs-9">
+										<input id="new-message" type="text" ng-model="message" class="form-control input-transparent" placeholder="Enter your message.."></input>
 									</div>
-									<div class="span3">
+									<div class="col-xs-3">
 									     <button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
 									</div>
 								</form>
@@ -197,7 +200,7 @@
 		
 		
 		
-            <div class="span8" ng-controller="LeaderboardCtrl">
+            <div class="span8">
 				<section class="widget">
 				                    <header>
 				                        <h4>
