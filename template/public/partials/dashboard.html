@@ -18,14 +18,13 @@
 							<div id="visits-chart" class="chart visits-chart">
 								<svg id="d3Parent" fill="#2E7AF9">
 								</svg>
-								<div ng-repeat="item in metrics">
-									{{item.dataformat}}
+								<div ng-repeat="(id, item) in metrics">
 								  	  <div ng-switch on="item.type">
 								    	  <div ng-switch-when="dial">
-											  <gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
+											  <gh-dial val="item.data.last" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
 										  </div>
 								    	  <div ng-switch-when="meter">
-											  <gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
+											  <gh-meter val="item.data.last" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
 										  </div>
 								  	 </div>
 							   </div>
@@ -197,7 +196,7 @@
 		
 		
 		
-            <div class="span8" ng-controller="LeaderboardCtrl">
+            <div class="span8">
 				<section class="widget">
 				                    <header>
 				                        <h4>
@@ -208,7 +207,7 @@
 				                            </small>
 				                        </h4>
 				                    </header>
-				                    <div class="body">
+				                    <div class="body" ng-controller="LeaderboardCtrl">
 				                        <table class="table table-striped no-margin sources-table">
 				                            <thead>
 				                            <tr>

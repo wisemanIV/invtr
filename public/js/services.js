@@ -19,6 +19,94 @@ myApp.factory('RESTService',
 );
 
 // simple stub that could use a lot of work...
+myApp.factory('DataService', ['$http','angularFire','angularFireCollection', '$rootScope','ForceService','localStorageService',
+    function ($http, angularFire, angularFireCollection, $rootScope, ForceService, localStorageService) {
+		
+		var metrics = [] ;
+		
+        return {
+			metrics:metrics,
+			getData:function(metric, userId) {
+				console.debug("DataService getData()");
+				console.debug(metrics);
+				console.debug(userId);
+				
+				var data = "";
+				
+				for (var i = 0 ; i < metrics.data.length ; i++) {
+					if( metrics.accounts[i] === localStorageService.get("invtr.sf_user_id") ) {
+						console.debug("found account data:") ;
+						for (var j = 0 ; j < metrics.accounts[i].length ; j++) {
+							console.debug(metrics.accounts[i][j]);
+							if (metrics.accounts[i][j] === metric) {
+								console.debug("found user metric data:") ;
+								data = metrics.accounts[i][j][0].data ;
+							}
+						}
+					}
+				}
+					
+				return data ;
+			},
+			// temporary function to store data until there is an asychronous backend process
+			storeData:function() {
+				console.debug("DataService storeData");
+			
+				var sf_token = localStorageService.get("invtr.sf_token") ;
+				var sf_base_uri = localStorageService.get("invtr.sf_base_uri") ;
+				var sf_user_id = localStorageService.get("invtr.sf_user_id") ;
+				console.debug("Sf token from UserService: "+sf_token);
+				console.debug("Sf base uri from UserService: "+sf_base_uri);
+				console.debug("Sf user id from UserService: "+sf_user_id);
+				
+				// setup data storage for metrics
+		        var url1 = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/metrics/config';
+				console.debug(url1);
+				metrics = angularFireCollection(new Firebase(url1), function() {
+					
+					console.debug(metrics);
+			        
+					for (var i = 0 ; i < metrics.length ; i++) {
+					
+						console.debug(metrics[i]);
+					
+						// setup data storage for metrics
+				        var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/'+localStorageService.get("invtr.sf_user_id")+'/metrics/'+metrics[i].id+'/data';
+						console.debug(url);
+					  	var dataPointRef = new Firebase(url);
+						
+						var q = metrics[i].query.replace('%SF_USER_ID%',sf_user_id);
+						console.debug(q);
+					
+						console.debug("Metric: "+metrics[i].title);
+					
+						var data_callback = function(data, dataRef) {
+							console.debug("DataService data callback");
+			
+							var now = new Date() ;
+							
+							if (data.records[0] !== null && typeof data.records[0].expr0 !== "undefined") {
+							
+								var dataPoint = [{ "data":data.records[0].expr0, "create_date":now.toString()}];
+								dataRef.child("last").set(data.records[0].expr0);
+								dataRef.push(dataPoint);
+								
+							}
+						};
+					
+						ForceService.get(data_callback, sf_token, sf_base_uri, q, dataPointRef);
+					
+					}
+				
+				});
+			}
+			
+	    };
+	}
+
+]);
+
+// simple stub that could use a lot of work...
 myApp.factory('ForceService',
     function ($http) {
 		var ForceBase = 'https://api.invtr.co/force' ;
@@ -45,7 +133,7 @@ myApp.factory('ForceService',
 				   callback(data);
 		   	   });
 		     },
-             get:function (callback, token, base, query, item) {
+             get:function (callback, token, base, query, dataRef) {
  				console.debug("ForceService get");
 				
 				var url = ForceBase+ "?url="+ base + "/services/data/v26.0/query/?q="+query+"&token="+token ;
@@ -53,19 +141,17 @@ myApp.factory('ForceService',
 				
  		   	    $http.get(encodeURI(url), {withCredentials:false}).success(function (data) {
  		   		   console.debug(data);
-				   item.data = data.records[0] ;
-				   console.debug(item.data);
- 				   callback(data);
+ 				   callback(data, dataRef);
  		   	   });
  		     },
-			 getUserDetails:function (callback, user_uri, token) {
+			 getUserDetails:function (callback, user_uri, token, dataRef) {
 			 	
 				var url = ForceBase+ '/user?url='+ user_uri + '&token='+token;
 				
 				console.debug("Get user details: "+url) ;
 				
  		   	    $http.get(url, {withCredentials:false}).success(function (data) {
- 				   callback(data);
+ 				   callback(data, dataRef);
  		   	   });
 				
 				
@@ -110,13 +196,9 @@ myApp.factory('SiteConfigService', ['$http','angularFire', '$rootScope', '$locat
 				
  				console.debug("Save site configuration: "+site);
 			
-				var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/');
-			  	var siteRef = ref.child(site.subdomain);
-				siteRef.set(site);
-				
-				//var ref2 = siteRef.child("metrics").set([{"placeholder":"metric"}]) ;
-				var ref3 = siteRef.child("accounts").set([{"placeholder":"bob"}]);
- 		   	    
+				var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+site.subdomain);
+			  	
+				siteRef.set(ref);
  		     }
 			 
 		 };

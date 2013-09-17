@@ -1,0 +1,7 @@
+PushTopic pushTopic = new PushTopic();
+pushTopic.Name = 'AllOpportunity';
+pushTopic.Query = 'SELECT Id, Amount, CloseDate, ExpectedRevenue, IsClosed, IsWon, OwnerId, Probability, StageName, Type FROM Opportunity';
+pushTopic.ApiVersion = 28.0;
+pushTopic.NotifyForOperations = 'All';
+pushTopic.NotifyForFields = 'Referenced';
+insert pushTopic;

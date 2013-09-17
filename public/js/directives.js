@@ -100,7 +100,7 @@ directives.directive('ghDial', function () {
 				console.debug(scope.metricTitle);
 				text2.text(scope.metricTitle);
 				
-			var percentage = newVal.expr0.valueOf() ;
+			var percentage = newVal;
 
 			
 				console.debug("animate progress: "+progress+" percentage:"+percentage+" total:"+total);

@@ -2,8 +2,8 @@
 
 myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
   function MyCtrl($scope, angularFire, angularFireAuth) {
-    var url = 'https://inviter-dev.firebaseio.com/accounts';
-    $scope.items = angularFire(url, $scope, 'msgaccounts',  []);
+    var ref = new Firebase('https://inviter-dev.firebaseio.com/accounts');
+    $scope.items = angularFire(ref, $scope, 'msgaccounts',  []);
 	
     // modal
     $scope.open = function () {
@@ -44,19 +44,35 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
   }
 ]);
 
-myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope','angularFire', 'ForceService', 'UserService', 'localStorageService',
-  function ($scope, $location, $rootScope, angularFire, ForceService, UserService, localStorageService) {
-    var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/accounts/'+localStorageService.get("invtr.sf_user_id");
-    $scope.usr = angularFire(url, $scope, 'user',  {} );
+myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope','angularFireCollection', 'ForceService', 'UserService', 'localStorageService', 'DataService',
+  function ($scope, $location, $rootScope, angularFireCollection, ForceService, UserService, localStorageService, DataService) {
+    var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/'+localStorageService.get("invtr.sf_user_id") ;
+    console.debug(url);
+	//$scope.usr = angularFire(url, $scope, 'user',  {} );
+	var dataRef = new Firebase(url);
+					
+	
+	$scope.dataService = DataService;
+
+	
+	//$scope.usr.then(function() {
+//		console.debug("user loaded");
+//		console.debug(url);
+//		console.debug($scope.user);
+//		$rootScope.currentUser = $scope.user ;
+//		console.debug("Welcome "+$rootScope.currentUser.first_name);
+//		
+//	});
+
+dataRef.on('value', function(snapshot) {
+  $scope.user = snapshot.val();
+  if ($scope.user === null || typeof $scope.user === "undefined") {
+	  $rootScope.currentUser = $scope.user ;
+  }
+//console.debug("Welcome "+$rootScope.currentUser.first_name);
+});
 	
 	
-	$scope.usr.then(function() {
-		console.debug("user loaded");
-		console.debug($scope.user);
-		$rootScope.currentUser = $scope.user ;
-		console.debug("Welcome "+$rootScope.currentUser.first_name);
-		
-	});
 	
 	$scope.login = function() {
 		UserService.login($scope.$parent.mode) ;
@@ -73,31 +89,52 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope','angularFire',
 	};
 	
 	$scope.init = function() {
-		console.debug("init auth");
+		console.debug("UserCtrl init");
 	};
 	
 	$scope.$on("auth:login", function() {
-		var user_uri = localStorageService.get('invtr.sf_user_uri');
-	 	ForceService.getUserDetails($scope.callback, user_uri, localStorageService.get("invtr.sf_token")) ;
+		console.debug("starting auth:login watch");
+		
+	    var url3 = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/'+localStorageService.get("invtr.sf_user_id") ;
+	    //$scope.usr = angularFire(url, $scope, 'user',  {} );
+		var dataRef3 = new Firebase(url3);
+
+		dataRef3.on('value', function(snapshot) {
+			$scope.user = snapshot.val();
+			console.debug($scope.user);
+		
+			if ($scope.user === null || typeof $scope.user === "undefined") {
+				var user_uri = localStorageService.get('invtr.sf_user_uri');
+		 		ForceService.getUserDetails($scope.callback, user_uri, localStorageService.get("invtr.sf_token"), dataRef3) ;
+			}
+			$rootScope.currentUser = $scope.user ;
+			console.debug("Welcome "+$rootScope.currentUser.first_name);
+		
+		});
 	}); 
 	
-	$scope.callback = function (data) {
-		console.debug("user details callback");
-		
-		console.debug(data); 
-		
-		var userDetails = new Object() ;
-		userDetails.first_name = data.first_name ;
-		userDetails.last_name = data.last_name ;
-		userDetails.email = data.email ;
-		userDetails.photo_url_thumb = data.photos.thumbnail ;
-		userDetails.photo_url = data.photos.picture ;
-		
-        var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/accounts';
-		console.debug("user url:"+url);
-	  	var ref = new Firebase(url);
-
-	  	var acct = ref.child(localStorageService.get("invtr.sf_user_id")).set(userDetails);
+	$scope.callback = function (data, dRef) {
+			console.debug("user details callback");
+			console.debug(data); 
+			console.debug("storing user "+data.first_name);
+			
+			var usr = {"first_name":data.first_name, "last_name":data.last_name, "email":data.email, "photo_url_thumb":data.photos.thumbnail, "photo_url":data.photos.picture};
+			
+			dRef.set(usr);
+			
+		    var url2 = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/'+localStorageService.get("invtr.sf_user_id")+'/metrics';
+		    //$scope.usr = angularFire(url, $scope, 'user',  {} );
+			var metricDataRef = new Firebase(url2);
+			
+			console.debug($rootScope.metricConfig);
+			
+			metricDataRef.on('value', function(snapshot) {
+				
+				for (var i = 0 ; i < $rootScope.metricConfig.length ; i ++ ) {
+				   metricDataRef.child($rootScope.metricConfig[i].id).set($rootScope.metricConfig[i]);
+				}
+			});
+			
 	
 	};
 	
@@ -114,8 +151,8 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope','angularFire',
 
 myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', 'angularFire', '$routeParams', 'localStorageService',
   function ($scope, $filter, $location, angularFire, $routeParams, localStorageService) {
-    var url = 'https://inviter-dev.firebaseio.com/'+localStorageService.get("invtr.subdomain")+'/posts';
-    $scope.boo = angularFire(url, $scope, 'posts',  [] );
+    var ref = new Firebase('https://inviter-dev.firebaseio.com/'+localStorageService.get("invtr.subdomain")+'/posts');
+    $scope.boo = angularFire(ref, $scope, 'posts',  [] );
 	
 	$scope.selectedItem = $routeParams.postid ;
 	
@@ -196,53 +233,29 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
 	  
 ]);
 
-myApp.controller('DashboardCtrl', ['$scope', '$location', 'angularFire', 'ForceService','SiteConfigService','UserService', 'localStorageService',
-	function ($scope, $location, angularFire, ForceService, SiteConfigService, UserService, localStorageService) {
-  		var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain") +'/metrics';
-    	$scope.item = angularFire(url, $scope, 'metrics',  [] );
-			
+myApp.controller('DashboardCtrl', ['$scope','$rootScope','angularFire', 'UserService', 'localStorageService', 'DataService',
+	function ($scope, $rootScope, angularFire, UserService, localStorageService, DataService) {
+  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain") +'/'+localStorageService.get("invtr.sf_user_id")+'/metrics');
+    	$scope.item = angularFire(ref, $scope, 'metrics',  {} );
+		
 		$scope.item.then(function() {
-			console.debug("dashboardctrl then function");
+			console.debug("metrics then function");
 			console.debug($scope.metrics);
-			$scope.getData() ;
+			console.debug($scope.metrics['oppcount'].data.last);
 		});
 		
-		$scope.data = [];
-		
-		$scope.data_callback = function(data) {
-			console.debug("dashboard data callback");
-		};
-	
-		$scope.getData = function() {
-			console.debug("DashboardCtrl getData");
-			
-			var sf_token = localStorageService.get("invtr.sf_token") ;
-			var sf_base_uri = localStorageService.get("invtr.sf_base_uri") ;
-			var sf_user_id = localStorageService.get("invtr.sf_user_id") ;
-			console.debug("Sf token from UserService: "+sf_token);
-			console.debug("Sf base uri from UserService: "+sf_base_uri);
-			console.debug("Sf user id from UserService: "+sf_user_id);
-			console.debug($scope.metrics);
-			
-			for (var i = 0 ; i < $scope.metrics.length ; i++) {
-				
-				var q = $scope.metrics[i].query.replace('%SF_USER_ID%',sf_user_id);
-				console.debug(q);
-				console.debug("Metric: "+$scope.metrics[i].title);
-				console.debug($scope.metrics[i].format);
-				ForceService.get($scope.data_callback, sf_token, sf_base_uri, q, $scope.metrics[i]);
-			}
-		};
-		
+
 	
 	}
   
 ]);
 
+
+
 myApp.controller('LeaderboardCtrl', ['$scope', '$location', 'angularFire', 'ForceService','SiteConfigService','UserService', 'localStorageService',
 	function ($scope, $location, angularFire, ForceService, SiteConfigService, UserService, localStorageService) {
-  		var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain") +'/metrics';
-    	$scope.item = angularFire(url, $scope, 'metrics',  [] );
+  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain") +'/metrics');
+    	$scope.item = angularFire(ref, $scope, 'metrics',  [] );
 			
 		$scope.item.then(function() {
 			console.debug("leaderboardctrl then function");
@@ -308,8 +321,8 @@ myApp.controller('SiteBuilderCtrl', ['$scope', 'angularFire', 'SiteBuilderServic
 
 myApp.controller('MetricsCtrl', ['$scope', '$location', 'angularFire', 'SiteConfigService','localStorageService',
 	function ($scope, $location, angularFire, SiteConfigService, localStorageService) {
-  		var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get('invtr.subdomain')+'/metrics';
-    	$scope.item = angularFire(url, $scope, 'metrics',  [] );	
+  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get('invtr.subdomain')+'/metrics/config');
+    	$scope.item = angularFire(ref, $scope, 'metrics',  [] );	
 		
 		$scope.init = function() {
 			console.debug("init metrics");
@@ -317,16 +330,11 @@ myApp.controller('MetricsCtrl', ['$scope', '$location', 'angularFire', 'SiteConf
 			console.debug($scope.metrics);
 			console.debug($scope.item);
 			
-			
-			if (typeof $scope.metrics == "undefined") {
-			    console.debug("setting metric array: "+localStorageService.get('invtr.subdomain'));
-				$scope.metrics = new Array(); 
-		    }
 		};
 		 
   		$scope.list5 = [
-  		    { 'title': 'Opportunity count', 'type':'dial', 'format':'', 'target':'85', 'drag': true, 'query':"SELECT count(Id) FROM Opportunity where Owner.Id='%SF_USER_ID%'", 'leaderboard':"SELECT count(Id) FROM Opportunity group by Owner.Id" },
-  		    { 'title': 'Opportunity expected revenue', 'type':'dial', 'format':'$', 'target':'6000000', 'drag': true, 'query':"SELECT sum(ExpectedRevenue) FROM Opportunity where Owner.Id='%SF_USER_ID%'",'leaderboard':"SELECT sum(ExpectedRevenue) FROM Opportunity group by Owner.Id" }
+  		     {'id':'oppcount','title': 'Opportunity count', 'type':'dial', 'format':'', 'target':'85', 'drag': true, 'query':"SELECT count(Id) FROM Opportunity where Owner.Id='%SF_USER_ID%'", 'leaderboard':"SELECT count(Id) FROM Opportunity group by Owner.Id" },
+  		     {'id':'opprev','title': 'Opportunity expected revenue', 'type':'dial', 'format':'$', 'target':'6000000', 'drag': true, 'query':"SELECT sum(ExpectedRevenue) FROM Opportunity where Owner.Id='%SF_USER_ID%'",'leaderboard':"SELECT sum(ExpectedRevenue) FROM Opportunity group by Owner.Id" }
   		  ];
 		
 	    // Limit items to be dropped in list1
@@ -345,15 +353,19 @@ myApp.controller('MetricsCtrl', ['$scope', '$location', 'angularFire', 'SiteConf
   
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$location', '$route', 'angularFire', 'SiteConfigService', 'localStorageService','UserService',
-	function ($scope, $location, $route, angularFire, SiteConfigService, localStorageService, UserService) {
-  		var url = 'https://inviter-dev.firebaseio.com/sites/'+$location.host().split('.')[0];
-    	$scope.site = angularFire(url, $scope, 'siteConfig',  {} );	
+myApp.controller('SiteConfigCtrl', ['$scope', '$location', '$route', 'angularFire', 'SiteConfigService', 'localStorageService','UserService', 'DataService',
+	function ($scope, $location, $route, angularFire, SiteConfigService, localStorageService, UserService, DataService) {
+  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+$location.host().split('.')[0]);
+    	$scope.site = angularFire(ref, $scope, 'siteConfig',  {} );	
 		
 		$scope.site.then(function() {
 			console.debug("then siteconfigctrl");
 			console.debug($scope.siteConfig.auth);
 			$scope.$root.mode = $scope.siteConfig.auth ;
+			$scope.$root.metricConfig = $scope.siteConfig.metrics.config ;
+			
+			// temporary set data
+			DataService.storeData() ;
 			
 			console.debug($scope.extractToken('logout'));
 			
@@ -411,9 +423,9 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'angularFire', 
 
 myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','angularFireCollection','localStorageService',
     function($scope, $timeout, $rootScope, angularFireCollection, localStorageService) {
-      var url = 'https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/chat';
+      var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/chat');
 	  
-      $scope.messages = angularFireCollection(new Firebase(url).limit(50));
+      $scope.messages = angularFireCollection(ref.limit(50));
 	  
       $scope.addMessage = function() {
 		  

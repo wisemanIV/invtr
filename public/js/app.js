@@ -13,6 +13,7 @@ var myApp = angular.module('myApp',
 		'angularjs.media.directives',
 		'ngDragDrop',
 		'ngCookies',
+		'ngRoute',
 		'LocalStorageModule'
     ]);
 	
@@ -36,6 +37,11 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         templateUrl:'partials/dashboard.html',
 	//	authRequired: true,
 		controller:'DashboardCtrl'
+    });
+    $routeProvider.when('/leaderboard', {
+        templateUrl:'partials/leaderboard.html',
+	//	authRequired: true,
+		controller:'LeaderboardCtrl'
     });
     $routeProvider.when('/metrics', {
         templateUrl:'partials/metrics.html',
@@ -85,7 +91,7 @@ myApp.config(['$httpProvider', function($httpProvider) {
 }]);
 
 // this is run after angular is instantiated and bootstrapped
-myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService, SiteConfigService, UserService) {
+myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService, SiteConfigService, UserService, DataService) {
 
     // *****
     // Eager load some data using simple REST client
@@ -96,6 +102,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	$rootScope.currentUser = {} ;
 
     $rootScope.restService = RESTService;
+	$rootScope.dataService = DataService ; 
 	$rootScope.siteConfigService = SiteConfigService;
 	$rootScope.forceService = ForceService;
 	$rootScope.userService = UserService ;
@@ -105,20 +112,23 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	$rootScope.subdomain = "www";
 	$rootScope.siteConfigs = [];
 	
+	$rootScope.metrics = [] ;
+	$rootScope.metricConfig = [] ;
+	
     // async load constants
-    $rootScope.constants = [];
-    $rootScope.restService.get('data/constants.json', function (data) {
-            $rootScope.constants = data[0];
-        }
-    );
+    //$rootScope.constants = [];
+    //$rootScope.restService.get('data/constants.json', function (data) {
+    //        $rootScope.constants = data[0];
+    //    }
+    //);
 	
 
     // async load data do be used in table (playgound grid widget)
-    $rootScope.listData = [];
-    $rootScope.restService.get('data/generic-list.json', function (data) {
-            $rootScope.listData = data;
-        }
-    );
+    //$rootScope.listData = [];
+    //$rootScope.restService.get('data/generic-list.json', function (data) {
+    //        $rootScope.listData = data;
+    //    }
+    //);
    
     $rootScope.clickLogin = function () {
     	$location.path("community");
