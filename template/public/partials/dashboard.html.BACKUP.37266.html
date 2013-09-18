@@ -15,6 +15,21 @@
 					<div class="body no-margin">
 						<div ng-controller="DashboardCtrl">
 							<div id="visits-chart" class="chart visits-chart">
+<<<<<<< HEAD
+								<svg id="d3Parent" fill="#2E7AF9">
+								</svg>
+								<div ng-repeat="(id, item) in metrics">
+								  	  <div ng-switch on="item.type">
+								    	  <div ng-switch-when="dial">
+											  <gh-dial val="item.data.last" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
+										  </div>
+								    	  <div ng-switch-when="meter">
+											  <gh-meter val="item.data.last" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
+										  </div>
+								  	 </div>
+							   </div>
+					   		</div>
+=======
 								<!-- <svg id="d3Parent" fill="#2E7AF9">
 							</svg> -->
 							<div ng-repeat="item in metrics">
@@ -28,6 +43,7 @@
 									</div>
 								</div>
 							</div>
+>>>>>>> 6c0ec34e212f9c40e5ed2bce8128067773cccb0b
 						</div>
 					</div>
 				</div>  
@@ -195,6 +211,110 @@
 		
 		
 		
+<<<<<<< HEAD
+            <div class="span8">
+				<section class="widget">
+				                    <header>
+				                        <h4>
+				                            <i class="icon-shopping-cart"></i>
+				                            Leaderboard
+				                            <small>
+				                                One month tracking
+				                            </small>
+				                        </h4>
+				                    </header>
+				                    <div class="body" ng-controller="LeaderboardCtrl">
+				                        <table class="table table-striped no-margin sources-table">
+				                            <thead>
+				                            <tr>
+				                                <th class="source-col-header">Source</th>
+				                                <th>Amount</th>
+				                                <th>Change</th>
+				                                <th class="hidden-xs">Percent.,%</th>
+				                                <th>Target</th>
+				                                <th class="chart-col-header hidden-xs">Trend</th>
+				                            </tr>
+				                            </thead>
+				                            <tbody>
+				                            <tr>
+				                                <td><div class="icon">
+											         <img src="//www.invtr.co/img/1.jpg" class="img-circle" alt="">
+												 </div>
+											    </td>
+				                                <td>713</td>
+				                                <td><strong class="color-green">+53</strong></td>
+				                                <td class="hidden-xs">+12</td>
+				                                <td>900</td>
+				                                <td class="chart-cell hidden-xs">
+				                                    <div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td><div class="icon">
+											         <img src="//www.invtr.co/img/2.jpg" class="img-circle" alt="">
+												 </div>
+											    </td>
+				                                
+				                                <td>562</td>
+				                                <td><strong>+84</strong></td>
+				                                <td class="hidden-xs">+64</td>
+				                                <td>500</td>
+				                                <td class="chart-cell hidden-xs">
+				                                    <div id="refer-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td><div class="icon">
+											         <img src="//www.invtr.co/img/3.jpg" class="img-circle" alt="">
+												 </div>
+											    </td>
+				                                
+				                                <td>148</td>
+				                                <td><strong class="color-red">-12</strong></td>
+				                                <td class="hidden-xs">+3</td>
+				                                <td>180</td>
+				                                <td class="chart-cell hidden-xs">
+				                                    <div id="social-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td><div class="icon">
+											         <img src="//www.invtr.co/img/4.jpg" class="img-circle" alt="">
+												 </div>
+											    </td>
+				                                
+				                                <td>653</td>
+				                                <td><strong class="color-green">+23</strong></td>
+				                                <td class="hidden-xs">+43</td>
+				                                <td>876</td>
+				                                <td class="chart-cell hidden-xs">
+				                                    <div id="search-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td><div class="icon">
+											         <img src="//www.invtr.co/img/5.jpg" class="img-circle" alt="">
+												 </div>
+											    </td>
+				                                
+				                                <td>976</td>
+				                                <td><strong>+101</strong></td>
+				                                <td class="hidden-xs">-7</td>
+				                                <td>844</td>
+				                                <td class="chart-cell hidden-xs">
+				                                    <div id="internal-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+				                                </td>
+				                            </tr>
+				                            </tbody>
+				                        </table>
+				                    </div>
+				                </section>
+			</div>
+		
+					
+	<!--end container-->
+	</div>
+=======
 		<div class="span8" ng-controller="LeaderboardCtrl">
 			<section class="widget">
 				<header>
@@ -297,6 +417,7 @@
 
 <!--end container-->
 </div>
+>>>>>>> 6c0ec34e212f9c40e5ed2bce8128067773cccb0b
 
 <!--end fade in-->
 </div>
