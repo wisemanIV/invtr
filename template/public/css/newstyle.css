@@ -329,10 +329,13 @@ html {
   border-radius: 2px;
 }
 .box-dimension-small {
-  background: rgba(253, 253, 255, 0.9);
-  box-shadow: 0 1px 0 #cccccc, 0 2px 2px rgba(0, 0, 0, 0.7);
-  border-radius: 2px;
+  font-family: 'Titillium Web', sans-serif;
+  color: #443266;
+  border: none;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-appearance: none;
+  background: rgba(253, 253, 255, 0.9);
+  box-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 .profile-img-small {
   border: 2px solid #f1f0ff;
@@ -345,31 +348,27 @@ a {
 a.btn {
   padding: 5px 10px;
   display: block;
-  background: rgba(253, 253, 255, 0.9);
-  box-shadow: 0 1px 0 #cccccc, 0 2px 2px rgba(0, 0, 0, 0.7);
-  border-radius: 2px;
+  font-family: 'Titillium Web', sans-serif;
+  color: #443266;
+  border: none;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-appearance: none;
+  background: rgba(253, 253, 255, 0.9);
+  box-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-}
-a.btn:hover {
-  background: rgba(253, 253, 255, 0.9);
-  box-shadow: 0 1px 0 #cccccc, 0 2px 2px rgba(0, 0, 0, 0.7);
-  border-radius: 2px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 a.btn i {
   color: #443266;
 }
 button {
-  padding: 10px 20px;
   font-family: 'Titillium Web', sans-serif;
-  background: rgba(253, 253, 255, 0.9);
-  box-shadow: 0 1px 0 #cccccc, 0 2px 2px rgba(0, 0, 0, 0.7);
-  border-radius: 2px;
   color: #443266;
   border: none;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   -webkit-appearance: none;
+  background: rgba(253, 253, 255, 0.9);
+  box-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 1px 3px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
 }
 header.nav-header {
   width: 100%;

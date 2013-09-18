@@ -32,11 +32,15 @@ html {
 }
 
 .box-dimension-small {
+	font-family: 'Titillium Web', sans-serif;
+	color: @color2;
+	border: none;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	-webkit-appearance: none;
 	.color1-5-rgba(.9);
 	box-shadow: 0 1px 0 #ccc,
-               	0 2px 2px rgba(0,0,0,.7);
-	border-radius: 2px;
-	border-top: 1px solid rgba(0,0,0,0.1);
+               0 2px 0 #c9c9c9, 
+               0 1px 3px rgba(0,0,0,.2);
 }
 
 
@@ -57,9 +61,6 @@ a {
 		display: block;
 		.box-dimension-small;
 		cursor: pointer;
-		&:hover {
-			.box-dimension-small;
-		}
 
 		i {
 			color: @color2;
@@ -69,14 +70,8 @@ a {
 }
 
 button {
-	padding: 10px 20px;
-	font-family: 'Titillium Web', sans-serif;
 	.box-dimension-small;
-	color: @color2;
-	border: none;
-	border-top: 1px solid rgba(0,0,0,0.1);
-	-webkit-appearance: none;
-
+	padding: 10px 20px;
 }
 
 // nav header
