@@ -71,12 +71,12 @@
 				</header>
 				<div class="body">
 					<div id="chat" class="chat" ng-controller="Chat">
-						<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 240px;">
+						<div class="slimScrollDiv">
 							<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
 
 								<div ng-cloak ng-repeat="message in messages" class="chat-message">
 									<div class="sender pull-right">
-										<div class="icon"><img ng-src="{{message.photo}}" class="img-circle" alt=""></div>
+										<div class="icon"><img ng-src="{{message.photo}}" class="profile-img-small" alt=""></div>
 										<div class="time">{{message.created_at|since}}</div>
 									</div>
 									<div class="chat-message-body on-left">
@@ -116,7 +116,8 @@
 					</div>
 				</header>
 				<div class="body">
-					<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 280px;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: 280px;">
+					<div class="slimScrollDiv" >
+						<div id="feed" class="feed">
 						<div class="wrapper">
 							<div class="vertical-line"></div>
 							<section class="feed-item">
@@ -147,7 +148,7 @@
 							</section>
 							<section class="feed-item">
 								<div class="icon pull-left">
-									<img src="img/14.jpg" class="img-circle" alt="">
+									<img src="//www.invtr.co/img/3.jpg" class="profile-img-small" alt="">
 								</div>
 								<div class="feed-item-body">
 									<div class="text">
@@ -221,7 +222,7 @@
 						<tbody>
 							<tr>
 								<td><div class="icon">
-									<img src="//www.invtr.co/img/1.jpg" class="img-circle" alt="">
+									<img src="//www.invtr.co/img/1.jpg" class="profile-img-small" alt="">
 								</div>
 							</td>
 							<td>713</td>
@@ -234,7 +235,7 @@
 						</tr>
 						<tr>
 							<td><div class="icon">
-								<img src="//www.invtr.co/img/2.jpg" class="img-circle" alt="">
+								<img src="//www.invtr.co/img/2.jpg" class="profile-img-small" alt="">
 							</div>
 						</td>
 
@@ -248,7 +249,7 @@
 					</tr>
 					<tr>
 						<td><div class="icon">
-							<img src="//www.invtr.co/img/3.jpg" class="img-circle" alt="">
+							<img src="//www.invtr.co/img/3.jpg" class="profile-img-small" alt="">
 						</div>
 					</td>
 
@@ -262,7 +263,7 @@
 				</tr>
 				<tr>
 					<td><div class="icon">
-						<img src="//www.invtr.co/img/4.jpg" class="img-circle" alt="">
+						<img src="//www.invtr.co/img/4.jpg" class="profile-img-small" alt="">
 					</div>
 				</td>
 
@@ -276,7 +277,7 @@
 			</tr>
 			<tr>
 				<td><div class="icon">
-					<img src="//www.invtr.co/img/5.jpg" class="img-circle" alt="">
+					<img src="//www.invtr.co/img/5.jpg" class="profile-img-small" alt="">
 				</div>
 			</td>
 

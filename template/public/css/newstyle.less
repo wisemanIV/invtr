@@ -1,0 +1,188 @@
+// top level styles
+@import 'vendor/bootstrap/bootstrap-needed.less';
+
+
+@color1: #F1F0FF;
+@color1-5: #fdfdff;
+@color2: #443266;
+@color3: #C3C3E5;
+
+.color1-rgba (@trans) {
+	background: rgba(240, 241, 255, @trans);
+}
+.color1-5-rgba (@trans) {
+	background: rgba(253, 253, 255, @trans);
+}
+
+html {
+	font-family: 'Titillium Web', sans-serif;
+	color: @color2;
+	background-attachment: fixed;
+}
+
+.box-dimension {
+	.color1-5-rgba(.9);
+	box-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 rgba(0,0,0,.2),
+               0 5px 1px rgba(0,0,0,.1),
+               0 0 3px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.2);
+	border-radius: 2px;
+}
+
+.box-dimension-small {
+	.color1-5-rgba(.9);
+	box-shadow: 0 1px 0 #ccc,
+               	0 2px 2px rgba(0,0,0,.7);
+	border-radius: 2px;
+	border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+
+
+.profile-img-small {
+	border: 2px solid @color1;
+	box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+
+
+a {
+	text-decoration: none;
+	color: inherit;
+
+	&.btn {
+		padding: 5px 10px;
+		display: block;
+		.box-dimension-small;
+		cursor: pointer;
+		&:hover {
+			.box-dimension-small;
+		}
+
+		i {
+			color: @color2;
+		}
+
+	}
+}
+
+button {
+	padding: 10px 20px;
+	font-family: 'Titillium Web', sans-serif;
+	.box-dimension-small;
+	color: @color2;
+	border: none;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	-webkit-appearance: none;
+
+}
+
+// nav header
+
+header.nav-header {
+	width: 100%;
+	height: 60px;
+	padding: 0 20px;
+
+	.box-dimension;
+	position: fixed;
+	top: 0px;
+	z-index: 100;
+
+	.container {
+		width: 90%;
+		margin: 0 auto;
+		position: relative;
+		z-index: 2;
+		ul.nav {
+			margin-left: 20px;
+			float: left;
+			height: 60px;
+			li {
+				margin: 0 10px;
+				padding: 0 10px;
+				line-height: 60px;
+				float: left;
+			}
+		}
+	}
+	.brand {
+		text-transform: uppercase;
+		line-height: 55px;
+		font-size: 24px;
+		display: block;
+		float: left;
+	}
+	.navbar-form {
+		height: 60px;
+		float: right;
+
+		.btn {
+			margin: 12px 0 0 0;
+		}
+	}
+}
+
+// main body for dashboard
+
+div.main-body {
+	width: 70%;
+	margin: 60px auto 0 auto;
+	padding: 20px;
+	position:relative;
+	z-index: 90;
+
+	#siteConfigHeader {
+		margin-bottom: 20px;
+		h2.page-title {
+			font-size: 24px;
+			text-transform: uppercase;
+		}
+
+	}
+
+	.widget {
+		margin-bottom: 20px;
+		.box-dimension;
+		header {
+			width: 100%;
+			float: left;
+			position: relative;
+			border-bottom: 1px solid @color3;
+			.actions {
+				float: right;
+			}
+			h2, h4 {
+				float: left;
+				padding: 10px 0 10px 10px;
+				font-size: 20px;
+				font-weight: 600;
+			}
+
+		}
+		.body {
+			height: 315px;
+			padding: 20px;
+			overflow: scroll;
+
+			td {
+				border-color: @color3;
+			}
+		}
+	}
+
+}
+
+// footer
+
+footer {
+	width: 100%;
+	height: 20px;
+	padding: 0 20px;
+	.box-dimension;
+	position: fixed;
+	bottom: 0px;
+	z-index: 100;
+}
