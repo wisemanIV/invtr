@@ -15,44 +15,28 @@
     <title>Inviter</title>
     <link REL="SHORTCUT ICON" HREF="favicon.ico">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            padding-top: 55px;
-            padding-bottom: 40px;
-        }
-    </style>
+    <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.12.0/build/cssreset/cssreset-min.css">
 
-    <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="css/vendor/ng-grid/ng-grid.css">
-    <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap-responsive.min.css">
-    <!-- TODO needed? -->
-    <link href="css/vendor/angularstrap/styles.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/vendor/angularstrap/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="css/vendor/angularstrap/bootstrap-timepicker.css">
-    <link rel="stylesheet" href="css/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/newstyle.css">
 	
+	<!-- <link href="//www.invtr.co/css/application.min.css" rel="stylesheet"> -->
+	<link rel="stylesheet" type="text/css" href="/css/vendor/bootstrap/bootstrap-responsive.css">
     <script type="text/javascript" src="//cdn.firebase.com/v0/firebase.js"></script>
      <script type="text/javascript" src="//cdn.firebase.com/v0/firebase-auth-client.js"></script>
-	 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-
-	 <script src="js/vendor/bootstrap/bootstrap.min.js"></script>
-
-	 <!-- TODO localize -->
-	 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
- 
      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.js"></script>
      <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
-     <script type="text/javascript" src="js/vendor/angular/angularFire.js"></script>
+     <script type="text/javascript" src="//www.invtr.co/js/vendor/angular/angularFire.js"></script>
 	 <script type="text/javascript"src="//cdn.firebase.com/v0/firebase-simple-login.js"></script>
 	 <script src="//www.invtr.co/lib/d3.v3.min.js" charset="utf-8"></script>
 	 
-	 
 </head>
 
-<body ng-app="myApp">
+<body class="background-dark" ng-app="myApp">
 
 <div id="fb-root"></div>
 
@@ -61,8 +45,15 @@
     your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
     improve your experience.</p>
 <![endif]-->
+
+<!-- bootstrap navbar -->
+<header class="nav-header" ng-include="'partials/navbar-top.html'"></header>
+
 <!-- ng routes hook -->
-<div ng-view></div>
+<div ng-view class="main-body"></div>
+
+<!-- footer -->
+<footer ng-include="'partials/navbar-bottom.html'"></footer>
  
 <script type="text/javascript" src="//www.invtr.co/js/vendor/angular/angularResource-1.1.1.js"></script>
 <script type="text/javascript" src="//www.invtr.co/js/vendor/angular/angularSanitize-1.1.1.js"></script>

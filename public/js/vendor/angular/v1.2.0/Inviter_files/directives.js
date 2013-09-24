@@ -30,8 +30,8 @@ directives.directive('stopEvent', function () {
 
 directives.directive('ghDial', function () {
 
-	var width = 160,
-	    height = 160,
+	var width = 270,
+	    height = 270,
 	    twoPi = 2 * Math.PI,
 		progress = 0.00001;
 		
@@ -53,13 +53,13 @@ directives.directive('ghDial', function () {
 	   
 	   var index = document.querySelector("#d3Parent").childNodes.length-1 ;
 	   
-	   var column = [100, 280, 450, 630];
+	   var column = [170, 500];
 	   var row = [140, 200, 300]
 
       // set up initial svg object
 	var vis = d3.select("#d3Parent")
 		    .append("g")
-		    .attr("transform", "translate(" + column[index] + "," + row[0] + ")");  
+		    .attr("transform", "translate(" + column[index%2] + "," + row[0] + ")");  
 
       scope.$watch('val', function (newVal, oldVal) {
 		  
@@ -74,8 +74,8 @@ directives.directive('ghDial', function () {
 		
 			var arc = d3.svg.arc()
 			    .startAngle(0)
-			    .innerRadius(70)
-			    .outerRadius(90)
+			    .innerRadius(110)
+			    .outerRadius(130)
 			;
 			
 			var meter = vis.append("g")

@@ -2,8 +2,8 @@
 
 myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
   function MyCtrl($scope, angularFire, angularFireAuth) {
-  //  var ref = new Firebase('https://inviter-dev.firebaseio.com/accounts');
-  //  $scope.items = angularFire(ref, $scope, 'msgaccounts',  []);
+    var ref = new Firebase('https://inviter-dev.firebaseio.com/accounts');
+    $scope.items = angularFire(ref, $scope, 'msgaccounts',  []);
 	
     // modal
     $scope.open = function () {
@@ -29,10 +29,10 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
 		return [{}];	
 	};
 	
-	//$scope.items.then(function() {
-//		console.debug("jit");
-//		$scope.recentMail = $scope.getMail();
-//	});
+	$scope.items.then(function() {
+		console.debug("jit");
+		$scope.recentMail = $scope.getMail();
+	});
 	
     
 
@@ -233,46 +233,18 @@ myApp.controller('SalesforceCtrl', ['$scope', '$location', '$http', '$routeParam
 	  
 ]);
 
-myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $rootScope, UserService, localStorageService, RESTService, socket) {
-  		
-		$scope.init = function() {
-			RESTService.get("https://data.invtr.co/metrics", $scope.callback);
-		}
+myApp.controller('DashboardCtrl', ['$scope','$rootScope','angularFire', 'UserService', 'localStorageService', 'DataService',
+	function ($scope, $rootScope, angularFire, UserService, localStorageService, DataService) {
+  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain") +'/'+localStorageService.get("invtr.sf_user_id")+'/metrics');
+    	$scope.item = angularFire(ref, $scope, 'metrics',  {} );
 		
-		$scope.callback = function(data) {
-			console.debug("dashboard callback");
-			console.debug(data);
-			
-			$scope.metrics = data ;
-			
-		}
-		
-		socket.on('blah', function (data) {
-		console.debug("new blah");
+		$scope.item.then(function() {
+			console.debug("metrics then function");
+			console.debug($scope.metrics);
+			console.debug($scope.metrics['oppcount'].data.last);
 		});
 		
-		socket.on('data', function (data) {
-		
-			var data = JSON.parse(data);
-			
-			if (typeof data !== "undefined" && data !== null && Object.keys(data).length > 0) { 
-		
-				console.debug("new data:"+data[0].data);
-				console.debug(data[0].id);
-				console.debug(data);
-				console.debug(data.length);
-			
-				for (var i = 0 ; i < data.length ; i++) {
-					for (var j = 0 ; j < $scope.metrics.length ; j++) {
-						if (data[i].id === $scope.metrics[j].id)	{
-							$scope.metrics[j].data = data[i].data;
-						}
-					}
-				}
-			}
-		    
-		});
+
 	
 	}
   
@@ -453,8 +425,7 @@ myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','angularFireCollect
     function($scope, $timeout, $rootScope, angularFireCollection, localStorageService) {
       var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/chat');
 	  
-     // $scope.messages = angularFireCollection(ref.limit(50));
-	 $scope.messages = angularFireCollection(ref);
+      $scope.messages = angularFireCollection(ref.limit(50));
 	  
       $scope.addMessage = function() {
 		  

@@ -71,6 +71,14 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 		authRequired: true
     });
 
+    // note that to minimize playground impact on app.js, we
+    // are including just this simple route with a parameterized 
+    // partial value (see playground.js and playground.html)
+    $routeProvider.when('/playground/:widgetName', {
+        templateUrl:'playground/playground.html',
+        controller:'PlaygroundCtrl'
+    });
+
     // by default, redirect to site root
     $routeProvider.otherwise({
         redirectTo:'/'
@@ -83,7 +91,7 @@ myApp.config(['$httpProvider', function($httpProvider) {
 }]);
 
 // this is run after angular is instantiated and bootstrapped
-myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService, SiteConfigService, UserService, DataService, socket) {
+myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService, SiteConfigService, UserService, DataService) {
 
     // *****
     // Eager load some data using simple REST client

@@ -1,3 +1,27 @@
+<style>
+.progress-meter {
+  
+  .background {
+    fill: #DFEAFD;
+  }
+  
+  .foreground {
+    fill: #2E7AF9;
+  }
+  
+  text {
+    font-family: 'Georgia' sans-serif;
+    font-size: 90px;
+  }
+  
+  .text2 {
+    font-family: 'Georgia' sans-serif;
+    font-size: 20px;
+  }
+}
+
+
+</style>
 <div fade-in class="wrap">
 	
 	<div class="content container">
@@ -13,12 +37,10 @@
 						<h4>Your stats</h4>
 					</header>
 					<div class="body no-margin">
-						<div ng-controller="DashboardCtrl">
-							<div id="visits-chart" class="chart visits-chart">
-								<!-- <svg id="d3Parent" fill="#2E7AF9">
-							</svg> -->
+						<div ng-controller="DashboardCtrl" ng-init="init()">
+								<svg id="d3Parent">
+								</svg>
 							<div ng-repeat="item in metrics">
-								{{item.dataformat}}
 								<div ng-switch on="item.type">
 									<div ng-switch-when="dial">
 										<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
@@ -26,11 +48,14 @@
 									<div ng-switch-when="meter">
 										<gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
 									</div>
+								<!-- end switch -->	
 								</div>
+						    <!-- end repeat -->
 							</div>
+						<!-- end ctrl -->
 						</div>
+					<!-- end body -->
 					</div>
-				</div>  
 			</section>
 		</div>
 

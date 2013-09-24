@@ -5,7 +5,7 @@ myApp.factory('RESTService',
     function ($http) {
         return {
             get:function (url, callback) {
-                return $http.get(url, {withCredentials:false}).
+                return $http({method:'GET', url:url}).
                     success(function (data, status, headers, config) {
                         callback(data);
                         //console.log(data.json);
@@ -347,31 +347,6 @@ myApp.factory('UserService', ['$http','angularFire', '$route', '$rootScope', '$l
 		}
 	 }
 ]);
-
-
-myApp.factory('socket', function ($rootScope) {
-  var socket = io.connect("https://data.invtr.co");
-  return {
-    on: function (eventName, callback) {
-      socket.on(eventName, function () {  
-        var args = arguments;
-        $rootScope.$apply(function () {
-          callback.apply(socket, args);
-        });
-      });
-    },
-    emit: function (eventName, data, callback) {
-      socket.emit(eventName, data, function () {
-        var args = arguments;
-        $rootScope.$apply(function () {
-          if (callback) {
-            callback.apply(socket, args);
-          }
-        });
-      })
-    }
-  };
-});
 
 
 

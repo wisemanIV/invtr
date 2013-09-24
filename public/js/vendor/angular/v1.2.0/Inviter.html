@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://hiphop.invtr.co/#/dashboard -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}</style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Inviter</title>
+    <link rel="SHORTCUT ICON" href="https://hiphop.invtr.co/favicon.ico">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="./Inviter_files/css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./Inviter_files/cssreset-min.css">
+
+    <link rel="stylesheet" type="text/css" href="./Inviter_files/newstyle.css">
+	
+	<!-- <link href="//www.invtr.co/css/application.min.css" rel="stylesheet"> -->
+	<link rel="stylesheet" type="text/css" href="./Inviter_files/bootstrap-responsive.css">
+  <link rel="stylesheet" type="text/css" href="https://hiphop.invtr.co/css/vendor/bootstrap/bootstrap-needed.css">
+    <script src="./Inviter_files/ga.js"></script><script type="text/javascript" src="./Inviter_files/firebase.js"></script>
+     <script type="text/javascript" src="./Inviter_files/firebase-auth-client.js"></script>
+     <script type="text/javascript" src="./Inviter_files/angular.min.js"></script>
+	  <script type="text/javascript" src="./Inviter_files/angular-route.min.js"></script>
+     <script type="text/javascript" src="./Inviter_files/all.js"></script>
+     <script type="text/javascript" src="./Inviter_files/angularFire.js"></script>
+	 <script type="text/javascript" src="./Inviter_files/firebase-simple-login.js"></script>
+	 <script src="./Inviter_files/d3.v3.min.js" charset="utf-8"></script>
+	 
+<style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}
+.fb_invisible{display:none}
+.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}
+.fb_reset > div{overflow:hidden}
+.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}
+.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}
+.fb_dialog_content{background:#fff;color:#333}
+.fb_dialog_close_icon{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px;top:8px\9;right:7px\9}
+.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}
+.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}
+.fb_dialog_close_icon:hover{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}
+.fb_dialog_close_icon:active{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}
+.fb_dialog_loader{background-color:#f2f2f2;border:1px solid #606060;font-size:24px;padding:20px}
+.fb_dialog_top_left,
+.fb_dialog_top_right,
+.fb_dialog_bottom_left,
+.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}
+.fb_dialog_top_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}
+.fb_dialog_top_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}
+.fb_dialog_bottom_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}
+.fb_dialog_bottom_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right,
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right{width:10px;height:100%}
+.fb_dialog_vert_left{margin-left:-10px}
+.fb_dialog_vert_right{right:0;margin-right:-10px}
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{width:100%;height:10px}
+.fb_dialog_horiz_top{margin-top:-10px}
+.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}
+.fb_dialog_iframe{line-height:0}
+.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3b5998;color:#fff;font-size:14px;font-weight:bold;margin:0}
+.fb_dialog_content .dialog_title > span{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif)
+no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}
+body.fb_hidden{-webkit-transform:none;height:100%;margin:0;left:-10000px;overflow:visible;position:absolute;top:-10000px;width:100%
+}
+.fb_dialog.fb_dialog_mobile.loading{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif)
+white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}
+.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}
+#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}
+#fb-root #fb_dialog_ipad_overlay.hidden{display:none}
+.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}
+.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0 0, 0 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}
+.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%
+}
+.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0 0, 0 100%, from(#4966A6),
+color-stop(0.5, #355492), to(#2A4887));border:1px solid #29447e;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset,
+rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}
+.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}
+.fb_dialog_content .dialog_content{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}
+.fb_dialog_content .dialog_footer{background:#f2f2f2;border:1px solid #555;border-top-color:#ccc;height:40px}
+#fb_dialog_loader_close{float:left}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{display:inline-block;position:relative}
+.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}
+.fb_iframe_widget iframe{position:absolute}
+.fb_iframe_widget_lift{z-index:1}
+.fb_hide_iframes iframe{position:relative;left:-10000px}
+.fb_iframe_widget_loader{position:relative;display:inline-block}
+.fb_iframe_widget_fluid{display:inline}
+.fb_iframe_widget_fluid span{width:100%}
+.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}
+.fb_iframe_widget_loader .FB_Loader{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+.fb_connect_bar_container div,
+.fb_connect_bar_container span,
+.fb_connect_bar_container a,
+.fb_connect_bar_container img,
+.fb_connect_bar_container strong{background:none;border-spacing:0;border:0;direction:ltr;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal;vertical-align:baseline}
+.fb_connect_bar_container{position:fixed;left:0 !important;right:0 !important;height:42px !important;padding:0 25px !important;margin:0 !important;vertical-align:middle !important;border-bottom:1px solid #333 !important;background:#3b5998 !important;z-index:99999999 !important;overflow:hidden !important}
+.fb_connect_bar_container_ie6{position:absolute;top:expression(document.compatMode=="CSS1Compat"? document.documentElement.scrollTop+"px":body.scrollTop+"px")}
+.fb_connect_bar{position:relative;margin:auto;height:100%;width:100%;padding:6px 0 0 0 !important;background:none;color:#fff !important;font-family:"lucida grande", tahoma, verdana, arial, sans-serif !important;font-size:13px !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;letter-spacing:normal !important;line-height:1 !important;text-decoration:none !important;text-indent:0 !important;text-shadow:none !important;text-transform:none !important;white-space:normal !important;word-spacing:normal !important}
+.fb_connect_bar a:hover{color:#fff}
+.fb_connect_bar .fb_profile img{height:30px;width:30px;vertical-align:middle;margin:0 6px 5px 0}
+.fb_connect_bar div a,
+.fb_connect_bar span,
+.fb_connect_bar span a{color:#bac6da;font-size:11px;text-decoration:none}
+.fb_connect_bar .fb_buttons{float:right;margin-top:7px}
+.fb_edge_widget_with_comment{position:relative;*z-index:1000}
+.fb_edge_widget_with_comment span.fb_edge_comment_widget{position:absolute}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget{z-index:1}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget .FB_Loader{left:0;top:1px;margin-top:6px;margin-left:0;background-position:50% 50%;background-color:#fff;height:150px;width:394px;border:1px #666 solid;border-bottom:2px solid #283e6c;z-index:1}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget.dark .FB_Loader{background-color:#000;border-bottom:2px solid #ccc}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget.siderender
+.FB_Loader{margin-top:0}
+.fbpluginrecommendationsbarleft,
+.fbpluginrecommendationsbarright{position:fixed !important;bottom:0;z-index:999}
+.fbpluginrecommendationsbarleft{left:10px}
+.fbpluginrecommendationsbarright{right:10px}</style></head>
+
+<body class="background-dark ng-scope" ng-app="myApp" style="zoom: 1;">
+<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div>
+
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+    improve your experience.</p>
+<![endif]-->
+
+<!-- bootstrap navbar -->
+<!-- ngInclude: 'partials/navbar-top.html' --><header class="nav-header ng-scope" ng-include="&#39;partials/navbar-top.html&#39;"><!-- add navbar-inverse class for black/google-like bar -->
+<div class="navbar navbar-fixed-top ng-scope">
+    <div class="navbar-inner">
+        <div class="container">
+  <!--           <a class="btn btn-navbar navbar-fixed-top" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a> -->
+
+            <a class="brand" href="https://hiphop.invtr.co/#">Inviter</a>
+			<ul class="nav">
+                <li>
+				
+            		<a href="" class="dropdown-toggle" ng-click="go(&#39;community&#39;)">Community</a>
+				</li>
+                <li>
+				
+            		<a href="" class="dropdown-toggle" ng-click="go(&#39;dashboard&#39;)">Dashboard</a>
+				</li>
+       
+						
+                    <li ng-controller="InboxCtrl" class="dropdown ng-scope">
+
+                        <a href="https://hiphop.invtr.co/#" class="dropdown-toggle" data-toggle="dropdown">
+
+                            <span class="ng-binding">
+                     		   <i class="icon-envelope-alt"></i>&nbsp;Messages ()
+                            </span>
+
+                            <b class="caret"></b>
+
+                        </a>
+
+                        <!-- TODO mail should be managed as a service -->
+                        <ul class="dropdown-menu">
+                         <!--   <div ng-include="'partials/mail-subsections.html'"></div>-->
+                        </ul>
+                    </li>
+               
+
+                </ul>
+
+                <div class="nav navbar-form pull-right">
+ 			 	   <div ng-controller="UserCtrl" ng-init="init()" class="ng-scope">
+ 			 		  	   
+ 			 		     <span ng-show="isAuthenticated()" class="ng-binding">
+						<!-- FB only <img ng-src="http://graph.facebook.com/{{user.username}}/picture/"> -->
+						<img ng-src="https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T" src="./Inviter_files/T">
+ 			 		       Welcome Stephen | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
+ 			 		     </span>
+ 						 <a ng-hide="isAuthenticated()" class="btn btn-primary ng-hide" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
+ 			 		 
+ 			 		</div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</header>
+
+<!-- ng routes hook -->
+<!-- ngView:  --><div ng-view="" class="main-body ng-scope"><div fade-in="" class="wrap ng-scope" style="opacity: 1;">
+	
+	<div class="content container">
+		<div class="row">
+			<div id="siteConfigHeader" class="span12 ng-scope" ng-controller="SiteConfigCtrl">
+				<h2 class="page-title ng-binding"></h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span8">
+				<section class="widget">
+					<header>
+						<h4>Your stats</h4>
+					</header>
+					<div class="body no-margin">
+						<div ng-controller="DashboardCtrl" class="ng-scope">
+							<div id="visits-chart" class="chart visits-chart">
+								<!-- <svg id="d3Parent" fill="#2E7AF9">
+							</svg> -->
+							<!-- ngRepeat: item in metrics --><div ng-repeat="item in metrics" class="ng-scope ng-binding">
+								
+								<div ng-switch="" on="item.type">
+									<!-- ngSwitchWhen: dial --><div ng-switch-when="dial" class="ng-scope">
+										<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target" class="ng-isolate-scope ng-scope"></gh-dial>
+									</div>
+									<!-- ngSwitchWhen: meter -->
+								</div>
+							</div><div ng-repeat="item in metrics" class="ng-scope ng-binding">
+								
+								<div ng-switch="" on="item.type">
+									<!-- ngSwitchWhen: dial --><div ng-switch-when="dial" class="ng-scope">
+										<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target" class="ng-isolate-scope ng-scope"></gh-dial>
+									</div>
+									<!-- ngSwitchWhen: meter -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>  
+			</section>
+		</div>
+
+		<div class="span4 ng-scope" ng-controller="SiteConfigCtrl">
+			<section class="widget large">
+				<header>
+					<h2 class="ng-binding">
+						
+					</h2>
+				</header>
+				<div class="body">
+
+					<div class="wrapper">
+
+						<div class="text">
+							<a href="https://hiphop.invtr.co/#" class="ng-binding">
+								
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!--end span-->
+		</div>
+		<!--end row-->
+	</div>
+
+	<div class="row">
+		<div class="span8">
+
+			<section class="widget large">
+
+				<header>
+					<h4>
+						<i class="eicon-chat"></i>
+						Chat
+					</h4>
+				</header>
+				<div class="body">
+					<div id="chat" class="chat ng-scope" ng-controller="Chat">
+						<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 240px;">
+							<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
+
+								<!-- ngRepeat: message in messages -->
+							</div>
+							<div class="slimScrollBar ui-draggable"></div>
+							<div class="slimScrollRail"></div>
+						</div>
+						
+
+						<form ng-submit="addMessage()" class="chat-footer row ng-pristine ng-valid">
+							<div class="span5">
+								<input id="new-message" type="text" ng-model="message.body" class="form-control input-transparent ng-pristine ng-valid" placeholder="Enter your message..">
+							</div>
+							<div class="span3">
+								<button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div class="span4">
+			<section class="widget large">
+				<header>
+					<h4>
+						Feed
+					</h4>
+					<div class="actions">
+						<button class="btn btn-transparent btn-xs">Show All <i class="icon-arrow-down"></i></button>
+					</div>
+				</header>
+				<div class="body">
+					<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 280px;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: 280px;">
+						<div class="wrapper">
+							<div class="vertical-line"></div>
+							<section class="feed-item">
+								<div class="icon pull-left">
+									<i class="icon-comment"></i>
+								</div>
+								<div class="feed-item-body">
+									<div class="text">
+										Kudos to <a href="https://hiphop.invtr.co/#">John Doe</a> for hitting his the target
+									</div>
+									<div class="time pull-left">
+										3 h
+									</div>
+								</div>
+							</section>
+							<section class="feed-item">
+								<div class="icon pull-left">
+									<i class="icon-ok color-green"></i>
+								</div>
+								<div class="feed-item-body">
+									<div class="text">
+										Don't forget our <a href="https://hiphop.invtr.co/#">training call</a> at 9am PST tomorrow
+									</div>
+									<div class="time pull-left">
+										10 h
+									</div>
+								</div>
+							</section>
+							<section class="feed-item">
+								<div class="icon pull-left">
+									<img src="./Inviter_files/14.jpg" class="img-circle" alt="">
+								</div>
+								<div class="feed-item-body">
+									<div class="text">
+										New user <a href="https://hiphop.invtr.co/#">Greg Wilson</a> registered.
+									</div>
+									<div class="time pull-left">
+										Today
+									</div>
+								</div>
+							</section>
+							<section class="feed-item">
+								<div class="icon pull-left">
+									<i class="icon-bolt color-orange"></i>
+								</div>
+								<div class="feed-item-body">
+									<div class="text">
+										<a href="https://hiphop.invtr.co/#">New video</a> posted. Check it out now!
+									</div>
+									<div class="time pull-left">
+										Yesterday
+									</div>
+								</div>
+							</section>
+
+							<section class="feed-item">
+								<div class="icon pull-left">
+									<i class="icon-arrow-down"></i>
+								</div>
+								<div class="feed-item-body">
+									<div class="text">
+										<a href="https://hiphop.invtr.co/#">Load more...</a>
+									</div>
+								</div>
+							</section>
+							<!--end wrapper-->
+						</div>
+						<!--end slimscroll-->
+					</div>
+					<!--end body-->
+				</div>
+				<!--end col-->
+			</div>
+
+		</section></div>
+		
+		
+		
+		<div class="span8 ng-scope" ng-controller="LeaderboardCtrl">
+			<section class="widget">
+				<header>
+					<h4>
+						<i class="icon-shopping-cart"></i>
+						Leaderboard
+						<small>
+							One month tracking
+						</small>
+					</h4>
+				</header>
+				<div class="body">
+					<table class="table table-striped no-margin sources-table">
+						<thead>
+							<tr>
+								<th class="source-col-header">Source</th>
+								<th>Amount</th>
+								<th>Change</th>
+								<th class="hidden-xs">Percent.,%</th>
+								<th>Target</th>
+								<th class="chart-col-header hidden-xs">Trend</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div class="icon">
+									<img src="./Inviter_files/1.jpg" class="img-circle" alt="">
+								</div>
+							</td>
+							<td>713</td>
+							<td><strong class="color-green">+53</strong></td>
+							<td class="hidden-xs">+12</td>
+							<td>900</td>
+							<td class="chart-cell hidden-xs">
+								<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+							</td>
+						</tr>
+						<tr>
+							<td><div class="icon">
+								<img src="./Inviter_files/2.jpg" class="img-circle" alt="">
+							</div>
+						</td>
+
+						<td>562</td>
+						<td><strong>+84</strong></td>
+						<td class="hidden-xs">+64</td>
+						<td>500</td>
+						<td class="chart-cell hidden-xs">
+							<div id="refer-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+						</td>
+					</tr>
+					<tr>
+						<td><div class="icon">
+							<img src="./Inviter_files/3.jpg" class="img-circle" alt="">
+						</div>
+					</td>
+
+					<td>148</td>
+					<td><strong class="color-red">-12</strong></td>
+					<td class="hidden-xs">+3</td>
+					<td>180</td>
+					<td class="chart-cell hidden-xs">
+						<div id="social-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+					</td>
+				</tr>
+				<tr>
+					<td><div class="icon">
+						<img src="./Inviter_files/4.jpg" class="img-circle" alt="">
+					</div>
+				</td>
+
+				<td>653</td>
+				<td><strong class="color-green">+23</strong></td>
+				<td class="hidden-xs">+43</td>
+				<td>876</td>
+				<td class="chart-cell hidden-xs">
+					<div id="search-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+				</td>
+			</tr>
+			<tr>
+				<td><div class="icon">
+					<img src="./Inviter_files/5.jpg" class="img-circle" alt="">
+				</div>
+			</td>
+
+			<td>976</td>
+			<td><strong>+101</strong></td>
+			<td class="hidden-xs">-7</td>
+			<td>844</td>
+			<td class="chart-cell hidden-xs">
+				<div id="internal-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</section>
+</div>
+
+
+<!--end container-->
+</div>
+
+<!--end fade in-->
+</div></div></div>
+
+<!-- footer -->
+<!-- ngInclude: 'partials/navbar-bottom.html' --><footer ng-include="&#39;partials/navbar-bottom.html&#39;" class="ng-scope"><div class="navbar navbar-fixed-bottom ng-scope">
+    <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+
+                <li><a href="https://hiphop.invtr.co/#/" class="ng-binding">©  </a></li>
+                <li class="divider-vertical"></li>
+
+           <!--     <li><a href="#/about">About</a></li>
+                <li><a href="#/contact">Contact</a></li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Example<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class=""><a href="#/">of</a></li>
+                        <li class=""><a href="#/">a</a></li>
+                        <li class=""><a href="#/">multi</a></li>
+                        <li class=""><a href="#/">select</a></li>
+                        <li class=""><a href="#/">dropdown</a></li>
+                    </ul>-->
+
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+</footer>
+
+
+<script src="./Inviter_files/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery/jquery-1.9.0.min.js"><\/script>')</script>
+
+<script src="./Inviter_files/bootstrap.min.js"></script>
+
+<!-- TODO localize -->
+<script src="./Inviter_files/jquery-ui.min.js"></script>
+ 
+<script type="text/javascript" src="./Inviter_files/angular-resource.min.js"></script>
+<script type="text/javascript" src="./Inviter_files/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="./Inviter_files/angular-cookies.min.js"></script>
+
+<script src="./Inviter_files/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script src="./Inviter_files/angular-ui.js"></script>
+
+<script src="./Inviter_files/angularDragDrop-min.js"></script>
+
+<script src="./Inviter_files/ng-grid.debug.js"></script>
+
+<!-- TODO needed?  Then localize... -->
+<script src="./Inviter_files/ui-bootstrap.tpls-0.1.0.js"></script>
+
+<!-- enables rendering of injected html -->
+<!-- TODO localize -->
+
+<!-- angular strap -->
+<!-- TODO move from cdn to local -->
+<script src="./Inviter_files/underscore-min.js"></script>
+<!-- needed? -->
+<script src="./Inviter_files/prettify.js"></script>
+<script src="./Inviter_files/angular-strap.min.js"></script>
+<script src="./Inviter_files/bootstrap-datepicker.js"></script>
+<script src="./Inviter_files/bootstrap-timepicker.js"></script>
+
+<script src="./Inviter_files/jquery.slimscroll.js"></script>
+
+<script src="./Inviter_files/localStorageModule.js"></script>
+
+<!--  TODO compile/optimise these during build -->
+<script src="./Inviter_files/app.js"></script>
+<script src="./Inviter_files/services.js"></script>
+<script src="./Inviter_files/controllers.js"></script>
+<script src="./Inviter_files/filters.js"></script>
+<script src="./Inviter_files/directives.js"></script>
+
+<script src="./Inviter_files/angularjs.media.directives.js"></script>
+
+
+<!-- example area for ui elements (non-production) -->
+<script src="./Inviter_files/playground.js"></script>
+
+<script>
+    var _gaq = [
+        ['_setAccount', 'UA-XXXXX-X'],
+        ['_trackPageview']
+    ];
+    (function (d, t) {
+        var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s)
+    }(document, 'script'));
+</script>
+
+
+</body></html>
