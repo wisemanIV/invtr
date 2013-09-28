@@ -12,10 +12,6 @@
 			<ul class="nav">
                 <li>
 				
-            		<a href="" class="dropdown-toggle" ng-click="go('community')">Community</a>
-				</li>
-                <li>
-				
             		<a href="" class="dropdown-toggle" ng-click="go('dashboard')">Dashboard</a>
 				</li>
        
@@ -44,12 +40,12 @@
                 <div class="nav navbar-form pull-right">
  			 	   <div ng-controller="UserCtrl" ng-init="init()">
  			 		  	   
- 			 		     <span ng-show="isAuthenticated()">
+ 			 		     <span ng-show="authenticated">
 						<!-- FB only <img ng-src="http://graph.facebook.com/{{user.username}}/picture/"> -->
 						<img ng-src="{{user.photo_url_thumb}}">
  			 		       Welcome {{user.first_name}} | <a class="btn btn-primary" ng-click="logout()"><i class="icon-off icon-white"></i>Log out</a>
  			 		     </span>
- 						 <a ng-hide="isAuthenticated()" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
+ 						 <a ng-hide="authenticated" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
  			 		 
  			 		</div>
                   

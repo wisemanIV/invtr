@@ -103,14 +103,13 @@ directives.directive('ghDial', function () {
 			var percentage = newVal;
 
 			
-				console.debug("animate progress: "+progress+" percentage:"+percentage+" total:"+total);
+				//console.debug("animate progress: "+progress+" percentage:"+percentage+" total:"+total);
 			    var i = d3.interpolateNumber(progress, percentage/total);
 			   
 			    d3.select(vis).transition().duration(800).tween("progress", function () {
 			        return function (t) {
 			            progress = i(t);
 			            foreground.attr("d", arc.endAngle(twoPi * progress));
-						console.debug("progress:"+progress);
 			            text.text(scope.ghFormat+''+percentage);
 			        };
 			    });

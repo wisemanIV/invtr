@@ -83,7 +83,7 @@ myApp.config(['$httpProvider', function($httpProvider) {
 }]);
 
 // this is run after angular is instantiated and bootstrapped
-myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceService, SiteConfigService, UserService, DataService, socket) {
+myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, SiteConfigService, UserService, DataService, socket) {
 
     // *****
     // Eager load some data using simple REST client
@@ -96,7 +96,6 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
     $rootScope.restService = RESTService;
 	$rootScope.dataService = DataService ; 
 	$rootScope.siteConfigService = SiteConfigService;
-	$rootScope.forceService = ForceService;
 	$rootScope.userService = UserService ;
 	$rootScope.selectedPost = {};
 	
@@ -106,6 +105,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	
 	$rootScope.metrics = [] ;
 	$rootScope.metricConfig = [] ;
+	$rootScope.authenticated = false ;
 	
     // async load constants
     //$rootScope.constants = [];
@@ -122,9 +122,6 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
     //    }
     //);
    
-    $rootScope.clickLogin = function () {
-    	$location.path("community");
-    };
     $rootScope.go = function (place) {
 		console.debug(place);
     	$location.path(place);
@@ -133,8 +130,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, ForceSe
 	$rootScope.$on( "$routeChangeStart", function(event, next, current) {
 		console.debug("route change");
 		
-		
-	      if ( next.authRequired && !$rootScope.userService.isAuthenticated() ) {
+	      if ( next.authRequired && !$rootScope.authenticated ) {
 			  console.debug("auth required but not authenticated")
 			  $location.path( "/" );
 			 
