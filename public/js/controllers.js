@@ -47,10 +47,10 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
 myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$cookieStore', '$http', 'UserService', 'localStorageService', 'socket',
   function ($scope, $location, $rootScope, $cookieStore, $http, UserService, localStorageService, socket) {
    				
-	 $scope.user = {};
+	  $scope.user = {};
 	 $scope.authenticated = $rootScope.authenticated;
  
-	 $http({
+	 /*$http({
 	       method: 'GET',
 	       url: 'https://data.invtr.co/account',
 	       withCredentials: true
@@ -66,13 +66,14 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$cookieStore
 	       error(function(data, status, headers, config) {
 	           console.log(status);
 			   $rootScope.authenticated = false ;
-	       });
+	       });*/
 		   
 		   
    	socket.on('accountdata', function (data) {
 		console.debug("account data received");
 		console.debug(data);
-        $scope.user = data;
+        $scope.user = JSON.parse(data);
+		console.debug($scope.user.SmallPhotoUrl);
 	    $rootScope.currentUser = $scope.user ;
 	    $rootScope.authenticated = true ;
 	    $scope.authenticated = true;
@@ -199,9 +200,10 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 	function ($scope, $location, SiteConfigService, UserService, localStorageService, RESTService, socket) {
   		
 		$scope.leaderdata = [];
+		$scope.order = 'oppcount';
 		
 		$scope.init = function() {
-			RESTService.get("https://data.invtr.co/leaderboard", $scope.callback);
+			//	RESTService.get("https://data.invtr.co/leaderboard", $scope.callback);
 		}
 		
 		$scope.callback = function(data) {
@@ -288,54 +290,20 @@ myApp.controller('MetricsCtrl', ['$scope', '$location', 'angularFire', 'SiteConf
   
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$location', '$route', 'angularFire', 'SiteConfigService', 'localStorageService','UserService', 'DataService',
-	function ($scope, $location, $route, angularFire, SiteConfigService, localStorageService, UserService, DataService) {
-  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+$location.host().split('.')[0]);
-    	$scope.site = angularFire(ref, $scope, 'siteConfig',  {} );	
+myApp.controller('SiteConfigCtrl', ['$scope', '$location', '$route', 'UserService', 'socket',
+	function ($scope, $location, $route, UserService, socket) {
+  		$scope.site = {};
 		
-		$scope.site.then(function() {
-			console.debug("then siteconfigctrl");
-			console.debug($scope.siteConfig.auth);
-			$scope.$root.mode = $scope.siteConfig.auth ;
-			$scope.$root.metricConfig = $scope.siteConfig.metrics.config ;
+		socket.on('sitedata', function (data) {
 			
-			console.debug($scope.extractToken('logout'));
+			if (typeof data !== "undefined" && data !== null && Object.keys(data).length > 0) { 
+		
+				console.debug("site data:"+data);
 			
-			if ($scope.extractToken('logout') === 'null') {
-
-				localStorageService.add('invtr.subdomain', $location.host().split('.')[0]);
-			
-				var user_id = $scope.extractToken("sf_user_id");
-				console.log("user_id: "+user_id);
-				if (typeof user_id === "undefined" || user_id === 'null' || user_id === "") {
-					console.debug("skipping set local storage user id:"+user_id);
-				} else {
-
-					console.debug("setting local storage user id:"+user_id);
-					
-					var sf_token = $scope.extractToken("token");
-					var sf_user_uri = $scope.extractToken("user_uri");
-					var sf_base_uri = decodeURIComponent($scope.extractToken("base_uri"));
-					
-					localStorageService.add('invtr.sf_user_id', user_id);
-					localStorageService.add('invtr.sf_token', sf_token);
-					localStorageService.add('invtr.sf_base_uri', sf_base_uri);
-					localStorageService.add('invtr.sf_user_uri', sf_user_uri);
-					
-					$scope.$root.$broadcast("auth:login");
-				}
+				$scope.site = data ;
 			}
-			
-		});
-		
-		$scope.extractToken = function (name) {
-		  console.debug($location.url());
-		  return decodeURI(
-		      (RegExp(name + '=' + '(.+?)(&|$)').exec($location.url())||[,null])[1]
-		  );
-	  	}
-		
-	
+		    
+		});	
 		
 	}
   
@@ -353,25 +321,50 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'angularFire', 
 ]);
 
 
-myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','angularFireCollection','localStorageService',
-    function($scope, $timeout, $rootScope, angularFireCollection, localStorageService) {
-      var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get("invtr.subdomain")+'/chat');
-	  
-     // $scope.messages = angularFireCollection(ref.limit(50));
-	 $scope.messages = angularFireCollection(ref);
-	  
-      $scope.addMessage = function() {
-		  
-		console.debug('addMessage'); 
-		console.debug($rootScope.currentUser.photo_url_thumb);
+myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageService', 'socket',
+    function($scope, $timeout, $rootScope, localStorageService, socket) {
+  
+  	 $scope.messages = [];
+	 
+	 socket.on('init:messages', function (data) {
+		console.log("CLIENT RECEIVES CHAT MESSAGE");
 		
-		$scope.message.created_at = new Date() ;
-		$scope.message.from = $rootScope.currentUser.first_name ;
-		$scope.message.photo = $rootScope.currentUser.photo_url_thumb ;
-		
-        $scope.messages.add($scope.message);
-        $scope.message = {};
-      };
+		if (typeof data !== "undefined" && data[0] !== null && data.length>0 && Object.keys(data).length > 0) { 
+	
+			console.debug(data);
+			console.debug("new data:"+data[0].data);
+			
+	   		 for (var i = 0 ; i < data.length ; i++) {
+	   	     	// add the message to our model locally
+	   	     	$scope.messages.push(data[i]);
+	   		 }
+			
+		}
+	    
+	 });
+	 
+	  
+	 $scope.sendMessage = function () {
+		 console.log("send message");
+		 
+		 var msg = new Object();
+		 //msg['username'] = $scope.message.username;
+		 msg['username'] = "Stephen McCurry";
+	     msg['message'] = $scope.message.message;
+		 //msg['photo'] = $scope.message.photo;
+		 msg['photo'] = "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T";
+		   
+	     socket.emit('send:message', msg, function(res) {
+			 console.log("EMIT MESSAGE CALLBACK");
+			 console.log(res);
+	     });
+
+	     // add the message to our model locally
+	     $scope.messages.push(msg);
+
+	     // clear message box
+	     $scope.message = '';
+	   };
 	  
 	
     }

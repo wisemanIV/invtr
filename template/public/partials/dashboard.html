@@ -57,7 +57,10 @@
 			<section class="widget large">
 				<header>
 					<h2>
-						{{site.incentivename}}
+						{{site.title}}
+					</h2>
+					<h2>
+						{{site.subtitle}}
 					</h2>
 				</header>
 				<div class="body">
@@ -66,7 +69,7 @@
 
 						<div class="text">
 							<a href="#">
-								{{site.incentiveblurb}}
+								{{site.description}}
 							</a>
 						</div>
 					</div>
@@ -100,8 +103,8 @@
 									</div>
 									<div class="chat-message-body on-left">
 										<span class="arrow"></span>
-										<div class="sender"><a href="#">{{message.from}}</a></div>
-										<div class="text">{{message.content}}</div>
+										<div class="sender"><a href="#">{{message.username}}</a></div>
+										<div class="text">{{message.message}}</div>
 									</div>
 								</div>
 							</div>
@@ -110,9 +113,9 @@
 						</div>
 						
 
-						<form ng-submit="addMessage()" class="chat-footer row">
+						<form ng-submit="sendMessage()" class="chat-footer row">
 							<div class="span5">
-								<input id="new-message" type="text" ng-model="message.body" class="form-control input-transparent" placeholder="Enter your message.."></input>
+								<input id="new-message" type="text" ng-model="message.message" class="form-control input-transparent" placeholder="Enter your message.."></input>
 							</div>
 							<div class="span3">
 								<button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
@@ -239,7 +242,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						 <tr ng-repeat="user in leaderdata">
+						 <tr ng-repeat="user in leaderdata | orderBy:order">
 								<td><div class="icon">
 									<img ng-src="{{user.SmallPhotoUrl}}" class="profile-img-small" alt="">
 								</div>

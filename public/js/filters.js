@@ -20,7 +20,7 @@ myApp.filter('reverse', function() {
 angular.module('myApp.filters', []).
   filter('since', function() {
     return function(input, uppercase) {
-	    var tTime=new Date(input);
+	    var tTime=input;
 	    var cTime=new Date();
 	    var sinceMin=Math.round((cTime-tTime)/60000);
 	    if(sinceMin==0)
