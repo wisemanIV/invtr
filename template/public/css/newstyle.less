@@ -59,7 +59,7 @@ a {
 
 	&.btn {
 		padding: 5px 10px;
-		display: block;
+		display: inline-block;
 		.box-dimension-small;
 		cursor: pointer;
 
@@ -93,8 +93,12 @@ header.nav-header {
 		position: relative;
 		z-index: 2;
 		ul.nav {
-			margin-left: 20px;
+			list-style: none;
+			position: relative;
+			left: 0;
+			display: block;
 			float: left;
+			margin: 8px 10px 10px 10px;
 			height: 60px;
 			li {
 				margin: 0 10px;

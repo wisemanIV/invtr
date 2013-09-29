@@ -347,7 +347,7 @@ a {
 }
 a.btn {
   padding: 5px 10px;
-  display: block;
+  display: inline-block;
   font-family: 'Titillium Web', sans-serif;
   color: #443266;
   border: none;
@@ -388,8 +388,12 @@ header.nav-header .container {
   z-index: 2;
 }
 header.nav-header .container ul.nav {
-  margin-left: 20px;
+  list-style: none;
+  position: relative;
+  left: 0;
+  display: block;
   float: left;
+  margin: 20px 10px 0 0;
   height: 60px;
 }
 header.nav-header .container ul.nav li {
