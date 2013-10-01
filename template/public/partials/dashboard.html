@@ -81,51 +81,46 @@
 	</div>
 
 	<div class="row">
-		<div class="span8">
-
-			<section class="widget large">
-
+		<div class="span8" ng-controller="LeaderboardCtrl" ng-init="init()">
+			<section class="widget">
 				<header>
 					<h4>
-						<i class="eicon-chat"></i>
-						Chat
+						<i class="icon-shopping-cart"></i>
+						Leaderboard
 					</h4>
 				</header>
 				<div class="body">
-					<div id="chat" class="chat" ng-controller="Chat">
-						<div class="slimScrollDiv">
-							<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
-
-								<div ng-cloak ng-repeat="message in messages" class="chat-message">
-									<div class="sender pull-right">
-										<div class="icon"><img ng-src="{{message.photo}}" class="profile-img-small" alt=""></div>
-										<div class="time">{{message.created_at|since}}</div>
-									</div>
-									<div class="chat-message-body on-left">
-										<span class="arrow"></span>
-										<div class="sender"><a href="#">{{message.username}}</a></div>
-										<div class="text">{{message.message}}</div>
-									</div>
+					<table class="table table-striped no-margin sources-table">
+						<thead>
+							<tr>
+								<th class="source-col-header">Source</th>
+								<th>Amount</th>
+								<th>Weekly Change</th>
+								<th class="hidden-xs">Percent%</th>
+								<th>Target</th>
+								<th class="chart-col-header hidden-xs">Trend</th>
+							</tr>
+						</thead>
+						<tbody>
+						 <tr ng-repeat="user in leaderdata | orderBy:order:reverse">
+								<td><div class="icon">
+									<img ng-src="{{user.SmallPhotoUrl}}" class="profile-img-small" alt="">
 								</div>
-							</div>
-							<div class="slimScrollBar ui-draggable"></div>
-							<div class="slimScrollRail"></div>
-						</div>
-						
-
-						<form ng-submit="sendMessage()" class="chat-footer row">
-							<div class="span5">
-								<input id="new-message" type="text" ng-model="message.message" class="form-control input-transparent" placeholder="Enter your message.."></input>
-							</div>
-							<div class="span3">
-								<button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
-							</div>
-						</form>
-
-					</div>
+							</td>
+							<td>{{user.oppcount}}</td>
+							<td><strong class="color-green">+53</strong></td>
+							<td class="hidden-xs">+12</td>
+							<td>50</td>
+							<td class="chart-cell hidden-xs">
+								<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
 				</div>
-			</section>
+		</section>
 		</div>
+		
 
 		<div class="span4">
 			<section class="widget large">
@@ -218,48 +213,75 @@
 		
 		
 		
-		<div class="span8" ng-controller="LeaderboardCtrl" ng-init="init()">
+		<div class="span8" ng-controller="LeaderboardCtrl">
 			<section class="widget">
 				<header>
 					<h4>
-						<i class="icon-shopping-cart"></i>
 						Leaderboard
-						<small>
-							One month tracking
-						</small>
 					</h4>
 				</header>
 				<div class="body">
-					<table class="table table-striped no-margin sources-table">
-						<thead>
-							<tr>
-								<th class="source-col-header">Source</th>
-								<th>Amount</th>
-								<th>Change</th>
-								<th class="hidden-xs">Percent.,%</th>
-								<th>Target</th>
-								<th class="chart-col-header hidden-xs">Trend</th>
-							</tr>
-						</thead>
-						<tbody>
-						 <tr ng-repeat="user in leaderdata | orderBy:order">
-								<td><div class="icon">
-									<img ng-src="{{user.SmallPhotoUrl}}" class="profile-img-small" alt="">
-								</div>
-							</td>
-							<td>{{user.oppcount}}</td>
-							<td><strong class="color-green">+53</strong></td>
-							<td class="hidden-xs">+12</td>
-							<td>50</td>
-							<td class="chart-cell hidden-xs">
-								<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
-							</td>
-						</tr>
-						</tbody>
-					</table>
+					<div>
+					    <span>{{title}}</span>
+						<svg id="d3BarParent">
+						</svg>
+					    <d3-bars data="d3Data" label="name" on-click="d3OnClick(item)"></d3-bars>
+					</div>
+					<div>
+					    <span>{{title}}</span>
+						<svg id="d3TrendParent">
+						</svg>
+					    <gh-trend data="d3TrendData" label="name" on-click="d3OnClick(item)"></gh-trend>
+					</div>
 				</div>
-		</section>
+			</section>
 		</div>
+		
+		
+		<div class="span4">
+		<section class="widget large">
+
+			<header>
+				<h4>
+					<i class="eicon-chat"></i>
+					Chat
+				</h4>
+			</header>
+			<div class="body">
+				<div id="chat" class="chat" ng-controller="Chat">
+					<div class="slimScrollDiv">
+						<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
+
+							<div ng-cloak ng-repeat="message in messages" class="chat-message">
+								<div class="sender pull-right">
+									<div class="icon"><img ng-src="{{message.photo}}" class="profile-img-small" alt=""></div>
+									<div class="time">{{message.created_at|since}}</div>
+								</div>
+								<div class="chat-message-body on-left">
+									<span class="arrow"></span>
+									<div class="sender"><a href="#">{{message.username}}</a></div>
+									<div class="text">{{message.message}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="slimScrollBar ui-draggable"></div>
+						<div class="slimScrollRail"></div>
+					</div>
+					
+
+					<form ng-submit="sendMessage()" class="chat-footer row">
+						<div class="span5">
+							<input id="new-message" type="text" ng-model="message.message" class="form-control input-transparent" placeholder="Enter your message.."></input>
+						</div>
+						<div class="span3">
+							<button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</section>
+	</div>
 
 
 <!--end container-->

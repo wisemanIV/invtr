@@ -89,21 +89,27 @@ require "omniauth-salesforce"
 
   end
 
-  get '/sitebuilder' do
-  params = request.env['rack.request.query_hash']
+  post '/sitebuilder' do
+  #params = request.env['rack.request.query_hash']
 
   subdomain = params['subdomain']
-  auth = params['auth']
-  token = params['token']
+  #auth = params['auth']
+  #token = params['token']
   puts "BUILDING SITE AT SUBDOMAIN: #{subdomain}"
-  response['Access-Control-Allow-Origin'] = 'https://www.invtr.co'
-
+  response['Access-Control-Allow-Origin'] = '*'
+  
   command = "/var/bin/sitegen.sh "+subdomain
   puts "EXECUTING #{command}"
 
   pid = spawn(command)
-  puts "COMPLETED #{$?.exitstatus}"
-  $?.exitstatus
+  Process.wait pid
+  
+  if (!$?.exited?) then
+    puts "COMPLETED #{$?.exitstatus}"
+    halt 500 
+  end
+  
+  halt 200 
   end
   
   #end

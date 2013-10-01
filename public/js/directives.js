@@ -121,9 +121,212 @@ directives.directive('ghDial', function () {
 }
 });
 
+directives.directive('d3Bars', function() {
+	console.debug("LEADER DIRECTIVE1");
+	
+    // setup variables
+    var width, height, max;
+	var color = d3.scale.category20();
+    width = 700;
+      // 20 is for margins and can be changed
+    height = 400;
+      // 35 = 30(bar height) + 5(margin between bars)
+    max = 98;
+	
+	      return {
+	        restrict: 'E',
+	        scope: {
+	          data: "=",
+	          label: "@",
+	          onClick: "&"
+	        },
+	        link: function(scope, iElement, iAttrs) {
+				
+	          var svg = d3.select("#d3BarParent")
+	              .append("svg")
+	              .attr("width", "100%");
+
+	          // on window resize, re-render d3 canvas
+	          window.onresize = function() {
+	            return scope.$apply();
+	          };
+	          scope.$watch(function(){
+	              return angular.element(window)[0].innerWidth;
+	            }, function(){
+	              return scope.render(scope.data);
+	            }
+	          );
+
+	          // watch for data changes and re-render
+	          scope.$watch('data', function(newVals, oldVals) {
+	            return scope.render(newVals);
+	          }, true);
+
+	          // define render function
+	          scope.render = function(data){
+	            // remove all previous items before render
+	            svg.selectAll("*").remove();
+	         
+	              // this can also be found dynamically when the data is not static
+	              // max = Math.max.apply(Math, _.map(data, ((val)-> val.count)))
+
+	            // set the height based on the calculations above
+	            svg.attr('height', height);
+
+	            //create the rectangles for the bar chart
+	            svg.selectAll("rect")
+	              .data(data)
+	              .enter()
+	                .append("rect")
+	                .on("click", function(d, i){return scope.onClick({item: d});})
+	                .attr("height", 30) // height of each bar
+	                .attr("width", 0) // initial width of 0 for transition
+	                .attr("x", 10) // half of the 20 side margin specified above
+					.attr('fill', function(d) {
+					    return color(d.score);
+					  })
+	                .attr("y", function(d, i){
+	                  return i * 35;
+	                }) // height + margin between bars
+	                .transition()
+	                  .duration(1000) // time of duration
+	                  .attr("width", function(d){
+	                    return d.score/(max/width);
+	                  }); // width based on scale
+
+	            svg.selectAll("text")
+	              .data(data)
+	              .enter()
+	                .append("text")
+	                .attr("fill", "#fff")
+	                .attr("y", function(d, i){return i * 35 + 22;})
+	                .attr("x", 15)
+	                .text(function(d){return d[scope.label];});
+
+	          };
+	        }
+	      };
+
+});
+
 directives.directive('ghMeter', function () {
  return {
  };
+});
+
+directives.directive('ghTrend', function () {
+	
+	var margin = {top: 20, right: 80, bottom: 30, left: 50},
+	    width = 760 - margin.left - margin.right,
+	    height = 400 - margin.top - margin.bottom;
+		
+  return {
+    restrict: 'E',
+    scope: {
+      data: "=",
+      label: "@",
+      onClick: "&"
+    },
+    link: function (scope, element, attrs) {
+   	
+			
+			var svg = d3.select("#d3TrendParent").append("svg")
+			    .attr("width", width + margin.left + margin.right)
+			    .attr("height", height + margin.top + margin.bottom)
+			  .append("g")
+			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+			
+  	          // watch for data changes and re-render
+  	          scope.$watch('data', function(newVals, oldVals) {
+  	            return scope.render(newVals);
+  	          }, true);
+	        
+
+	          // define render function
+	          scope.render = function(data){
+				  
+				var parseDate = d3.time.format("%Y%m%d").parse;
+
+				var x = d3.time.scale()
+				    .range([0, width]);
+
+				var y = d3.scale.linear()
+				    .range([height, 0]);
+
+				var color = d3.scale.category10();
+
+				var xAxis = d3.svg.axis()
+				    .scale(x)
+				    .orient("bottom");
+
+				var yAxis = d3.svg.axis()
+				    .scale(y)
+				    .orient("left");
+
+				var line = d3.svg.line()
+				    .interpolate("basis")
+				    .x(function(d) { return x(d.date); })
+				    .y(function(d) { return y(d.temperature); });
+
+				  data.forEach(function(d) {
+				    d.date = parseDate(d.date);
+				  });
+				  
+				 
+				    color.domain(["a","b","c"]);
+				  
+
+				  var cities = color.domain().map(function(name) {
+				    return {
+				      name: name,
+				      values: data.map(function(d) {
+				        return {date: d.date, temperature: +d[name]};
+				      })
+				    };
+				  });
+
+				  x.domain(d3.extent(data, function(d) { return d.date; }));
+
+				  y.domain([
+				    d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+				    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+				  ]);
+
+				  svg.append("g")
+				      .attr("class", "x axis")
+				      .attr("transform", "translate(0," + height + ")")
+				      .call(xAxis);
+
+				  svg.append("g")
+				      .attr("class", "y axis")
+				      .call(yAxis)
+				    .append("text")
+				      .attr("transform", "rotate(-90)")
+				      .attr("y", 6)
+				      .attr("dy", ".71em")
+				      .style("text-anchor", "end")
+				      .text("Temperature (ºF)");
+
+				  var city = svg.selectAll(".city")
+				      .data(cities)
+				    .enter().append("g")
+				      .attr("class", "city");
+
+				  city.append("path")
+				      .attr("class", "line")
+				      .attr("d", function(d) { return line(d.values); })
+				      .style("stroke", function(d) { return color(d.name); });
+
+				  city.append("text")
+				      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+				      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
+				      .attr("x", 3)
+				      .attr("dy", ".35em")
+				      .text(function(d) { return d.name; });
+		
+				  };
+		}
+	};
 });
  
 directives.directive('autoScroll', function($timeout) {

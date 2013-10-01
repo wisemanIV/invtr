@@ -1,10 +1,17 @@
 'use strict'
 
-myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
-  function MyCtrl($scope, angularFire, angularFireAuth) {
-  //  var ref = new Firebase('https://inviter-dev.firebaseio.com/accounts');
-  //  $scope.items = angularFire(ref, $scope, 'msgaccounts',  []);
-	
+myApp.controller('InboxCtrl', ['$scope', 'socket',
+  function MyCtrl($scope, socket) {
+	  
+	$scope.inbox = {} ;
+	  
+    socket.on('inbox', function (data) {
+  		console.debug("inbox data received");
+  		console.debug(data);
+        
+		$scope.inbox = data ;
+	});	
+ 	
     // modal
     $scope.open = function () {
         $scope.shouldBeOpen = true;
@@ -17,24 +24,9 @@ myApp.controller('InboxCtrl', ['$scope', 'angularFire','angularFireAuth',
     // end modal
 	$scope.getMail = function() {
 		console.debug("getmail");
-	//	if (!(typeof $scope.$parent.currentUser == "undefined")) {
-	//		console.debug($scope.$parent.currentUser.id);
-	//		console.debug($scope.msgaccounts);
-			
-		//	for (var j = 0 ; j < $scope.msgaccounts.length ; j++) {
-			
-		//		if ($scope.$parent.currentUser.id == $scope.msgaccounts[j].id) return  $scope.msgaccounts[j].messages ;
-		//	}
-	//	}
+	
 		return [{}];	
 	};
-	
-	//$scope.items.then(function() {
-//		console.debug("jit");
-//		$scope.recentMail = $scope.getMail();
-//	});
-	
-    
 
     $scope.closeMail = function (index) {
         //console.log("closing mail " + index);
@@ -200,7 +192,23 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 	function ($scope, $location, SiteConfigService, UserService, localStorageService, RESTService, socket) {
   		
 		$scope.leaderdata = [];
-		$scope.order = 'oppcount';
+		$scope.order = '-oppcount';
+		  
+		  $scope.title = "LeaderboardCtrl";
+		        $scope.d3Data = [
+		          {name: "Greg", score:98},
+		          {name: "Ari", score:96},
+		          {name: "Loser", score: 48}
+		        ];
+		        $scope.d3OnClick = function(item){
+		          alert(item.name);
+		        };
+				
+		$scope.d3TrendData = 
+[{"date":"20111001","a":63.4, "b":62.7, "c":72.2},
+{"date":"20111002","a":58.0,	"b":59.9, "c":67.7},
+{"date":"20111003","a":53.3,	"b":59.1, "c":69.4},
+{"date":"20111004","a":55.7,	"b":58.8, "c":68.0}];
 		
 		$scope.init = function() {
 			//	RESTService.get("https://data.invtr.co/leaderboard", $scope.callback);

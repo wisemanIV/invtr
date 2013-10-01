@@ -31,22 +31,6 @@ myApp.factory('DataService', ['$http','$rootScope','localStorageService',
 
 ]);
 
-myApp.factory('SiteBuilderService',
-    function ($http) {
-		var UrlBase = 'http://api.invtr.co/sitebuilder' ;
-        return {
-            buildSite:function (callback, subdomain, auth) {
-				console.debug("Site builder for subdomain: "+subdomain);
-				
-		   	    $http.get(UrlBase+'?subdomain='+subdomain+"&auth="+auth, {withCredentials:false}).success(function (data) {
-		   		   console.debug(data);
-				   callback(data);
-		   	   });
-		     }
-		 };
-	 }
-);
-
 myApp.factory('SiteConfigService', ['$http','angularFire', '$rootScope', '$location',
     function ($http, angularFire, $rootScope, $location) {
   		
