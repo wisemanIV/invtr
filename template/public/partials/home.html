@@ -1,22 +1,18 @@
 <div class="container" fade-in>
     <div id="hero-container" class="container">
 
-        <div class="hero-unit" ng-controller="SiteConfigCtrl" ng-init="init()">
+        <div class="hero-unit" ng-controller="SiteConfigCtrl">
 
-            <h1>{{site.incentivename}}</h1>
-            <p>Join our 6 week Rock the Summer Challenge and earn Hostess exclusives for the upcoming Holiday Season!</p>
+            <h1>{{site.title}}</h1>
+            <p class="tagline">{{site.tagline}}</p>
+			<div ng-hide="site.active" ng-controller="CountdownCtrl">
+				<timer interval="1000" countdown="countdownVal">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
+			</div>
 
             <br>
             <p>
-                <small>Want to be the first to carry upcoming Holiday Hostess exclusives (...and use them to book your Holiday Trunk Shows!)? Well, get ready - we're about to rock the summer! Make your 6 week plan, book & sell - and up to 4 exclusive items (over $400 retail) could be yours this September!</small>
+               {{site.description}}
             </p>
-            <div class="pull-left">
-				<span ng-hide="true"> 
-                	<button class="btn btn-large btn-primary" ng-click="clickLogin()">Facebook Login</button>
-                	<br>
-				</span>
-               
-            </div>
         </div>
     </div>
 </div>

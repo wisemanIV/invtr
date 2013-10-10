@@ -31,18 +31,30 @@ myApp.factory('DataService', ['$http','$rootScope','localStorageService',
 
 ]);
 
-myApp.factory('SiteConfigService', ['$http','angularFire', '$rootScope', '$location',
-    function ($http, angularFire, $rootScope, $location) {
+myApp.factory('SiteConfigService', ['$http', '$rootScope', '$timeout', 'RESTService',
+    function ($http, $rootScope, $timeout, RESTService) {
+		
+		var countStart = {} ;
+		
+		RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
+			console.debug("Config service:"+data.StartDate);
+			console.debug(data);
+			
+			var now = new Date().getTime();
+			countStart = data.StartDate - now;
+			console.debug(countStart);
+			data['countStart'] = countStart ;
+			$rootScope.config = data;
+		});
+		
   		
         return {
-             saveConfig:function (site) {
-				
- 				console.debug("Save site configuration: "+site);
 			
-				var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+site.subdomain);
-			  	
-				siteRef.set(ref);
- 		     }
+			getCounter : function () {
+
+			    return countStart; //we need some way to access actual variable value
+			}
+            
 			 
 		 };
 	 }

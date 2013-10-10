@@ -91,6 +91,7 @@ myApp.run(function ($rootScope, $location, $http, $timeout, RESTService, SiteCon
 	
 	$rootScope.acct_items = {}
 	
+	$rootScope.config = {};
 	$rootScope.currentUser = {} ;
 
     $rootScope.restService = RESTService;

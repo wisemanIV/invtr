@@ -1,0 +1,25 @@
+<apex:page controller="IncentiveController">
+    <apex:outputLink value="{!URLFOR($Page.InvNew)}">Create New Incentive</apex:outputLink> 
+     <table>
+      <tr>
+              <td>Name</td>
+              <td>Title</td>
+              <td>Start Date</td>
+              <td>End Date</td>
+              <td>Snapshot Taken</td>
+              <td>Url</td>
+          </tr> 
+    <apex:repeat value="{!lstIncentives}" var="inc">
+     
+          <tr>
+              <td>{!inc.name}</td>
+              <td>{!inc.Title__c}</td>
+              <td>{!inc.StartDate__c}</td>
+              <td>{!inc.EndDate__c}</td>
+              <td>{!inc.SnapshotTaken__c}</td>
+              <td><a href='{!inc.Url__c}'>{!inc.Url__c}</a></td>
+          </tr>
+ 
+    </apex:repeat>
+      </table>
+</apex:page>

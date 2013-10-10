@@ -94,23 +94,23 @@
 						<thead>
 							<tr>
 								<th class="source-col-header">Source</th>
-								<th>Amount</th>
-								<th>Weekly Change</th>
-								<th class="hidden-xs">Percent%</th>
-								<th>Target</th>
+								<th>Name</th>
+								<th>Points Total</th>
+								<th></th>
+								<th></th>
 								<th class="chart-col-header hidden-xs">Trend</th>
 							</tr>
 						</thead>
 						<tbody>
-						 <tr ng-repeat="user in leaderdata | orderBy:order:reverse">
+						 <tr ng-repeat="record in leaderdata | orderBy:Inviter__Points__c">
 								<td><div class="icon">
-									<img ng-src="{{user.SmallPhotoUrl}}" class="profile-img-small" alt="">
+									<img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
 								</div>
 							</td>
-							<td>{{user.oppcount}}</td>
-							<td><strong class="color-green">+53</strong></td>
-							<td class="hidden-xs">+12</td>
-							<td>50</td>
+							<td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
+							<td>{{record.Inviter__Points__c}}</td>
+							<td class="hidden-xs"></td>
+							<td></td>
 							<td class="chart-cell hidden-xs">
 								<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
 							</td>
@@ -225,7 +225,7 @@
 					    <span>{{title}}</span>
 						<svg id="d3BarParent">
 						</svg>
-					    <d3-bars data="d3Data" label="name" on-click="d3OnClick(item)"></d3-bars>
+					    <d3-bars data="d3Data" label="Inviter__FirstName__c" on-click="d3OnClick(item)"></d3-bars>
 					</div>
 					<div>
 					    <span>{{title}}</span>

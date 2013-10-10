@@ -36,30 +36,11 @@ myApp.controller('InboxCtrl', ['$scope', 'socket',
   }
 ]);
 
-myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$cookieStore', '$http', 'UserService', 'localStorageService', 'socket',
-  function ($scope, $location, $rootScope, $cookieStore, $http, UserService, localStorageService, socket) {
+myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'UserService', 'localStorageService', 'socket',
+  function ($scope, $location, $rootScope, $http, UserService, localStorageService, socket) {
    				
-	  $scope.user = {};
-	 $scope.authenticated = $rootScope.authenticated;
- 
-	 /*$http({
-	       method: 'GET',
-	       url: 'https://data.invtr.co/account',
-	       withCredentials: true
-	     }).
-	       success(function(data, status, headers, config) {
-			   console.debug("setting user");
-			   console.debug(data);
-	           $scope.user = data;
-			   $rootScope.currentUser = $scope.user ;
-			   $rootScope.authenticated = true ;
-			   $scope.authenticated = true;
-	       }).
-	       error(function(data, status, headers, config) {
-	           console.log(status);
-			   $rootScope.authenticated = false ;
-	       });*/
-		   
+	$scope.user = {};
+	$scope.authenticated = $rootScope.authenticated;
 		   
    	socket.on('accountdata', function (data) {
 		console.debug("account data received");
@@ -83,9 +64,6 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$cookieStore
 	
 	$scope.$on("UserService:error", function(evt, err) {
 		console.debug("auth error", err)
-		
-		
-	  // There was an error during authentication.
 	});
 	
 	
@@ -155,25 +133,26 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'UserService', 'localS
 		}
 		
 		$scope.callback = function(data) {
-			console.debug("dashboard callback");
+			console.debug("metrics callback");
 			console.debug(data);
 			
 			$scope.metrics = data ;
 			
 		}
 		
-		socket.on('sfdata', function (data) {
-		
-			var data = JSON.parse(data);
+		socket.on('invtr:data', function (input) {
 			
-			if (typeof data !== "undefined" && data !== null && Object.keys(data).length > 0) { 
+			console.log("data event received");
+			
+			var data = JSON.parse(input);
+			
+			if (typeof data !== "undefined" && data !== null) { 
 		
-				console.debug("new data:"+data[0].data);
-				console.debug(data[0].id);
-				console.debug(data);
+				console.debug("new data:"+data[0]);
 				console.debug(data.length);
 			
 				for (var i = 0 ; i < data.length ; i++) {
+					console.debug("metrics length="+$scope.metrics.length);
 					for (var j = 0 ; j < $scope.metrics.length ; j++) {
 						if (data[i].id === $scope.metrics[j].id)	{
 							$scope.metrics[j].data = data[i].data;
@@ -195,11 +174,7 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 		$scope.order = '-oppcount';
 		  
 		  $scope.title = "LeaderboardCtrl";
-		        $scope.d3Data = [
-		          {name: "Greg", score:98},
-		          {name: "Ari", score:96},
-		          {name: "Loser", score: 48}
-		        ];
+		       
 		        $scope.d3OnClick = function(item){
 		          alert(item.name);
 		        };
@@ -220,15 +195,23 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 			
 		}
 		
-		socket.on('leaderdata', function (data) {
+		socket.on('invtr:data', function (data) {
 			
 			console.debug(data);
 			
-			if (typeof data !== "undefined" && data !== null && Object.keys(data).length > 0) { 
+			if (typeof data !== "undefined" && data !== null) { 
 		
 				console.debug("leader data:");
 			
-				$scope.leaderdata = data ;
+				$scope.leaderdata = JSON.parse(data) ;
+				
+		        $scope.d3Data = $scope.leaderdata;
+				
+				//[
+		        //  {name: "Greg", score:98},
+		        //  {name: "Ari", score:96},
+		       //   {name: "Loser", score: 48}
+		       // ];
 			}
 		    
 		});
@@ -237,82 +220,43 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
   
 ]);
 
-
-myApp.controller('SiteBuilderCtrl', ['$scope', 'angularFire', 'SiteBuilderService', 'SiteConfigService','localStorageService',
-	function ($scope, angularFire, SiteBuilderService, SiteConfigService, localStorageService) {
-
-	  	$scope.createSite = function () {
-			console.debug("creating new subdomain: "+ $scope.site.subdomain);
-			console.debug($scope.site.startdate);
-			console.debug($scope.site.enddate);
-			
-			SiteConfigService.saveConfig($scope.site);
-			SiteBuilderService.buildSite($scope.build_callback, $scope.site.subdomain, $scope.site.auth);
-			
-			localStorageService.add('invtr.subdomain',$scope.site.subdomain) ;
-			
-		    $scope.site = {};
-			$scope.$parent.go('/metrics');
-			
-	  	};
+myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$rootScope','RESTService',
+	function ($scope,$timeout, SiteConfigService, $rootScope, RESTService) {
 		
-		$scope.build_callback = function (data) {
-			console.debug("new subdomain successfully created");
-	  	};
-
-	}
-  
-]);
-
-myApp.controller('MetricsCtrl', ['$scope', '$location', 'angularFire', 'SiteConfigService','localStorageService',
-	function ($scope, $location, angularFire, SiteConfigService, localStorageService) {
-  		var ref = new Firebase('https://inviter-dev.firebaseio.com/sites/'+localStorageService.get('invtr.subdomain')+'/metrics/config');
-    	$scope.item = angularFire(ref, $scope, 'metrics',  [] );	
 		
 		$scope.init = function() {
-			console.debug("init metrics");
-			
-			console.debug($scope.metrics);
-			console.debug($scope.item);
-			
-		};
-		 
-  		$scope.list5 = [
-  		     {'id':'oppcount','title': 'Opportunity count', 'type':'dial', 'format':'', 'target':'85', 'drag': true, 'query':"SELECT count(Id) FROM Opportunity where Owner.Id='%SF_USER_ID%'", 'leaderboard':"SELECT count(Id) FROM Opportunity group by Owner.Id" },
-  		     {'id':'opprev','title': 'Opportunity expected revenue', 'type':'dial', 'format':'$', 'target':'6000000', 'drag': true, 'query':"SELECT sum(ExpectedRevenue) FROM Opportunity where Owner.Id='%SF_USER_ID%'",'leaderboard':"SELECT sum(ExpectedRevenue) FROM Opportunity group by Owner.Id" }
-  		  ];
+			RESTService.get("https://data.invtr.co/incentiveconfig", $scope.callback);
+		}
 		
-	    // Limit items to be dropped in list1
-	     $scope.optionsList1 = {
-	       accept: function(dragEl) {
-	           return true;
-	       }
-	     };
+		$scope.callback = function(data) {
+			console.debug("config callback");
+			console.debug(data);
+			
+			var now = new Date().getTime();
+			
+		    $scope.$apply(function() {
+		              
+		          
+			$scope.countdownVal = (data.StartDate - now)/1000 ;
+			 });
+			$rootScope.$broadcast('timer-start');
+			
+		}
 		
-		$scope.continue = function() {
-			console.debug("continuing..."+$scope.site);
-			window.location = "https://"+localStorageService.get('invtr.subdomain')+".invtr.co";
-		};
-
+			
+		
+	   
+            
 	}
-  
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$location', '$route', 'UserService', 'socket',
-	function ($scope, $location, $route, UserService, socket) {
-  		$scope.site = {};
-		
-		socket.on('sitedata', function (data) {
+myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'RESTService', 'socket',
+	function ($scope, $rootScope, $route, RESTService, socket) {
+  	
+		RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
 			
-			if (typeof data !== "undefined" && data !== null && Object.keys(data).length > 0) { 
-		
-				console.debug("site data:"+data);
-			
-				$scope.site = data ;
-			}
-		    
-		});	
-		
+			$scope.site = data;
+		});
 	}
   
 ]);

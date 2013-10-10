@@ -28,15 +28,15 @@
 
                         </a>
 
-                        <ul class="dropdown-menu">
+                       <!-- <ul class="dropdown-menu">
                         	<div ng-include="'partials/mail-subsections.html'"></div>
-                        </ul>
+                        </ul>-->
                     </li>
                
 
                 </ul>
 
-                <div class="nav navbar-form pull-right">
+                <div ng-controller="SiteConfigCtrl" ng-show="site.active" class="nav navbar-form pull-right">
  			 	   <div ng-controller="UserCtrl" ng-init="init()">
  			 		  	   
  			 		     <span ng-show="authenticated">

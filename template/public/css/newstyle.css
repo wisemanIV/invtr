@@ -471,3 +471,20 @@ footer {
   bottom: 0px;
   z-index: 100;
 }
+timer {
+	font-size:210%;
+}
+.tagline {
+font-size: 26px;
+}
+.hero-unit {
+color: white;
+width:640px;
+}
+.background {
+  background: url('https://www.invtr.co/img/splash1.jpeg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
