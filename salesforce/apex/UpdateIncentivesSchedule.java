@@ -18,8 +18,10 @@ global class UpdateIncentivesSchedule implements Schedulable {
             } else {
                 // recalc metrics
                 if (a.StartDate__c.getTime() < d.getTime() && a.EndDate__c.getTime() > d.getTime() && a.SnapshotTaken__c==true) {
-                    recalc(a, getCurrOpportunities(), getSnapshotOpportunities(a.Id)) ;
+                    //TODO refresh user list and add missing base records
+					recalc(a, getCurrOpportunities(), getSnapshotOpportunities(a.Id)) ;
                 }
+				// TODO close out old incentives and cleanup
             }
         }
         
@@ -77,8 +79,8 @@ global class UpdateIncentivesSchedule implements Schedulable {
    public void recalc(Incentive__c incentive, List<Opportunity> currOpportunities, Map<Id, OpportunitySnapshot__c> snapshotOpportunities ) {
           
 		 
-       Map<ID, IncentiveRecord__c> metrics = getIncentiveRecords(incentive.Name);
-	   
+       Map<Id, IncentiveRecord__c> metrics = getIncentiveRecords(incentive.Name);
+	   System.debug('METRICS:'+metrics.size());
        //Loop through all records in the Trigger.new collection
         for(Opportunity a: currOpportunities){
             
@@ -94,16 +96,20 @@ global class UpdateIncentivesSchedule implements Schedulable {
 				if (a.ExpectedRevenue!=null) {
 					expectedRev = a.ExpectedRevenue;
 				}
-				
-                if (!metrics.containsKey(a.OwnerId)) {
-                    metrics.put(a.OwnerId, newMetric(incentive.Name, a.OwnerId, 1, expectedRev, 0, 0.0, 100)) ;
-                } else {
-                    IncentiveRecord__c metric = metrics.get(a.OwnerId);
-                    metric.NewOppCount__c += 1 ;
-                    metric.NewOppRev__c += expectedRev ;
-                    metric.Points__c += 100 ;
-                    metrics.put(a.OwnerId, metric);
-                }
+				System.debug('HERE WE ARE');
+               System.debug(a.OwnerId);
+			   System.debug(a.Id);
+			   
+			   Set<Id> s = metrics.keySet();
+			   for (Id key: s) {
+			       System.debug('Key = ' +key);
+			   }
+			   
+                IncentiveRecord__c metric = metrics.get(a.OwnerId);
+                metric.NewOppCount__c += 1 ;
+                metric.NewOppRev__c += expectedRev ;
+                metric.Points__c += 100 ;
+                metrics.put(a.OwnerId, metric);
             } 
             // if new and won since start or existed and won during incentive
             if ((snapshotOpp==null && a.StageName=='Closed Won') || (snapshotOpp != null && snapshotOpp.StageName__c!='Closed Won' && a.StageName=='Closed Won')) {
@@ -112,14 +118,11 @@ global class UpdateIncentivesSchedule implements Schedulable {
 					amount = a.Amount;
 				}
 				
-				if (!metrics.containsKey(a.OwnerId)) {
-                    metrics.put(a.OwnerId, newMetric(incentive.Name, a.OwnerId, 0, 0.0, 1, amount, 100)) ;
-                } else {
-                    IncentiveRecord__c metric = metrics.get(a.OwnerId);
-                    metric.WonCount__c += 1 ;
-                    metric.WonAmount__c += amount ;
-                    metrics.put(a.OwnerId, metric);
-                }
+                IncentiveRecord__c metric = metrics.get(a.OwnerId);
+                metric.WonCount__c += 1 ;
+                metric.WonAmount__c += amount ;
+				metric.Points__c += 200 ;
+                metrics.put(a.OwnerId, metric);
             }
         }
         
@@ -150,13 +153,18 @@ global class UpdateIncentivesSchedule implements Schedulable {
 	 insert irecs;
    }
    
-   public Map<Id, IncentiveRecord__c> getIncentiveRecords(String incentiveIdentifier) {
+   public Map<Id, IncentiveRecord__c> getIncentiveRecords(String incentiveIdentifier)
+    {
 	   
-       List<IncentiveRecord__c> irecs = [SELECT Id, OwnerId, NewOppCount__c, NewOppRev__c, WonCount__c, WonAmount__c, Points__c FROM IncentiveRecord__c where IncentiveIdentifier__c = :incentiveIdentifier];
+	   System.debug('getIncentiveRecords:'+incentiveIdentifier);
+	   
+       List<IncentiveRecord__c> irecs = [SELECT Id, OwnerId__c, NewOppCount__c, NewOppRev__c, WonCount__c, WonAmount__c, Points__c FROM IncentiveRecord__c where IncentiveIdentifier__c = :incentiveIdentifier];
        Map<ID, IncentiveRecord__c> metrics = new Map<ID, IncentiveRecord__c>();
 	   
 	   for(IncentiveRecord__c rec: irecs) {
-		   metrics.put(rec.OwnerId, rec);
+		   System.debug('BUILD MAP');
+		   System.debug(rec.OwnerId__c);
+		   metrics.put(rec.OwnerId__c, rec);
 	   }
       
        return metrics ;
@@ -169,7 +177,7 @@ global class UpdateIncentivesSchedule implements Schedulable {
 		          
       IncentiveRecord__c metric = new IncentiveRecord__c() ;
 	  metric.IncentiveIdentifier__c = incentiveIdentifier;
-	  metric.OwnerId = userId ;
+	  metric.OwnerId__c = userId ;
 	  metric.FirstName__c = user.FirstName ;
       metric.LastName__c = user.LastName ;
 	  metric.SmallPhotoUrl__c = user.SmallPhotoUrl;

@@ -72,8 +72,8 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
 
 myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', 'angularFire', '$routeParams', 'localStorageService',
   function ($scope, $filter, $location, angularFire, $routeParams, localStorageService) {
-    var ref = new Firebase('https://inviter-dev.firebaseio.com/'+localStorageService.get("invtr.subdomain")+'/posts');
-    $scope.boo = angularFire(ref, $scope, 'posts',  [] );
+    //var ref = new Firebase('https://inviter-dev.firebaseio.com/'+localStorageService.get("invtr.subdomain")+'/posts');
+   // $scope.boo = angularFire(ref, $scope, 'posts',  [] );
 	
 	$scope.selectedItem = $routeParams.postid ;
 	
@@ -125,8 +125,8 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', 'angularFire'
 }
 ]);
 
-myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $rootScope, UserService, localStorageService, RESTService, socket) {
+myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserService', 'localStorageService', 'RESTService', 'socket',
+	function ($scope, $rootScope, $location, UserService, localStorageService, RESTService, socket) {
   		
 		$scope.init = function() {
 			RESTService.get("https://data.invtr.co/metrics", $scope.callback);
@@ -136,15 +136,20 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'UserService', 'localS
 			console.debug("metrics callback");
 			console.debug(data);
 			
+			for (var j = 0 ; j < data.length ; j++) {
+				data[j].data = "0" ;
+			} 
 			$scope.metrics = data ;
 			
 		}
 		
-		socket.on('invtr:data', function (input) {
+		socket.on('invtr:data:'+$location.host().split(".")[0], function (input) {
 			
 			console.log("data event received");
 			
 			var data = JSON.parse(input);
+			
+			console.log(data);
 			
 			if (typeof data !== "undefined" && data !== null) { 
 		
@@ -152,10 +157,22 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'UserService', 'localS
 				console.debug(data.length);
 			
 				for (var i = 0 ; i < data.length ; i++) {
+					console.log(data[0]);
 					console.debug("metrics length="+$scope.metrics.length);
-					for (var j = 0 ; j < $scope.metrics.length ; j++) {
-						if (data[i].id === $scope.metrics[j].id)	{
-							$scope.metrics[j].data = data[i].data;
+					console.debug($rootScope.currentUser);
+					
+					var currId = RegExp('[^/]*$').exec($rootScope.currentUser.UserId)||[,null][1];
+					
+					if (currId == data[i].Inviter__OwnerId__c) {
+						console.log("found matching user");
+					
+						for (var j = 0 ; j < $scope.metrics.length ; j++) {
+							
+							console.log(data[i][$scope.metrics[j].id]);
+							
+							$scope.metrics[j].data = data[i][$scope.metrics[j].id] ;
+							
+							console.log($scope.metrics[j].data);
 						}
 					}
 				}
@@ -195,7 +212,7 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 			
 		}
 		
-		socket.on('invtr:data', function (data) {
+		socket.on('invtr:data:'+$location.host().split(".")[0], function (data) {
 			
 			console.debug(data);
 			
@@ -207,11 +224,6 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 				
 		        $scope.d3Data = $scope.leaderdata;
 				
-				//[
-		        //  {name: "Greg", score:98},
-		        //  {name: "Ari", score:96},
-		       //   {name: "Loser", score: 48}
-		       // ];
 			}
 		    
 		});

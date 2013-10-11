@@ -7,7 +7,6 @@ var myApp = angular.module('myApp',
         'ngGrid', // angular grid
         'ui', // angular ui
         'ngSanitize', // for html-bind in ckeditor
-		'firebase',
         'ui.bootstrap', // jquery ui bootstrap
         '$strap.directives', // angular strap
 		'angularjs.media.directives',

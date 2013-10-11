@@ -50,20 +50,22 @@ directives.directive('ghDial', function () {
 	
 	   //var formatPercent = d3.format(scope.dataFormat);
 	   var total = scope.ghTarget.valueOf() ;
+	  
 	   
 	   var index = document.querySelector("#d3Parent").childNodes.length-1 ;
-	   
+	   console.debug("INDEX:"+index);
 	   var column = [100, 280, 450, 630];
 	   var row = [140, 200, 300]
 
       // set up initial svg object
-	var vis = d3.select("#d3Parent")
-		    .append("g")
-		    .attr("transform", "translate(" + column[index] + "," + row[0] + ")");  
+	  var vis = d3.select("#d3Parent")
+	                      .append("g")
+	                      .attr("transform", "translate(" + column[index] + "," + row[0] + ")"); 
 
       scope.$watch('val', function (newVal, oldVal) {
 		  
 		  console.debug("directive watch fired:"+scope.metricTitle);
+		  console.debug(newVal);
 		  
 		  vis.selectAll('*').remove();
 
