@@ -1,25 +1,34 @@
 <apex:page controller="IncentiveController">
-    <apex:outputLink value="{!URLFOR($Page.InvNew)}">Create New Incentive</apex:outputLink> 
-     <table>
-      <tr>
-              <td>Name</td>
-              <td>Title</td>
-              <td>Start Date</td>
-              <td>End Date</td>
-              <td>Snapshot Taken</td>
-              <td>Url</td>
-          </tr> 
-    <apex:repeat value="{!lstIncentives}" var="inc">
      
-          <tr>
-              <td>{!inc.name}</td>
-              <td>{!inc.Title__c}</td>
-              <td>{!inc.StartDate__c}</td>
-              <td>{!inc.EndDate__c}</td>
-              <td>{!inc.SnapshotTaken__c}</td>
-              <td><a href='{!inc.Url__c}'>{!inc.Url__c}</a></td>
-          </tr>
- 
-    </apex:repeat>
-      </table>
+    <apex:form >
+    
+	 <apex:pageBlock id="master"> 
+	    <apex:pageBlockButtons >
+	        <apex:commandButton action="{!URLFOR($Page.InvNewIncentive)}" value="Create New Incentive"/>
+	    </apex:pageBlockButtons>
+   
+    
+	    <apex:pageBlockTable value="{!lstIncentives}" var="inc">
+		<apex:column headerValue="Incentive Name" value="{!inc.Id}"/>
+	         <apex:column headerValue="Incentive Name" value="{!inc.name}"/>
+			 <apex:column headerValue="Is Active?" value="{!inc.Active__c}"/>
+	         <apex:column headerValue="Display Title" value="{!inc.Title__c}"/>
+	         <apex:column headerValue="Start Date" value="{!inc.StartDate__c}"/>
+	         <apex:column headerValue="End Date" value="{!inc.EndDate__c}"/>
+	         <apex:column headerValue="Snapshot Taken?" value="{!inc.SnapshotTaken__c}"/>
+	         <apex:column headerValue="Url">
+	            <a href='{!inc.Url__c}'>{!inc.Url__c}</a>
+	         </apex:column>
+             <apex:column headerValue="Actions">
+                 <apex:commandButton action="{!URLFOR($Page.InvEditIncentive)}" value="Edit"/>
+                  <apex:commandButton action="{!removeIncentive}" value="Delete" rerender="master, hiddenBlock">
+                      <apex:param name="incId" value="{!inc.Id}"/>
+                   </apex:commandButton>
+				   <apex:pageBlock id="hiddenBlock" rendered="false"></apex:pageBlock>
+             </apex:column>
+	    </apex:pageBlockTable>
+		
+      </apex:pageBlock> 
+    </apex:form>
+     
 </apex:page>

@@ -102,7 +102,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						 <tr ng-repeat="record in leaderdata | orderBy:Inviter__Points__c">
+						 <tr ng-repeat="record in leaderdata | orderBy:'Inviter__Points__c':true">
 								<td><div class="icon">
 									<img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
 								</div>
