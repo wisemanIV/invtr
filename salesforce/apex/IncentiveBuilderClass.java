@@ -2,9 +2,32 @@ public class IncentiveBuilderClass {
 
     Incentive__c incentive ;
     IncentiveRule__c rule ;
-    IncentiveMetric__c metric ;
     public Boolean typeUpdate { get; set;} 
     static Map<String,Schema.SObjectType> gd = Schema.getGlobalDescribe();  
+    
+    
+    public void selectEvent() {
+        
+        List<IncentiveRule__c> events = getSystemRules() ;
+        
+        for (IncentiveRule__c event: events) {
+            if (event.Title__c == rule.Title__c) {
+                // TODO make thi more intelligent by looping through fields. implemented in clone function
+                rule.Object__c = event.Object__c ;
+                rule.Field__c = event.Field__c ;
+                rule.DisplayFormat__c = event.DisplayFormat__c ;
+                rule.DisplayLabel__c = event.DisplayLabel__c ;
+                rule.DisplayPointsFieldLabel__c = event.DisplayPointsFieldLabel__c ;
+                rule.DisplayPointsFieldFormat__c = event.DisplayPointsFieldFormat__c ;
+                rule.PointsFieldTarget__c = event.PointsFieldTarget__c ;
+                rule.Title__c = event.Title__c ;
+                rule.Type__c = event.Type__c ;
+                rule.StartValue__c = event.StartValue__c ;
+                rule.EndValue__c = event.EndValue__c ;
+                break;
+            }
+        }
+    }
     
     public void toggleType() {
         ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.ERROR,'Error: Invalid Input.');
@@ -25,11 +48,6 @@ public class IncentiveBuilderClass {
           return rule;
     }
     
-    public IncentiveMetric__c getMetric() {
-          if(metric == null) metric = new IncentiveMetric__c();
-          return metric;
-    }
-    
     public List<IncentiveRule__c> rules {
         get { 
             if (rules == null) rules = new List<IncentiveRule__c>();
@@ -39,21 +57,13 @@ public class IncentiveBuilderClass {
     }
     
     public void removeRule() {
-		Id ruleId = ApexPages.currentPage().getParameters().get('ruleId');
-		
+        Id ruleId = ApexPages.currentPage().getParameters().get('ruleId');
+        
         IncentiveRule__c r = [Select Id from IncentiveRule__c where Id = :ruleId];
         
         delete r ;
     }
     
-    public List<IncentiveMetric__c> metrics {
-        get { 
-            if (metrics == null) metrics = new List<IncentiveMetric__c>();
-            return metrics;
-        }
-        set;
-    }
-	
     public List<SelectOption> getNumericFields()   
     {  
         List<SelectOption> fields = new List<SelectOption>();
@@ -68,10 +78,10 @@ public class IncentiveBuilderClass {
             {
                 Schema.SObjectField field = M.get(fieldName);                                                      
                 Schema.DescribeFieldResult fieldDesc = field.getDescribe();  
-				
-				if (Schema.DisplayType.Integer == fieldDesc.getType() || Schema.DisplayType.Double == fieldDesc.getType() || Schema.DisplayType.Currency == fieldDesc.getType()) {
-	                fields.add(new SelectOption(fieldName.toLowerCase(), fieldDesc.getLabel())); 
-				}
+                
+                if (Schema.DisplayType.Integer == fieldDesc.getType() || Schema.DisplayType.Double == fieldDesc.getType() || Schema.DisplayType.Currency == fieldDesc.getType()) {
+                    fields.add(new SelectOption(fieldName.toLowerCase(), fieldDesc.getLabel())); 
+                }
             }  
         }
       
@@ -120,6 +130,33 @@ public class IncentiveBuilderClass {
       
     }
     
+    public static List<IncentiveRule__c> getSystemRules() {
+        List<Incentive__c> incentive = new List<Incentive__c>([select Id from Incentive__c where Name = 'SYSTEM']);
+        List<IncentiveRule__c> events = new List<IncentiveRule__c>(); 
+        
+        if (incentive != null && incentive.size() > 0) events = CalculateMetrics.getRules(incentive[0].Id);
+    
+        return events ;
+    }
+    
+    public List<SelectOption> getEvents()
+    {
+       List<IncentiveRule__c> events = getSystemRules();
+       List<SelectOption> options = new List<SelectOption>();
+       
+       options.add(new SelectOption('-- Select --', '-- Select --'));
+       
+       for(IncentiveRule__c event : events)
+       {
+           if (event.Title__c != null && event.Title__c != '') {
+              options.add(new SelectOption(event.Title__c , event.Title__c ));
+           }
+       }
+       options.sort();
+       return options;
+      
+    }
+    
     public List<SelectOption> getTypes()
     {
       List<SelectOption> options = new List<SelectOption>();
@@ -135,35 +172,15 @@ public class IncentiveBuilderClass {
        return options;
     }
     
-    public List<IncentiveMetric__c> getAvailableMetrics() {
-        List<IncentiveMetric__c> metrics = new List<IncentiveMetric__c>();
-        
-        for( IncentiveRule__c rule : rules)
-        {
-            if (rule.PointsField__c != null) 
-                metrics.add(buildMetric(rule.Object__c, rule.PointsField__c));
-            
-            if (rule.Field__c != null) 
-                metrics.add(buildMetric(rule.Object__c, rule.Field__c));
-        }
-        
-        return metrics;
-        
-    }
-    
-    private IncentiveMetric__c buildMetric(String objectName, String fieldName) {
-        IncentiveMetric__c metric = new IncentiveMetric__c() ;
-        
-        metric.Object__c = objectName ;
-        metric.Field__c = fieldName ;
-        metric.IsDisplayed__c = false ;
-        metric.Target__c = 0 ;
-        
-        return metric ;
-    }
     
     public PageReference cancel() {
+      rule = null; incentive = null ;
       return Page.InvAdmin;
+    }
+    
+    public PageReference back() {
+      rule = null ;
+      return Page.InvNewIncentive;
     }
     
     public PageReference step1() {
@@ -176,16 +193,13 @@ public class IncentiveBuilderClass {
     }
  
    public PageReference step2() {
-      return Page.InvMetrics;
-   }
- 
-   public PageReference step3() {
-      insert metrics ;
       return save(JSON.serializePretty(incentive));
    }
+ 
    
    public PageReference addRule() {
        // store new rule
+       rule.IncentiveId__c = incentive.Id;
        insert rule ;
        IncentiveRule__c irClone = rule.clone();
        
@@ -193,12 +207,6 @@ public class IncentiveBuilderClass {
        // refresh local copy
        rules.add(irClone);
        rule.clear();
-       return ApexPages.CurrentPage();
-   }
-   
-   public PageReference addMetric() {
-       metrics.add(metric.clone()) ;
-       metric.clear();
        return ApexPages.CurrentPage();
    }
     
@@ -212,7 +220,7 @@ public class IncentiveBuilderClass {
         req.setMethod('POST');
 
         //Set HTTPRequest header properties
-        req.setHeader('content-type', 'application/x-www-form-urlencoded');
+        req.setHeader('content-type',  'application/json');
         //req.setHeader('Host','data.invtr.co');
         req.setEndpoint('https://data.invtr.co/incentivebuilder');
         req.setHeader('Connection','keep-alive');

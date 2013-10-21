@@ -1,0 +1,4 @@
+Trigger InviterOpportunityInsert on Opportunity (after insert) {
+
+	ProcessIncentives.processInsertEvent('Opportunity',Trigger.new);
+}

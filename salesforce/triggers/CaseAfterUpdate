@@ -1,0 +1,4 @@
+Trigger InviterCaseUpdate on Case (after update) {
+
+	ProcessIncentives.processUpdateEvent('Case',Trigger.new, Trigger.oldMap);
+}

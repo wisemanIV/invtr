@@ -9,6 +9,7 @@
             </a> -->
 
             <a class="brand" href="#">Inviter</a>
+			<div ng-controller="SiteConfigCtrl" ng-show="site.active">
 			<ul class="nav">
                 <li>
 				
@@ -36,7 +37,7 @@
 
                 </ul>
 
-                <div ng-controller="SiteConfigCtrl" ng-show="site.active" class="nav navbar-form pull-right">
+                <div  class="nav navbar-form pull-right">
  			 	   <div ng-controller="UserCtrl" ng-init="init()">
  			 		  	   
  			 		     <span ng-show="authenticated">
@@ -47,9 +48,10 @@
  						 <a ng-hide="authenticated" class="btn btn-primary" ng-click="login()"><i class="icon-user icon-white"></i> Log in</a>
  			 		 
  			 		</div>
-                  
-                </div>
+				</div>
+                
             </div>
+			
         </div>
     </div>
 </div>

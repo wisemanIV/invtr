@@ -1,0 +1,4 @@
+Trigger InviterLeadDelete on Lead (after delete) {
+
+	ProcessIncentives.processDeleteEvent(Trigger.new);
+}

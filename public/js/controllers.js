@@ -70,11 +70,9 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
   }
 ]);
 
-myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', 'angularFire', '$routeParams', 'localStorageService',
-  function ($scope, $filter, $location, angularFire, $routeParams, localStorageService) {
-    //var ref = new Firebase('https://inviter-dev.firebaseio.com/'+localStorageService.get("invtr.subdomain")+'/posts');
-   // $scope.boo = angularFire(ref, $scope, 'posts',  [] );
-	
+myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams', 'localStorageService',
+  function ($scope, $filter, $location, $routeParams, localStorageService) {
+   
 	$scope.selectedItem = $routeParams.postid ;
 	
 	$scope.boo.then(function() {
@@ -136,10 +134,44 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 			console.debug("metrics callback");
 			console.debug(data);
 			
+			var m = new Array() ;
+			
 			for (var j = 0 ; j < data.length ; j++) {
-				data[j].data = "0" ;
+				console.log('metric loop');
+				
+				if (data[j].Inviter__DisplayField__c) {
+				
+					var item = new Object() ;
+				
+					item.title = data[j].Inviter__DisplayLabel__c ;
+				    item.data = "0" ;
+					// TODO make this dynamic in the data
+					item.type = "dial";
+					item.format = data[j].Inviter__DisplayFormat__c ;
+					item.target = data[j].Inviter__FieldTarget__c ;
+					item.ruleid = data[j].Id ;
+					item.fieldtype = 'count';
+					m.push(item); 
+				}
+				if (data[j].Inviter__DisplayPointsField__c) {
+				
+					var item = new Object() ;
+				
+					item.title = data[j].Inviter__DisplayPointsFieldLabel__c ;
+				    item.data = "0" ;
+					// TODO make this dynamic in the data
+					item.type = "dial";
+					item.format = data[j].Inviter__DisplayPointsFieldFormat__c ;
+					item.target = data[j].Inviter__PointsFieldTarget__c ;
+					item.ruleid = data[j].Id ;
+					item.fieldtype = 'points';
+					m.push(item); 
+				}
+				
+				
+				
 			} 
-			$scope.metrics = data ;
+			$scope.metrics = m ;
 			
 		}
 		
@@ -168,9 +200,21 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 					
 						for (var j = 0 ; j < $scope.metrics.length ; j++) {
 							
-							console.log(data[i][$scope.metrics[j].id]);
+							if (data[i].Inviter__RuleId__c == $scope.metrics[j].ruleid) {
 							
-							$scope.metrics[j].data = data[i][$scope.metrics[j].id] ;
+								if ($scope.metrics[j].fieldtype === 'count' && angular.isNumber(data[i].Inviter__Count__c)) {
+									console.debug($scope.metrics[j].title);
+									console.debug(data[i].Inviter__Count__c);
+									$scope.metrics[j].data = data[i].Inviter__Count__c ;
+								} else if ($scope.metrics[j].fieldtype === 'points' && angular.isNumber(data[i].Inviter__Points__c)) {
+									console.debug($scope.metrics[j].title);
+									console.debug(data[i].Inviter__Points__c);
+									$scope.metrics[j].data = data[i].Inviter__Points__c ;
+								} else {
+									$scope.metrics[j].data = $scope.metrics[j].data;
+								}
+								
+							}
 							
 							console.log($scope.metrics[j].data);
 						}
@@ -212,7 +256,7 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 			
 		}
 		
-		socket.on('invtr:data:'+$location.host().split(".")[0], function (data) {
+		socket.on('invtr:leaderdata:'+$location.host().split(".")[0], function (data) {
 			
 			console.debug(data);
 			
@@ -248,16 +292,21 @@ myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$
 			
 		    $scope.$apply(function() {
 		              
-		          
-			$scope.countdownVal = (data.StartDate - now)/1000 ;
-			 });
-			$rootScope.$broadcast('timer-start');
+			var c = 0 ;
+			config.debug(data.StartDate);
+			
+			
+			if (((data.StartDate - now)/1000)>0) {
+				c=(data.StartDate - now)/1000;
+				config.debug(c);
+				$scope.countdownVal = c ;
+				//$rootScope.$broadcast('timer-start');
+			}
+		});
 			
 		}
 		
-			
 		
-	   
             
 	}
 ]);
@@ -266,7 +315,8 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'RESTServi
 	function ($scope, $rootScope, $route, RESTService, socket) {
   	
 		RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
-			
+			console.debug("SiteConfigCtrl REST returned:");
+			console.debug(data);
 			$scope.site = data;
 		});
 	}

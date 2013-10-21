@@ -1,0 +1,4 @@
+Trigger InviterOpportunityDelete on Opportunity (after delete) {
+
+	ProcessIncentives.processDeleteEvent(Trigger.new);
+}

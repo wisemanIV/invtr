@@ -15,9 +15,8 @@
 	         <apex:column headerValue="Display Title" value="{!inc.Title__c}"/>
 	         <apex:column headerValue="Start Date" value="{!inc.StartDate__c}"/>
 	         <apex:column headerValue="End Date" value="{!inc.EndDate__c}"/>
-	         <apex:column headerValue="Snapshot Taken?" value="{!inc.SnapshotTaken__c}"/>
 	         <apex:column headerValue="Url">
-	            <a href='{!inc.Url__c}'>{!inc.Url__c}</a>
+	            <a href='{!inc.Url__c}' target=_new>{!inc.Url__c}</a>
 	         </apex:column>
              <apex:column headerValue="Actions">
                  <apex:commandButton action="{!URLFOR($Page.InvEditIncentive)}" value="Edit"/>

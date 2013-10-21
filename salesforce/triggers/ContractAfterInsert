@@ -1,0 +1,4 @@
+Trigger InviterContractInsert on Contract (after insert) {
+
+	ProcessIncentives.processInsertEvent('Contract',Trigger.new);
+}

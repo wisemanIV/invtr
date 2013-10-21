@@ -1,0 +1,4 @@
+Trigger InviterCaseInsert on Case (after insert) {
+
+	ProcessIncentives.processInsertEvent('Case',Trigger.new);
+}

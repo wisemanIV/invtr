@@ -1,0 +1,4 @@
+Trigger InviterLeadInsert on Lead (after insert) {
+
+	ProcessIncentives.processInsertEvent('Lead',Trigger.new);
+}

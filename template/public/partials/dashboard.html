@@ -102,13 +102,13 @@
 							</tr>
 						</thead>
 						<tbody>
-						 <tr ng-repeat="record in leaderdata | orderBy:'Inviter__Points__c':true">
+						 <tr ng-repeat="record in leaderdata | orderBy:'Inviter__PointsTotal__c':true">
 								<td><div class="icon">
 									<img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
 								</div>
 							</td>
 							<td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
-							<td>{{record.Inviter__Points__c}}</td>
+							<td>{{record.Inviter__PointsTotal__c}}</td>
 							<td class="hidden-xs"></td>
 							<td></td>
 							<td class="chart-cell hidden-xs">

@@ -1,0 +1,4 @@
+Trigger InviterOpportunityUpdate on Opportunity (after update) {
+
+	ProcessIncentives.processUpdateEvent('Opportunity',Trigger.new, Trigger.oldMap);
+}

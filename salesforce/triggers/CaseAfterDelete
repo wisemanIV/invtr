@@ -1,0 +1,4 @@
+Trigger InviterCaseDelete on Case (after delete) {
+
+	ProcessIncentives.processDeleteEvent(Trigger.new);
+}

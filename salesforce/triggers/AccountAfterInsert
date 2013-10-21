@@ -1,0 +1,4 @@
+Trigger InviterAccountInsert on Account (after insert) {
+
+	ProcessIncentives.processInsertEvent('Account',Trigger.new);
+}

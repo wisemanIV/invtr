@@ -47,6 +47,9 @@ directives.directive('ghDial', function () {
     link: function (scope, element, attrs) {
 		
  	   console.debug("data format: "+scope.ghFormat );
+	   if (typeof scope.ghFormat === 'undefined') {
+	   	scope.ghFormat = '' ;
+	   }
 	
 	   //var formatPercent = d3.format(scope.dataFormat);
 	   var total = scope.ghTarget.valueOf() ;
@@ -185,7 +188,7 @@ directives.directive('d3Bars', function() {
 	                .attr("width", 0) // initial width of 0 for transition
 	                .attr("x", 10) // half of the 20 side margin specified above
 					.attr('fill', function(d) {
-					    return color(d.Inviter__Points__c);
+					    return color(d.Inviter__PointsTotal__c);
 					  })
 	                .attr("y", function(d, i){
 	                  return i * 35;
@@ -193,7 +196,7 @@ directives.directive('d3Bars', function() {
 	                .transition()
 	                  .duration(1000) // time of duration
 	                  .attr("width", function(d){
-	                    return d.Inviter__Points__c/(max/width);
+	                    return d.Inviter__PointsTotal__c/(max/width);
 	                  }); // width based on scale
 
 	            svg.selectAll("text")

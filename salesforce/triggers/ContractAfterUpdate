@@ -1,0 +1,4 @@
+Trigger InviterContractUpdate on Contract (after update) {
+
+	ProcessIncentives.processUpdateEvent('Contract',Trigger.new, Trigger.oldMap);
+}

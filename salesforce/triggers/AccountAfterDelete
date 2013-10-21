@@ -1,0 +1,4 @@
+Trigger InviterAccountDelete on Account (after delete) {
+
+	ProcessIncentives.processDeleteEvent(Trigger.new);
+}

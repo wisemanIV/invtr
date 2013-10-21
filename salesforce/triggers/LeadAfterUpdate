@@ -1,0 +1,4 @@
+Trigger InviterLeadUpdate on Lead (after update) {
+
+	ProcessIncentives.processUpdateEvent('Lead',Trigger.new, Trigger.oldMap);
+}

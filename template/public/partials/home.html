@@ -5,7 +5,9 @@
 
             <h1>{{site.title}}</h1>
             <p class="tagline">{{site.tagline}}</p>
-			<div ng-hide="site.active" ng-controller="CountdownCtrl">
+			
+			<div ng-hide="site.active || countdownVal<0" ng-controller="CountdownCtrl" ng-init="init()">
+				{{countdownVal}}
 				<timer interval="1000" countdown="countdownVal">{{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
 			</div>
 

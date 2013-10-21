@@ -1,0 +1,4 @@
+Trigger InviterContractDelete on Contract (after delete) {
+
+	ProcessIncentives.processDeleteEvent(Trigger.new);
+}

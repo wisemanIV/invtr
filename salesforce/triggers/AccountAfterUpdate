@@ -1,0 +1,4 @@
+Trigger InviterAccountUpdate on Account (after update) {
+
+	ProcessIncentives.processUpdateEvent('Account',Trigger.new, Trigger.oldMap);
+}
