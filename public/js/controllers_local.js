@@ -41,16 +41,19 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
    				
 	$scope.user = {};
 	$scope.authenticated = $rootScope.authenticated;
-		   
-   	socket.on('accountdata', function (data) {
-		console.debug("account data received");
-		console.debug(data);
-        $scope.user = JSON.parse(data);
+	
+	$http.get('/sample_data/user_account.json').success(function(response) {
+		console.debug("Account CTRL returned:");
+		console.debug(response);
+		
+        $scope.user = response;
 		console.debug($scope.user.SmallPhotoUrl);
 	    $rootScope.currentUser = $scope.user ;
 	    $rootScope.authenticated = true ;
 	    $scope.authenticated = true;
-	});	
+	 });
+		   
+   
 	
 	$scope.login = function() {
 		UserService.login($scope.$parent.mode) ;
@@ -123,11 +126,16 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 }
 ]);
 
-myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $rootScope, $location, UserService, localStorageService, RESTService, socket) {
+myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', '$http', 'UserService', 'localStorageService', 'RESTService', 'socket',
+	function ($scope, $rootScope, $location, $http, UserService, localStorageService, RESTService, socket) {
   		
 		$scope.init = function() {
-			RESTService.get("https://data.invtr.co/metrics", $scope.callback);
+			$http.get('/sample_data/dashboard_data.json').success(function(response) {
+				console.debug("Dashboard CTRL returned:");
+				console.debug(response);
+				
+		        $scope.callback(response);
+			 });
 		}
 		
 		$scope.callback = function(data) {
@@ -225,8 +233,8 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
   
 ]);
 
-myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $location, SiteConfigService, UserService, localStorageService, RESTService, socket) {
+myApp.controller('LeaderboardCtrl', ['$scope', '$location','$http','SiteConfigService','UserService', 'localStorageService', 'RESTService', 'socket',
+	function ($scope, $location, $http, SiteConfigService, UserService, localStorageService, RESTService, socket) {
   		
 		$scope.leaderdata = [];
 		$scope.order = '-oppcount';
@@ -236,16 +244,6 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 		        $scope.d3OnClick = function(item){
 		          alert(item.name);
 		        };
-				
-		$scope.d3TrendData = 
-[{"date":"20111001","a":63.4, "b":62.7, "c":72.2},
-{"date":"20111002","a":58.0,	"b":59.9, "c":67.7},
-{"date":"20111003","a":53.3,	"b":59.1, "c":69.4},
-{"date":"20111004","a":55.7,	"b":58.8, "c":68.0}];
-		
-		$scope.init = function() {
-			//	RESTService.get("https://data.invtr.co/leaderboard", $scope.callback);
-		}
 		
 		$scope.callback = function(data) {
 			console.debug("leaderboard callback");
@@ -253,32 +251,30 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 			
 		}
 		
-		socket.on('invtr:leaderdata:'+$location.host().split(".")[0], function (data) {
+		$http.get('/sample_data/leader_data.json').success(function(response) {
+			console.debug("Leaderboard CTRL returned:");
+			console.debug(response);
 			
-			console.debug(data);
+			$scope.leaderdata = response ;
 			
-			if (typeof data !== "undefined" && data !== null) { 
-		
-				console.debug("leader data:");
-			
-				$scope.leaderdata = JSON.parse(data) ;
-				
-		        $scope.d3Data = $scope.leaderdata;
-				
-			}
-		    
-		});
+	        $scope.d3Data = response;
+		 });
 	
 	}
   
 ]);
 
-myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$rootScope','RESTService',
-	function ($scope,$timeout, SiteConfigService, $rootScope, RESTService) {
+myApp.controller('CountdownCtrl', ['$scope', '$timeout', '$http', 'SiteConfigService', '$rootScope','RESTService',
+	function ($scope,$timeout, $http, SiteConfigService, $rootScope, RESTService) {
 		
 		
 		$scope.init = function() {
-			RESTService.get("https://data.invtr.co/incentiveconfig", $scope.callback);
+			$http.get('/sample_data/site_config.json').success(function(response) {
+				console.debug("CountdownCtrl REST returned:");
+				console.debug(response);
+				$scope.callback(response);
+			 });
+			
 		}
 		
 		$scope.callback = function(data) {
@@ -308,14 +304,14 @@ myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$
 	}
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'RESTService', 'socket',
-	function ($scope, $rootScope, $route, RESTService, socket) {
-  	
-		RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
-			console.debug("SiteConfigCtrl REST returned:");
-			console.debug(JSON.stringify(data));
-			$scope.site = data;
-		});
+myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$http', '$route', 'RESTService', 'socket',
+	function ($scope, $rootScope, $http, $route, RESTService, socket) {
+		
+		$http.get('/sample_data/site_config.json').success(function(response) {
+			console.debug("SiteConfigCtrl returned:");
+			console.debug(response);
+			$scope.site = response;
+		 });
 	}
   
 ]);

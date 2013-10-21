@@ -1,0 +1,34 @@
+[
+    {
+        "Id": "a0Xi0000001RzvPEAS", 
+        "Inviter__Count__c": 0, 
+        "Inviter__FirstName__c": "Stephen", 
+        "Inviter__FullPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+        "Inviter__IncentiveIdentifier__c": "test8", 
+        "Inviter__LastName__c": "McCurry", 
+        "Inviter__OwnerId__c": "005i0000001GM5rAAG", 
+        "Inviter__Points__c": 0, 
+        "Inviter__RuleId__c": "a0Yi0000001cnRjEAI", 
+        "Inviter__SmallPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+        "attributes": {
+            "type": "Inviter__IncentiveRecord__c", 
+            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRecord__c/a0Xi0000001RzvPEAS"
+        }
+    }, 
+    {
+        "Id": "a0Xi0000001RzvQEAS", 
+        "Inviter__Count__c": 1, 
+        "Inviter__FirstName__c": "Stephen", 
+        "Inviter__FullPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+        "Inviter__IncentiveIdentifier__c": "test8", 
+        "Inviter__LastName__c": "McCurry", 
+        "Inviter__OwnerId__c": "005i0000001GM5rAAG", 
+        "Inviter__Points__c": 6800, 
+        "Inviter__RuleId__c": "a0Yi0000001cnReEAI", 
+        "Inviter__SmallPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+        "attributes": {
+            "type": "Inviter__IncentiveRecord__c", 
+            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRecord__c/a0Xi0000001RzvQEAS"
+        }
+    }
+]

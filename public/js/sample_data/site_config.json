@@ -1,0 +1,10 @@
+{
+    "active": "true", 
+    "background_image": "http://www.google.com", 
+    "description": "a test description", 
+    "enddate": "2013-11-02T01:15:00.000+0000", 
+    "startdate": "2013-10-16T01:15:00.000+0000", 
+    "subdomain": "test8", 
+    "tagline": "a test tagline", 
+    "title": "a test title"
+}
