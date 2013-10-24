@@ -351,12 +351,12 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'SiteConfigServ
 ]);
 
 
-myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageService', 'socket',
-    function($scope, $timeout, $rootScope, localStorageService, socket) {
+myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','$location', 'socket',
+    function($scope, $timeout, $rootScope, $location, socket) {
   
   	 $scope.messages = [];
 	 
-	 socket.on('init:messages', function (data) {
+	 socket.on('init:messages:'+$location.host().split(".")[0], function (data) {
 		console.log("CLIENT RECEIVES CHAT MESSAGE");
 		
 		if (typeof data !== "undefined" && data[0] !== null && data.length>0 && Object.keys(data).length > 0) { 
@@ -382,6 +382,8 @@ myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageServic
 		 msg['username'] = "Stephen McCurry";
 	     msg['message'] = $scope.message.message;
 		 //msg['photo'] = $scope.message.photo;
+		 var now = new Date().getTime();
+		 msg['created_at'] = now ;
 		 msg['photo'] = "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T";
 		   
 	     socket.emit('send:message', msg, function(res) {
