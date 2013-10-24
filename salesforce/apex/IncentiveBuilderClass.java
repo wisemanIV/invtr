@@ -193,7 +193,15 @@ public class IncentiveBuilderClass {
     }
  
    public PageReference step2() {
-      return save(JSON.serializePretty(incentive));
+       
+      List<User> ids = new List<User>([select Id from User where ProfileId in ('00ei00000013M1P','00ei00000013M1b','00ei00000013M1M','00ei00000013M1bAAE') and Id != :UserInfo.getUserId()]) ;
+      Id groupId = IncentiveBuilderClass.createGroup(incentive.Title__c, ids);
+      incentive.ChatterGroupId__c = groupId ;
+	  update incentive ;
+      save(incentive.Id, JSON.serializePretty(incentive));
+      PageReference pageRef = Page.InvAdmin;
+      
+      return pageRef.setRedirect(true);
    }
  
    
@@ -210,9 +218,11 @@ public class IncentiveBuilderClass {
        return ApexPages.CurrentPage();
    }
     
-    public PageReference save(String body) {
+    @future (callout=true)
+    public static void save(Id incentiveId, String body) {
     
         HttpRequest req = new HttpRequest();
+        Incentive__c incentive = [select Id from Incentive__c where Id = :incentiveId] ;
             
         System.debug(body) ;
          
@@ -229,9 +239,6 @@ public class IncentiveBuilderClass {
         req.setBody(body);   
 
         Http http = new Http();
-        
-        PageReference pageRef = Page.InvAdmin;
-        pageRef.setRedirect(true);
   
         try {
  
@@ -246,19 +253,34 @@ public class IncentiveBuilderClass {
             if (res.getStatusCode() != 200) {
                 
                 String msg = 'code:'+res.getStatusCode()+' reason:'+res.getStatus() ;
-                ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.FATAL, msg);
-                
-                ApexPages.addMessage(myMsg);
-                pageRef = ApexPages.CurrentPage();
+                incentive.Url__c = res.getStatus() ;
+				update incentive ;
             }
     
         } catch(System.CalloutException e) {
             System.debug(e);
-            ApexPages.addMessages(e);
-            pageRef = ApexPages.CurrentPage();
+            incentive.Url__c = e.getMessage() ;
         }
         
-        return pageRef;
+    }
+    
+    public static Id createGroup(String groupName, List<User> users) {
+        
+        CollaborationGroup g = new CollaborationGroup(Name=groupName, CollaborationType='Public');
+        g.OwnerId = UserInfo.getUserId() ;
+        insert g;
+        
+        List<CollaborationGroupMember> groupMembers = new List<CollaborationGroupMember>();
+        
+        for (User user: users) {
+            CollaborationGroupMember member = new CollaborationGroupMember();
+            member.MemberId = user.Id ;
+            member.CollaborationGroupId = g.Id ;
+            groupMembers.add(member);
+        }
+                  
+        insert groupMembers;
+        return g.Id ;
     }
     
    

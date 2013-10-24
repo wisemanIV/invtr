@@ -1,0 +1,70 @@
+{
+    "currentPageUrl": "/services/data/v29.0/chatter/users/me/messages", 
+    "messages": [
+        {
+            "body": {
+                "messageSegments": [], 
+                "text": "Did you know that you can send private messages that don\u2019t show up in your Chatter feed? You can keep a conversation private between you and the people you send a message to.\n\nMessages are a great way to:\n- Ask someone a question privately\n- Work on a project with a few select people\n\nGo to My Messages and try sending a message now!\n\nP.S. This message was automatically generated. If you reply, Chatter Expert isn\u2019t able to reply back."
+            }, 
+            "conversationId": "03Mi0000000GyymEAC", 
+            "conversationUrl": "/services/data/v29.0/chatter/users/me/conversations/03Mi0000000GyymEAC", 
+            "id": "03Ji0000000H36VEAS", 
+            "recipients": [
+                {
+                    "companyName": "Inviter", 
+                    "firstName": "Stephen", 
+                    "id": "005i0000001GM5rAAG", 
+                    "isActive": true, 
+                    "isInThisCommunity": true, 
+                    "lastName": "McCurry", 
+                    "motif": {
+                        "color": "1797C0", 
+                        "largeIconUrl": "/img/icon/profile64.png", 
+                        "mediumIconUrl": "/img/icon/profile32.png", 
+                        "smallIconUrl": "/img/icon/profile16.png"
+                    }, 
+                    "mySubscription": null, 
+                    "name": "Stephen McCurry", 
+                    "photo": {
+                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
+                        "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                        "photoVersionId": "729i0000000HQIEAA4", 
+                        "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
+                        "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                    }, 
+                    "title": null, 
+                    "type": "User", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                    "userType": "Internal"
+                }
+            ], 
+            "sender": {
+                "companyName": null, 
+                "firstName": null, 
+                "id": null, 
+                "isActive": true, 
+                "isInThisCommunity": false, 
+                "lastName": null, 
+                "motif": null, 
+                "mySubscription": null, 
+                "name": "Chatter Expert", 
+                "photo": {
+                    "fullEmailPhotoUrl": null, 
+                    "largePhotoUrl": "/img/chatter/chatterC45.png", 
+                    "photoVersionId": null, 
+                    "smallPhotoUrl": "/img/chatter/chatterC45.png", 
+                    "standardEmailPhotoUrl": null, 
+                    "url": null
+                }, 
+                "title": null, 
+                "type": "User", 
+                "url": null, 
+                "userType": "System"
+            }, 
+            "sentDate": "2013-10-24T00:14:35.000Z", 
+            "url": "/services/data/v29.0/chatter/users/me/messages/03Ji0000000H36VEAS"
+        }
+    ], 
+    "nextPageUrl": null
+}

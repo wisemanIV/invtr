@@ -5,7 +5,17 @@ myApp.factory('RESTService',
     function ($http) {
         return {
             get:function (url, callback) {
-                return $http.get(url, {withCredentials:false}).
+                return $http.get(url, {withCredentials:true}).
+                    success(function (data, status, headers, config) {
+                        callback(data);
+                        //console.log(data.json);
+                    }).
+                    error(function (data, status, headers, config) {
+                        console.log("failed to retrieve data");
+                    });
+            },
+            post:function (url, data, callback) {
+                return $http.post(url, data, {withCredentials:true}).
                     success(function (data, status, headers, config) {
                         callback(data);
                         //console.log(data.json);

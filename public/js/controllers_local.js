@@ -327,6 +327,19 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'SiteConfigServ
 
 ]);
 
+myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService',
+	function ($scope, $rootScope, $route, RESTService) {
+  	
+		$scope.init = function() {
+			
+			$http.get('/sample_data/feed.json').success(function(response) {
+				console.debug("FeedCtrl returned:");
+				console.debug(response);
+				$scope.feed = response;
+			 });
+		}
+]);
+
 
 myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageService', 'socket',
     function($scope, $timeout, $rootScope, localStorageService, socket) {

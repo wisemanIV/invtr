@@ -11,7 +11,7 @@ global class UploadSchedule implements Schedulable {
        
        System.debug('updateIncentive');
        
-       List<Incentive__c> incentive = [SELECT Id, Name, Active__c, StartDate__c, EndDate__c, Title__c, Tagline__c, Description__c, Url__c, BackgroundImageUrl__c FROM Incentive__c];
+       List<Incentive__c> incentive = [SELECT Id, Name, Active__c, StartDate__c, EndDate__c, Title__c, Tagline__c, Description__c, Url__c, BackgroundImageUrl__c, ChatterGroupId__c FROM Incentive__c];
     
        String recsJSON = JSON.serializePretty(incentive);
        

@@ -1,16 +1,17 @@
 'use strict'
 
-myApp.controller('InboxCtrl', ['$scope', 'socket',
-  function MyCtrl($scope, socket) {
+myApp.controller('InboxCtrl', ['$scope', 'socket', 'RESTService',
+  function MyCtrl($scope, socket, RESTService) {
 	  
 	$scope.inbox = {} ;
 	  
-    socket.on('inbox', function (data) {
-  		console.debug("inbox data received");
-  		console.debug(data);
-        
-		$scope.inbox = data ;
-	});	
+	$scope.init = function() {
+		RESTService.get("https://data.invtr.co/messages", function(data) {
+			console.debug("InboxCtrl REST returned:");
+			console.debug(JSON.stringify(data));
+			$scope.inbox = data.messages;
+		});
+	}
  	
     // modal
     $scope.open = function () {
@@ -82,16 +83,6 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 	
 	$scope.$watch('posts', function() { $scope.orderedPosts = $scope.orderPosts(); });
 	
-	$scope.addComment = function(post) {
-		
-	//	$scope.comment.submitter_id = $scope.$parent.currentUser.id
-	//	$scope.comment.submitter_name = $scope.$parent.currentUser.name
-		
-		if (typeof post.comments == "undefined") post.comments = new Array();
-	    post.comments.push($scope.comment);
-		
-		$scope.comment = {};
-	}
 	
 	$scope.addPost = function() {
 		
@@ -103,11 +94,6 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 		$scope.post.attachment = $filter('youtube_id')($scope.post.attachment);
 	    $scope.posts.push($scope.post);
 		$scope.post = {};
-	}
-	
-	$scope.incrementLike = function() {
-	    $scope.post.likes_count = $scope.post.likes_count + 1;
-		
 	}
 	
     $scope.goPost = function (post) {
@@ -316,6 +302,39 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'RESTServi
 			console.debug(JSON.stringify(data));
 			$scope.site = data;
 		});
+	}
+  
+]);
+
+myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService',
+	function ($scope, $rootScope, $route, RESTService) {
+  	
+		$scope.init = function() {
+			RESTService.get("https://data.invtr.co/feed", function(data) {
+				console.debug("FeedCtrl REST returned:");
+				console.debug(JSON.stringify(data));
+				$scope.feed = data.items;
+			});
+		}
+	
+	
+		$scope.incrementLike = function(feedItemId) {
+			RESTService.post("https://data.invtr.co/feed-item/"+feedItemId+"/like", function(data) {
+				console.debug("Increment Like REST returned:");
+				console.debug(JSON.stringify(data));
+			});
+		
+		}
+	
+		$scope.addComment = function(feedItemId) {
+			
+			RESTService.post("https://data.invtr.co/feed-item/"+feedItemId+"/comment", JSON.stringify({"text":"my comment"}), function(data) {
+				console.debug("Add comment REST returned:");
+				console.debug(JSON.stringify(data));
+				$scope.comment = {};
+			});
+		}
+		
 	}
   
 ]);
