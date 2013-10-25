@@ -346,21 +346,14 @@ myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageServic
   
   	 $scope.messages = [];
 	 
-	 socket.on('init:messages', function (data) {
-		console.log("CLIENT RECEIVES CHAT MESSAGE");
+	 $http.get('/sample_data/chat.json').success(function(response) {
+		console.debug("Chat returned:");
+		console.debug(response);
 		
-		if (typeof data !== "undefined" && data[0] !== null && data.length>0 && Object.keys(data).length > 0) { 
-	
-			console.debug(data);
-			console.debug("new data:"+data[0].data);
-			
-	   		 for (var i = 0 ; i < data.length ; i++) {
-	   	     	// add the message to our model locally
-	   	     	$scope.messages.push(data[i]);
-	   		 }
-			
-		}
-	    
+  		 for (var i = 0 ; i < response.length ; i++) {
+  	     	// add the message to our model locally
+  	     	$scope.messages.push(response[i]);
+  		 }
 	 });
 	 
 	  

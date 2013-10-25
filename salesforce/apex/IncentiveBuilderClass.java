@@ -24,6 +24,7 @@ public class IncentiveBuilderClass {
                 rule.Type__c = event.Type__c ;
                 rule.StartValue__c = event.StartValue__c ;
                 rule.EndValue__c = event.EndValue__c ;
+				rule.OwnerIdField__c = 'OwnerId';
                 break;
             }
         }

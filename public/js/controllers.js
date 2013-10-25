@@ -356,14 +356,15 @@ myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','$location', 'socke
   
   	 $scope.messages = [];
 	 
-	 socket.on('init:messages:'+$location.host().split(".")[0], function (data) {
+	 socket.on('init:messages:'+$location.host().split(".")[0], function (input) {
 		console.log("CLIENT RECEIVES CHAT MESSAGE");
+		
+		console.debug("new chat data:"+input);
+		
+		var data = JSON.parse(input);
 		
 		if (typeof data !== "undefined" && data[0] !== null && data.length>0 && Object.keys(data).length > 0) { 
 	
-			console.debug(data);
-			console.debug("new data:"+data[0].data);
-			
 	   		 for (var i = 0 ; i < data.length ; i++) {
 	   	     	// add the message to our model locally
 	   	     	$scope.messages.push(data[i]);
