@@ -1,3 +1,7 @@
 salesforce/apex/
 salesforce/pages/
- 
+.DS_Store
+.idea/*
+.vagrant/*
+*.iml
+atlassian-ide-plugin.xml

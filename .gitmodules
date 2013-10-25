@@ -1,0 +1,3 @@
+[submodule "nodejs"]
+	path = nodejs
+	url = https://aene@bitbucket.org/smccurry/inviter-server.git
