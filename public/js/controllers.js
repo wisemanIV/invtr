@@ -268,28 +268,16 @@ myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$
 		}
 		
 		$scope.callback = function(data) {
-			console.debug("config callback");
+			console.debug("CountdownCtrl callback");
 			console.debug(data);
 			
 			var now = new Date().getTime();
 			
-		    $scope.$apply(function() {
-		              
-			var c = 0 ;
-			config.debug(data.StartDate);
+			$scope.config = data ;
 			
-			
-			if (((data.StartDate - now)/1000)>0) {
-				c=(data.StartDate - now)/1000;
-				config.debug(c);
-				$scope.countdownVal = c ;
-				//$rootScope.$broadcast('timer-start');
-			}
-		});
+		    $scope.config.countdown = (data.startdate - now)/1000;
 			
 		}
-		
-		
             
 	}
 ]);
