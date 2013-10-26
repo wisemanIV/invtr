@@ -27,29 +27,47 @@
 		<div class="row">
 			<div class="span8">
 				<section class="widget">
-					<header>
-						<h4>Your stats</h4>
-					</header>
-					<div class="body no-margin">
-						<div ng-controller="DashboardCtrl" ng-init="init()">
+					<div ng-controller="DashboardCtrl" ng-init="init()">
+					<button ng-click="toggleType()" ng-init="dashboard.type='standard';dashboard.toggleText = 'Trendline View';">
+					      {{dashboard.toggleText}}
+					</button>
+					<div ng-switch on="dashboard.type">
+						<div ng-switch-when="standard">
+							<header>
+								<h4>Your stats</h4>
+							</header>
+							<div class="body no-margin">
 								<svg id="d3Parent">
 								</svg>
-							<div ng-repeat="item in metrics">
-								<div ng-switch on="item.type">
-									<div ng-switch-when="dial">
-										<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
+								<div ng-repeat="item in metrics">
+									<div ng-switch on="item.type">
+										<div ng-switch-when="dial">
+											<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
+										</div>
+										<div ng-switch-when="meter">
+											<gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
+										</div>
+									<!-- end switch -->	
 									</div>
-									<div ng-switch-when="meter">
-										<gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
-									</div>
-								<!-- end switch -->	
+							    <!-- end repeat -->
 								</div>
-						    <!-- end repeat -->
+							<!-- end body -->
 							</div>
-						<!-- end ctrl -->
 						</div>
-					<!-- end body -->
+						<div ng-switch-when="trendline">
+							<header>
+								<h4>
+									Trendline
+								</h4>
+							</header>
+							<div class="body">
+								<svg id="d3TrendParent">
+								</svg>
+								<gh-trend data="d3TrendData" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-trend>
+							</div>
+						</div>
 					</div>
+				</div>
 				</section>
 			</div>
 
@@ -80,40 +98,59 @@
 	<div class="row">
 		<div class="span8" ng-controller="LeaderboardCtrl">
 			<section class="widget">
-				<header>
-					<h4>
-						<i class="icon-shopping-cart"></i>
-						Leaderboard
-					</h4>
-				</header>
-				<div class="body">
-					<table class="table table-striped no-margin sources-table">
-						<thead>
-							<tr>
-								<th class="source-col-header">Source</th>
-								<th>Name</th>
-								<th>Points Total</th>
-								<th></th>
-								<th></th>
-								<th class="chart-col-header hidden-xs">Trend</th>
-							</tr>
-						</thead>
-						<tbody>
-						 <tr ng-repeat="record in leaderdata | orderBy:'Inviter__PointsTotal__c':true">
-								<td><div class="icon">
-									<img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
-								</div>
-							</td>
-							<td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
-							<td>{{record.Inviter__PointsTotal__c}}</td>
-							<td class="hidden-xs"></td>
-							<td></td>
-							<td class="chart-cell hidden-xs">
-								<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
-							</td>
-						</tr>
-						</tbody>
-					</table>
+				<button ng-click="toggleType()" ng-init="leaderboard.type='standard';leaderboard.toggleText = 'Bar Chat View';">
+				      {{leaderboard.toggleText}}
+				 </button>
+				<div ng-switch on="leaderboard.type">
+					<div ng-switch-when="standard">
+						<header>
+							<h4>
+								Leaderboard
+							</h4>
+						</header>
+						<div class="body">
+							<table class="table table-striped no-margin sources-table">
+								<thead>
+									<tr>
+										<th class="source-col-header">Source</th>
+										<th>Name</th>
+										<th>Points Total</th>
+										<th></th>
+										<th></th>
+										<th class="chart-col-header hidden-xs">Trend</th>
+									</tr>
+								</thead>
+								<tbody>
+								 <tr ng-repeat="record in leaderdata | orderBy:'Inviter__PointsTotal__c':true">
+										<td><div class="icon">
+											<img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
+										</div>
+									</td>
+									<td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
+									<td>{{record.Inviter__PointsTotal__c}}</td>
+									<td class="hidden-xs"></td>
+									<td></td>
+									<td class="chart-cell hidden-xs">
+										<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div ng-switch-when="bar">
+						<header>
+							<h4>
+								Leaderboard
+							</h4>
+						</header>
+						<div class="body">
+							<div>
+								<svg id="d3BarParent">
+								</svg>
+							    <d3-bars data="d3Data" label="Inviter__FirstName__c" on-click="d3OnClick(item)"></d3-bars>
+							</div>
+					</div>
 				</div>
 		</section>
 		</div>
@@ -168,27 +205,89 @@
 		
 		
 		<div class="row">
-			<div class="span8" ng-controller="LeaderboardCtrl">
-				<section class="widget">
+			<div class="span8" ng-controller="FeedCtrl" ng-init="init()">
+				<section class="widget large">
 					<header>
 						<h4>
-							Leaderboard
+							Feed
 						</h4>
+						<div class="actions">
+							<button class="btn btn-transparent btn-xs">Show All <i class="icon-arrow-down"></i></button>
+						</div>
 					</header>
 					<div class="body">
-						<div>
-							<svg id="d3BarParent">
-							</svg>
-						    <d3-bars data="d3Data" label="Inviter__FirstName__c" on-click="d3OnClick(item)"></d3-bars>
+						<div class="slimScrollDiv" >
+							<div id="feed" class="feed">
+							<div class="wrapper">
+								<div class="vertical-line"></div>
+								<div ng-repeat="item in feed">
+								<section class="feed-item">
+									<div class="icon pull-left">
+										<i class="icon-comment"></i>
+									</div>
+									<div class="feed-item-body">
+					  				  <div id="submitterImage">
+					  					  <img ng-src="{{item.actor.photo.smallPhotoUrl}}">
+					  				  </div>
+										<div class="text">
+											{{item.body.text}}
+										</div>
+										<div ng-show="item.attachment">
+											<a href={{item.attachment.url}}>{{item.attachment.title}}</a>
+									    </div>
+										<div id="createdAt">{{item.createdDate|since}} by <span id="createdBy"> {{item.actor.name}}</span></div>
+										<div>
+											<span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
+											<span>{{item.likes.total}}</span>
+										</div>
+										<div>
+											<span>{{item.comments.comments.length}} Comments</span>
+										</div>
+						  			  <form ng-submit="addComment('{{item.id}}')">
+						  			     <input maxlength="411" id="body" class="textarea" type="text" placeholder="Reply…" ng-model="comment.body">
+						  			  </form>
+						  			    <div id='commentBlock' ng-show="item.comments.comments.length>0" ng-repeat="comment in item.comments.comments | reverse">
+							  				  <div class="clr"></div>
+							  				  <div id="commentSubmitter">
+							  					  <img id="submitterImg" ng-src="">
+							  				  </div>
+				
+							  				  <div id="commentRight">
+								  				<div id="submitterImage">
+								  					  <img ng-src="{{comment.user.photo.smallPhotoUrl}}">
+								  				</div>
+							  				  	<div id="commentBody">{{comment.body.text}}</div>
+							  					<div id="createdAt">{{comment.createdDate|since}} by {{comment.user.name}}</div>
+												<div>
+													<span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
+													<span>{{item.likes.total}}</span>
+												</div>
+							    				  <div id="arrow">
+							    				  </div>
+							  				  </div>
+						  			   </div>
+									</div>
+								</section>
+							    </div>
+
+								<section class="feed-item">
+									<div class="icon pull-left">
+										<i class="icon-arrow-down"></i>
+									</div>
+									<div class="feed-item-body">
+										<div class="text">
+											<a href="#">Load more...</a>
+										</div>
+									</div>
+								</section>
+								<!--end wrapper-->
+							</div>
+							<!--end slimscroll-->
 						</div>
-						<!--<div>
-						    <span>{{title}}</span>
-							<svg id="d3TrendParent">
-							</svg>
-						    <gh-trend data="d3TrendData" label="name" on-click="d3OnClick(item)"></gh-trend>
-						</div>-->
+						<!--end body-->
 					</div>
 				</section>
+					<!--end col-->
 			</div>
 		
 		
@@ -199,104 +298,7 @@
 			</section>
 		</div>
 	</div>
-	
-	<div class="row">
-		
-		<div class="span8" ng-controller="FeedCtrl" ng-init="init()">
-			<section class="widget large">
-				<header>
-					<h4>
-						Feed
-					</h4>
-					<div class="actions">
-						<button class="btn btn-transparent btn-xs">Show All <i class="icon-arrow-down"></i></button>
-					</div>
-				</header>
-				<div class="body">
-					<div class="slimScrollDiv" >
-						<div id="feed" class="feed">
-						<div class="wrapper">
-							<div class="vertical-line"></div>
-							<div ng-repeat="item in feed">
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<i class="icon-comment"></i>
-								</div>
-								<div class="feed-item-body">
-				  				  <div id="submitterImage">
-				  					  <img ng-src="{{item.actor.photo.smallPhotoUrl}}">
-				  				  </div>
-									<div class="text">
-										{{item.body.text}}
-									</div>
-									<div ng-show="item.attachment">
-										<a href={{item.attachment.url}}>{{item.attachment.title}}</a>
-								    </div>
-									<div id="createdAt">{{item.createdDate|since}} by <span id="createdBy"> {{item.actor.name}}</span></div>
-									<div>
-										<span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
-										<span>{{item.likes.total}}</span>
-									</div>
-									<div>
-										<span>{{item.comments.comments.length}} Comments</span>
-									</div>
-					  			  <form ng-submit="addComment('{{item.id}}')">
-					  			     <input maxlength="411" id="body" class="textarea" type="text" placeholder="Reply…" ng-model="comment.body">
-					  			  </form>
-					  			    <div id='commentBlock' ng-show="item.comments.comments.length>0" ng-repeat="comment in item.comments.comments | reverse">
-						  				  <div class="clr"></div>
-						  				  <div id="commentSubmitter">
-						  					  <img id="submitterImg" ng-src="">
-						  				  </div>
-				
-						  				  <div id="commentRight">
-							  				<div id="submitterImage">
-							  					  <img ng-src="{{comment.user.photo.smallPhotoUrl}}">
-							  				</div>
-						  				  	<div id="commentBody">{{comment.body.text}}</div>
-						  					<div id="createdAt">{{comment.createdDate|since}} by {{comment.user.name}}</div>
-											<div>
-												<span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
-												<span>{{item.likes.total}}</span>
-											</div>
-						    				  <div id="arrow">
-						    				  </div>
-						  				  </div>
-					  			   </div>
-								</div>
-							</section>
-						    </div>
-
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<i class="icon-arrow-down"></i>
-								</div>
-								<div class="feed-item-body">
-									<div class="text">
-										<a href="#">Load more...</a>
-									</div>
-								</div>
-							</section>
-							<!--end wrapper-->
-						</div>
-						<!--end slimscroll-->
-					</div>
-					<!--end body-->
-				</div>
-			</section>
-				<!--end col-->
-		</div>
-		
-		<div class="span4">
-			<section class="widget">
-				
-			</section>
-		</div>
-		
-	</div>
-	
-	
-
+					
 
 
 <!--end container-->

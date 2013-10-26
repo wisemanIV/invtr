@@ -116,6 +116,12 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 			RESTService.get("https://data.invtr.co/metrics", $scope.callback);
 		}
 		
+		$scope.d3TrendData = 
+[{"dat":"20111001","a":63.4, "b":62.7, "c":72.2},
+{"dat":"20111002","a":58.0,	"b":59.9, "c":67.7},
+{"dat":"20111003","a":53.3,	"b":59.1, "c":69.4},
+{"dat":"20111004","a":55.7,	"b":58.8, "c":68.0}];
+		
 		$scope.callback = function(data) {
 			console.debug("metrics callback");
 			console.debug(JSON.stringify(data));
@@ -206,6 +212,19 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 			}
 		    
 		});
+		
+		$scope.toggleType = function() {
+			console.log('toggle the dashbaord');
+			console.log($scope.dashboard.type);
+			
+			if ($scope.dashboard.type === 'standard') {
+				$scope.dashboard.type = 'trendline';
+				$scope.dashboard.toggleText = 'Standard View';
+			} else {
+				$scope.dashboard.type = 'standard';
+				$scope.dashboard.toggleText = 'Trendline View';
+			}
+		}
 	
 	}
   
@@ -217,17 +236,7 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 		$scope.leaderdata = [];
 		$scope.order = '-oppcount';
 		  
-		  $scope.title = "LeaderboardCtrl";
-		       
-		        $scope.d3OnClick = function(item){
-		          alert(item.name);
-		        };
-				
-		$scope.d3TrendData = 
-[{"date":"20111001","a":63.4, "b":62.7, "c":72.2},
-{"date":"20111002","a":58.0,	"b":59.9, "c":67.7},
-{"date":"20111003","a":53.3,	"b":59.1, "c":69.4},
-{"date":"20111004","a":55.7,	"b":58.8, "c":68.0}];
+		$scope.title = "LeaderboardCtrl";
 		
 		$scope.init = function() {
 			//	RESTService.get("https://data.invtr.co/leaderboard", $scope.callback);
@@ -254,6 +263,19 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','
 			}
 		    
 		});
+		
+		$scope.toggleType = function() {
+			console.log('toggle the leaderboard');
+			console.log($scope.leaderboard.type);
+			
+			if ($scope.leaderboard.type === 'standard') {
+				$scope.leaderboard.type = 'bar';
+				$scope.leaderboard.toggleText = 'Standard View';
+			} else {
+				$scope.leaderboard.type = 'standard';
+				$scope.leaderboard.toggleText = 'Bar Chart View';
+			}
+		}
 	
 	}
   
@@ -290,6 +312,8 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'RESTServi
 			console.debug(JSON.stringify(data));
 			$scope.site = data;
 		});
+		
+	
 	}
   
 ]);

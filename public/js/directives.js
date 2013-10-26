@@ -273,8 +273,10 @@ directives.directive('ghTrend', function () {
 				    .x(function(d) { return x(d.date); })
 				    .y(function(d) { return y(d.temperature); });
 
+					console.log("parsing in trendline directive");
+					console.log(data);
 				  data.forEach(function(d) {
-				    d.date = parseDate(d.date);
+				    d.date = parseDate(d.dat);
 				  });
 				  
 				 
@@ -289,6 +291,9 @@ directives.directive('ghTrend', function () {
 				      })
 				    };
 				  });
+				  
+				  console.log("cities");
+				  console.log(cities);
 
 				  x.domain(d3.extent(data, function(d) { return d.date; }));
 

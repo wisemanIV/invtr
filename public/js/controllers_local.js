@@ -228,6 +228,19 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', '$http', 
 			}
 		    
 		});
+		
+		$scope.toggleType = function() {
+			console.log('toggle the dashbaord');
+			console.log($scope.dashboard.type);
+			
+			if ($scope.dashboard.type === 'standard') {
+				$scope.dashboard.type = 'trendline';
+				$scope.dashboard.toggleText = 'Standard View';
+			} else {
+				$scope.dashboard.type = 'standard';
+				$scope.dashboard.toggleText = 'Trendline View';
+			}
+		}
 	
 	}
   
@@ -259,6 +272,19 @@ myApp.controller('LeaderboardCtrl', ['$scope', '$location','$http','SiteConfigSe
 			
 	        $scope.d3Data = response;
 		 });
+		 
+ 		$scope.toggleType = function() {
+ 			console.log('toggle the leaderboard');
+ 			console.log($scope.leaderboard.type);
+			
+ 			if ($scope.leaderboard.type === 'standard') {
+ 				$scope.leaderboard.type = 'bar';
+ 				$scope.leaderboard.toggleText = 'Standard View';
+ 			} else {
+ 				$scope.leaderboard.type = 'standard';
+ 				$scope.leaderboard.toggleText = 'Bar Chart View';
+ 			}
+ 		}
 	
 	}
   
