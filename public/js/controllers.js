@@ -116,12 +116,6 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 			RESTService.get("https://data.invtr.co/metrics", $scope.callback);
 		}
 		
-		$scope.d3TrendData = 
-[{"dat":"20111001","a":63.4, "b":62.7, "c":72.2},
-{"dat":"20111002","a":58.0,	"b":59.9, "c":67.7},
-{"dat":"20111003","a":53.3,	"b":59.1, "c":69.4},
-{"dat":"20111004","a":55.7,	"b":58.8, "c":68.0}];
-		
 		$scope.callback = function(data) {
 			console.debug("metrics callback");
 			console.debug(JSON.stringify(data));
@@ -167,6 +161,75 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 			
 		}
 		
+		socket.on('invtr:timelinedata:'+$location.host().split(".")[0], function (input) {
+			console.log("timelinedata event received");
+			
+			console.debug(input);
+			
+			var data = JSON.parse(input);
+			
+			console.log(data); 
+			
+			if (typeof data !== "undefined" && data !== null) { 
+				
+				var timelineData = [] ;
+					
+				var currId = RegExp('[^/]*$').exec($rootScope.currentUser.UserId)||[,null][1];
+				
+				var userTimeline = data[currId] ;
+				
+				console.log(JSON.stringify(Object.keys(userTimeline)));
+						
+				for(var j = 0 ; j < Object.keys(userTimeline).length ; j++) {
+					var dataRow = {} ;
+					
+					console.log(Object.keys(userTimeline)[j]) ;
+					
+					var metrics = userTimeline[Object.keys(userTimeline)[j]] ;
+					
+					var d = new Date(Object.keys(userTimeline)[j]);
+					    var curr_date = d.getDate();
+					    var curr_month = d.getMonth() + 1; //Months are zero based
+					    var curr_year = d.getFullYear();
+					dataRow["dat"] = curr_year+''+curr_month+''+curr_date;
+					
+					console.log(Object.keys(metrics['metricSnapshots']));
+					
+					for ( var x = 0 ; x < Object.keys(metrics['metricSnapshots']).length ; x++) {
+						var ruleId = Object.keys(metrics['metricSnapshots'])[x] ;
+						console.log(ruleId);
+						
+						var metricObj = metrics['metricSnapshots'][ruleId];
+						
+						console.log(metricObj);
+						
+						dataRow[ruleId] = metricObj.count ;
+					}
+					timelineData.push(dataRow);
+					
+					
+				}
+				console.log("Finished timeline");
+				
+				$scope.d3TrendData = timelineData;
+				
+				console.log($scope.d3TrendData);
+			
+			}
+		
+					
+					
+				//	$scope.d3TrendData = 
+			//[{"dat":"20111001","a":63.4, "b":62.7, "c":72.2},
+		//	{"dat":"20111002","a":58.0,	"b":59.9, "c":67.7},
+		//	{"dat":"20111003","a":53.3,	"b":59.1, "c":69.4},
+	///		{"dat":"20111004","a":55.7,	"b":58.8, "c":68.0}];
+	//		}
+			
+		});
+			
+		
+		
 		socket.on('invtr:data:'+$location.host().split(".")[0], function (input) {
 			
 			console.log("data event received");
@@ -181,8 +244,6 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
 				console.debug(data.length);
 			
 				for (var i = 0 ; i < data.length ; i++) {
-					console.log(data[0]);
-					console.debug("metrics length="+$scope.metrics.length);
 					console.debug($rootScope.currentUser);
 					
 					var currId = RegExp('[^/]*$').exec($rootScope.currentUser.UserId)||[,null][1];

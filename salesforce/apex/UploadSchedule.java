@@ -2,9 +2,10 @@ global class UploadSchedule implements Schedulable {
    global void execute(SchedulableContext SC) {
       updateIncentives();
       updateMetrics(); 
-	  updateLeaders(); 
+      updateLeaders(); 
       updateRules(); 
       updateUsers();
+      updateTimeline();
    }
    
    public void updateIncentives() {
@@ -64,6 +65,55 @@ global class UploadSchedule implements Schedulable {
        System.debug(recsJSON);
    
        transmitData(recsJSON, '/leader') ;
+        
+   }
+   
+   
+   public void updateTimeline() {
+       
+       System.debug('updateTimeline');
+       
+       List<Incentive__c> incentives = ProcessIncentives.getActiveIncentives();
+       
+       Map<String, Map<Id, Map<Date, MetricSnapshots>>> incentiveSnapshots = new Map<String, Map<Id, Map<Date, MetricSnapshots>>>() ;
+       
+       for (Incentive__c incentive : incentives) {
+           
+           Map<Id, Map<Date, MetricSnapshots>> userSnapshots = new Map<Id, Map<Date, MetricSnapshots>>();
+       
+           List<IncentiveSnapshot__c> snapshotRecords = [SELECT SnapshotDate__c, IncentiveIdentifier__c, OwnerId__c, RuleId__c, Count__c, Points__c FROM IncentiveSnapshot__c where IncentiveIdentifier__c = :incentive.Name];
+           
+           for (IncentiveSnapshot__c snapshotRecord: snapshotRecords) {
+           
+                Id userId = snapshotRecord.OwnerId__c ;
+                
+                Map<Date, MetricSnapshots> timeline ;
+                if (userSnapshots.containskey(userId)) {
+                    timeline = userSnapshots.get(userId);
+                } else {
+                    timeline = new Map<Date, MetricSnapshots>() ;
+                    userSnapshots.put(userId, timeline);
+                }
+                
+                MetricSnapshots metricSnapshot ; 
+                if (timeline.containsKey(snapshotRecord.SnapshotDate__c)) {
+                    metricSnapshot = timeline.get(snapshotRecord.SnapshotDate__c) ;
+                    metricSnapshot.addMetric(snapshotRecord.RuleId__c, snapshotRecord.Count__c, snapshotRecord.Points__c);
+                } else {
+                    metricSnapshot = new MetricSnapShots() ;
+                    metricSnapshot.addMetric(snapshotRecord.RuleId__c, snapshotRecord.Count__c, snapshotRecord.Points__c);
+                    timeline.put(snapshotRecord.SnapshotDate__c, metricSnapshot);
+                }
+           }
+           incentiveSnapshots.put(incentive.Name, userSnapshots);
+           
+       }
+       
+       String recsJSON = JSON.serializePretty(incentiveSnapshots);
+   
+       System.debug(recsJSON);
+   
+       transmitData(recsJSON, '/timeline') ;
         
    }
    
@@ -147,6 +197,33 @@ global class UploadSchedule implements Schedulable {
         }
 
    
+   }
+   
+   private class MetricSnapshots {
+       
+       Map<Id, MetricSnapshot> metricSnapshots ;
+       
+       public MetricSnapshots() {
+           metricSnapshots = new Map<Id, MetricSnapshot>() ;
+       }
+       
+       public void addMetric(Id ruleId, Decimal count, Decimal points) {
+            MetricSnapshot metricSnap = new MetricSnapshot(count, points);
+            metricSnapshots.put(ruleId, metricSnap);
+       }
+       
+       
+   }
+   
+   private class MetricSnapshot {
+       Decimal count = 0 ;
+       Decimal points = 0 ;
+       
+       public MetricSnapshot(Decimal count, Decimal points) {
+           this.count = count ;
+           this.points = points ;
+       }
+       
    }
         
 }

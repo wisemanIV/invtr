@@ -222,13 +222,14 @@ directives.directive('ghMeter', function () {
 directives.directive('ghTrend', function () {
 	
 	var margin = {top: 20, right: 80, bottom: 30, left: 50},
-	    width = 760 - margin.left - margin.right,
-	    height = 400 - margin.top - margin.bottom;
+	    width = 680 - margin.left - margin.right,
+	    height = 240 - margin.top - margin.bottom;
 		
   return {
     restrict: 'E',
     scope: {
       data: "=",
+	  metrics: "=",
       label: "@",
       onClick: "&"
     },
@@ -251,6 +252,7 @@ directives.directive('ghTrend', function () {
 	          scope.render = function(data){
 				  
 				var parseDate = d3.time.format("%Y%m%d").parse;
+			
 
 				var x = d3.time.scale()
 				    .range([0, width]);
@@ -262,25 +264,32 @@ directives.directive('ghTrend', function () {
 
 				var xAxis = d3.svg.axis()
 				    .scale(x)
-				    .orient("bottom");
+				    .orient("bottom")
+				    .ticks(d3.time.days, 1)
+				    .tickFormat(d3.time.format('%a %d'))
+				    .tickSize(0)
+				    .tickPadding(12);
 
 				var yAxis = d3.svg.axis()
 				    .scale(y)
-				    .orient("left");
+				    .orient("left")
+					.tickPadding(8);
 
 				var line = d3.svg.line()
 				    .interpolate("basis")
 				    .x(function(d) { return x(d.date); })
 				    .y(function(d) { return y(d.temperature); });
 
-					console.log("parsing in trendline directive");
-					console.log(data);
 				  data.forEach(function(d) {
 				    d.date = parseDate(d.dat);
 				  });
 				  
-				 
-				    color.domain(["a","b","c"]);
+				  console.log(scope.metrics);
+				  var yLabels = [] ;
+				  for (var j = 0 ; j < scope.metrics.length ; j++) {
+				  	yLabels.push(scope.metrics[j].ruleid);
+				  }
+				    color.domain(yLabels);
 				  
 
 				  var cities = color.domain().map(function(name) {
@@ -315,7 +324,7 @@ directives.directive('ghTrend', function () {
 				      .attr("y", 6)
 				      .attr("dy", ".71em")
 				      .style("text-anchor", "end")
-				      .text("Temperature (ºF)");
+				      .text("Points");
 
 				  var city = svg.selectAll(".city")
 				      .data(cities)
@@ -325,7 +334,8 @@ directives.directive('ghTrend', function () {
 				  city.append("path")
 				      .attr("class", "line")
 				      .attr("d", function(d) { return line(d.values); })
-				      .style("stroke", function(d) { return color(d.name); });
+				      .style("stroke", function(d) { return 'steelblue'; })
+					  .attr("fill", "none");
 
 				  city.append("text")
 				      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
