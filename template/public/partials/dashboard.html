@@ -39,7 +39,7 @@
 							<div class="body no-margin">
 								<svg id="d3Parent">
 								</svg>
-								<div ng-repeat="item in metrics">
+								<div ng-show="metrics" ng-repeat="item in metrics">
 									<div ng-switch on="item.type">
 										<div ng-switch-when="dial">
 											<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>

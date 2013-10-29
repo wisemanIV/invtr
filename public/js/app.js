@@ -34,7 +34,7 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     });
     $routeProvider.when('/dashboard', {
         templateUrl:'partials/dashboard.html',
-	//	authRequired: true,
+    	authRequired: true,
 		controller:'DashboardCtrl'
     });
     $routeProvider.when('/leaderboard', {

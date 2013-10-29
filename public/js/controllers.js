@@ -109,139 +109,52 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 }
 ]);
 
-myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $rootScope, $location, UserService, localStorageService, RESTService, socket) {
-  		
-		$scope.init = function() {
-			RESTService.get("https://data.invtr.co/metrics", $scope.callback);
-		}
+myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'DataService',
+	function ($scope, $rootScope, DataService) {
 		
-		$scope.callback = function(data) {
-			console.debug("metrics callback");
-			console.debug(JSON.stringify(data));
-			
-			var m = new Array() ;
-			
-			for (var j = 0 ; j < data.length ; j++) {
-				console.log('metric loop');
-				
-				if (data[j].Inviter__DisplayField__c) {
-				
-					var item = new Object() ;
-				
-					item.title = data[j].Inviter__DisplayLabel__c ;
-				    item.data = "0" ;
-					// TODO make this dynamic in the data
-					item.type = "dial";
-					item.format = data[j].Inviter__DisplayFormat__c ;
-					item.target = data[j].Inviter__FieldTarget__c ;
-					item.ruleid = data[j].Id ;
-					item.fieldtype = 'count';
-					m.push(item); 
-				}
-				if (data[j].Inviter__DisplayPointsField__c) {
-				
-					var item = new Object() ;
-				
-					item.title = data[j].Inviter__DisplayPointsFieldLabel__c ;
-				    item.data = "0" ;
-					// TODO make this dynamic in the data
-					item.type = "dial";
-					item.format = data[j].Inviter__DisplayPointsFieldFormat__c ;
-					item.target = data[j].Inviter__PointsFieldTarget__c ;
-					item.ruleid = data[j].Id ;
-					item.fieldtype = 'points';
-					m.push(item); 
-				}
-				
-				
-				
-			} 
-			$scope.metrics = m ;
-			
-		}
+		$scope.metrics = [] ;
 		
-		socket.on('invtr:timelinedata:'+$location.host().split(".")[0], function (input) {
-			console.log("timelinedata event received");
-			
-			console.debug(input);
-			
-			var data = JSON.parse(input);
-			
-			console.log(data); 
-			
-			if (typeof data !== "undefined" && data !== null) { 
-				
-				var timelineData = [] ;
-					
-				var currId = RegExp('[^/]*$').exec($rootScope.currentUser.UserId)||[,null][1];
-				
-				var userTimeline = data[currId] ;
-				
-				console.log(JSON.stringify(Object.keys(userTimeline)));
-						
-				for(var j = 0 ; j < Object.keys(userTimeline).length ; j++) {
-					var dataRow = {} ;
-					
-					console.log(Object.keys(userTimeline)[j]) ;
-					
-					var metrics = userTimeline[Object.keys(userTimeline)[j]] ;
-					
-					var d = new Date(Object.keys(userTimeline)[j]);
-					    var curr_date = d.getDate();
-					    var curr_month = d.getMonth() + 1; //Months are zero based
-					    var curr_year = d.getFullYear();
-					dataRow["dat"] = curr_year+''+curr_month+''+curr_date;
-					
-					console.log(Object.keys(metrics['metricSnapshots']));
-					
-					for ( var x = 0 ; x < Object.keys(metrics['metricSnapshots']).length ; x++) {
-						var ruleId = Object.keys(metrics['metricSnapshots'])[x] ;
-						console.log(ruleId);
-						
-						var metricObj = metrics['metricSnapshots'][ruleId];
-						
-						console.log(metricObj);
-						
-						dataRow[ruleId] = metricObj.count ;
-					}
-					timelineData.push(dataRow);
-					
-					
-				}
-				console.log("Finished timeline");
-				
-				$scope.d3TrendData = timelineData;
-				
-				console.log($scope.d3TrendData);
-			
-			}
+		DataService.getMetrics()
+	            .then(function (result) {
+					console.log("Metric results are in ");
+					console.log(result); 
+	               $scope.metrics = result; 
+			        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
 		
-					
-					
-				//	$scope.d3TrendData = 
-			//[{"dat":"20111001","a":63.4, "b":62.7, "c":72.2},
-		//	{"dat":"20111002","a":58.0,	"b":59.9, "c":67.7},
-		//	{"dat":"20111003","a":53.3,	"b":59.1, "c":69.4},
-	///		{"dat":"20111004","a":55.7,	"b":58.8, "c":68.0}];
-	//		}
-			
-		});
-			
+		DataService.getTimelineData()
+	            .then(function (result) {
+					console.log("Timeline results are in ");
+					console.log(result); 
+	               $scope.d3TrendData = result; 
+			        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
+				
+		DataService.getDashboardData()
+	            .then(function (result) {
+					console.log("Dashboard results are in ");
+					console.log(result); 
+	               $scope.dashboardData = result; 
+        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
 		
-		
-		socket.on('invtr:data:'+$location.host().split(".")[0], function (input) {
+		$scope.$watch('dashboard', function(newVal, oldValue) {
 			
-			console.log("data event received");
+			console.log("dashboard watch fired");
 			
-			console.debug(input);
+			console.debug(JSON.parse($scope.dashboardData));
 			
-			var data = JSON.parse(input);
+			var data = JSON.parse($scope.dashboardData);
 			
 			if (typeof data !== "undefined" && data !== null) { 
 		
 				console.debug("new data:"+data[0]);
-				console.debug(data.length);
 			
 				for (var i = 0 ; i < data.length ; i++) {
 					console.debug($rootScope.currentUser);
@@ -291,39 +204,22 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', 'UserServ
   
 ]);
 
-myApp.controller('LeaderboardCtrl', ['$scope', '$location','SiteConfigService','UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $location, SiteConfigService, UserService, localStorageService, RESTService, socket) {
+myApp.controller('LeaderboardCtrl', ['$scope','DataService',
+	function ($scope, DataService) {
   		
-		$scope.leaderdata = [];
 		$scope.order = '-oppcount';
 		  
 		$scope.title = "LeaderboardCtrl";
 		
-		$scope.init = function() {
-			//	RESTService.get("https://data.invtr.co/leaderboard", $scope.callback);
-		}
-		
-		$scope.callback = function(data) {
-			console.debug("leaderboard callback");
-			console.debug(data);
-			
-		}
-		
-		socket.on('invtr:leaderdata:'+$location.host().split(".")[0], function (data) {
-			
-			console.debug(data);
-			
-			if (typeof data !== "undefined" && data !== null) { 
-		
-				console.debug("leader data:");
-			
-				$scope.leaderdata = JSON.parse(data) ;
-				
-		        $scope.d3Data = $scope.leaderdata;
-				
-			}
-		    
-		});
+		DataService.getLeaderData()
+	            .then(function (result) {
+					console.log("Leader results are in ");
+					console.log(result); 
+	               $scope.leaderdata = result; 
+			        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
 		
 		$scope.toggleType = function() {
 			console.log('toggle the leaderboard');
@@ -365,15 +261,18 @@ myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$
 	}
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'RESTService', 'socket',
-	function ($scope, $rootScope, $route, RESTService, socket) {
+myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfigService', 
+	function ($scope, $rootScope, $route, SiteConfigService) {
   	
-		RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
-			console.debug("SiteConfigCtrl REST returned:");
-			console.debug(JSON.stringify(data));
-			$scope.site = data;
-		});
-		
+		SiteConfigService.getConfig()
+                .then(function (result) {
+					console.log("results are in ");
+					console.log(result); 
+                   $scope.site = result.data; 
+				        
+                }, function (result) {
+                    alert("Error: No data returned");
+                });
 	
 	}
   
@@ -385,7 +284,7 @@ myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService',
 		$scope.init = function() {
 			RESTService.get("https://data.invtr.co/feed", function(data) {
 				console.debug("FeedCtrl REST returned:");
-				console.debug(JSON.stringify(data));
+				//console.debug(JSON.stringify(data));
 				$scope.feed = data.items;
 			});
 		}
@@ -424,28 +323,18 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'SiteConfigServ
 ]);
 
 
-myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','$location', 'socket',
-    function($scope, $timeout, $rootScope, $location, socket) {
+myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
+    function($scope, $timeout, DataService, socket) {
   
-  	 $scope.messages = [];
-	 
-	 socket.on('init:messages:'+$location.host().split(".")[0], function (input) {
-		console.log("CLIENT RECEIVES CHAT MESSAGE");
-		
-		console.debug("new chat data:"+input);
-		
-		var data = JSON.parse(input);
-		
-		if (typeof data !== "undefined" && data[0] !== null && data.length>0 && Object.keys(data).length > 0) { 
-	
-	   		 for (var i = 0 ; i < data.length ; i++) {
-	   	     	// add the message to our model locally
-	   	     	$scope.messages.push(data[i]);
-	   		 }
-			
-		}
-	    
-	 });
+	DataService.getChatMessages()
+            .then(function (result) {
+				console.log("Chat results are in ");
+				console.log(result); 
+               $scope.messages = result; 
+			        
+            }, function (result) {
+                alert("Error: No data returned");
+            });
 	 
 	  
 	 $scope.sendMessage = function () {
