@@ -1,16 +1,17 @@
 'use strict'
 
-myApp.controller('InboxCtrl', ['$scope', 'socket',
-  function MyCtrl($scope, socket) {
+myApp.controller('InboxCtrl', ['$scope', 'socket', 'RESTService',
+  function MyCtrl($scope, socket, RESTService) {
 	  
 	$scope.inbox = {} ;
 	  
-    socket.on('inbox', function (data) {
-  		console.debug("inbox data received");
-  		console.debug(data);
-        
-		$scope.inbox = data ;
-	});	
+	$scope.init = function() {
+		RESTService.get("https://data.invtr.co/messages", function(data) {
+			console.debug("InboxCtrl REST returned:");
+			console.debug(JSON.stringify(data));
+			$scope.inbox = data.messages;
+		});
+	}
  	
     // modal
     $scope.open = function () {
@@ -41,7 +42,7 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
    				
 	$scope.user = {};
 	$scope.authenticated = $rootScope.authenticated;
-	
+		   
 	$http.get('/sample_data/user_account.json').success(function(response) {
 		console.debug("Account CTRL returned:");
 		console.debug(response);
@@ -52,8 +53,6 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
 	    $rootScope.authenticated = true ;
 	    $scope.authenticated = true;
 	 });
-		   
-   
 	
 	$scope.login = function() {
 		UserService.login($scope.$parent.mode) ;
@@ -85,16 +84,6 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 	
 	$scope.$watch('posts', function() { $scope.orderedPosts = $scope.orderPosts(); });
 	
-	$scope.addComment = function(post) {
-		
-	//	$scope.comment.submitter_id = $scope.$parent.currentUser.id
-	//	$scope.comment.submitter_name = $scope.$parent.currentUser.name
-		
-		if (typeof post.comments == "undefined") post.comments = new Array();
-	    post.comments.push($scope.comment);
-		
-		$scope.comment = {};
-	}
 	
 	$scope.addPost = function() {
 		
@@ -106,11 +95,6 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 		$scope.post.attachment = $filter('youtube_id')($scope.post.attachment);
 	    $scope.posts.push($scope.post);
 		$scope.post = {};
-	}
-	
-	$scope.incrementLike = function() {
-	    $scope.post.likes_count = $scope.post.likes_count + 1;
-		
 	}
 	
     $scope.goPost = function (post) {
@@ -126,79 +110,54 @@ myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams
 }
 ]);
 
-myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', '$http', 'UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $rootScope, $location, $http, UserService, localStorageService, RESTService, socket) {
-  		
-		$scope.init = function() {
-			$http.get('/sample_data/dashboard_data.json').success(function(response) {
-				console.debug("Dashboard CTRL returned:");
-				console.debug(response);
-				
-		        $scope.callback(response);
-			 });
-		}
+myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'DataService',
+	function ($scope, $rootScope, DataService) {
 		
-		$scope.callback = function(data) {
-			console.debug("metrics callback");
-			console.debug(JSON.stringify(data));
-			
-			var m = new Array() ;
-			
-			for (var j = 0 ; j < data.length ; j++) {
-				console.log('metric loop');
-				
-				if (data[j].Inviter__DisplayField__c) {
-				
-					var item = new Object() ;
-				
-					item.title = data[j].Inviter__DisplayLabel__c ;
-				    item.data = "0" ;
-					// TODO make this dynamic in the data
-					item.type = "dial";
-					item.format = data[j].Inviter__DisplayFormat__c ;
-					item.target = data[j].Inviter__FieldTarget__c ;
-					item.ruleid = data[j].Id ;
-					item.fieldtype = 'count';
-					m.push(item); 
-				}
-				if (data[j].Inviter__DisplayPointsField__c) {
-				
-					var item = new Object() ;
-				
-					item.title = data[j].Inviter__DisplayPointsFieldLabel__c ;
-				    item.data = "0" ;
-					// TODO make this dynamic in the data
-					item.type = "dial";
-					item.format = data[j].Inviter__DisplayPointsFieldFormat__c ;
-					item.target = data[j].Inviter__PointsFieldTarget__c ;
-					item.ruleid = data[j].Id ;
-					item.fieldtype = 'points';
-					m.push(item); 
-				}
-				
-				
-				
-			} 
-			$scope.metrics = m ;
-			
-		}
+		$scope.metrics = [] ;
 		
-		socket.on('invtr:data:'+$location.host().split(".")[0], function (input) {
+		DataService.getMetrics()
+	            .then(function (result) {
+					console.log("Metric results are in ");
+					console.log(result); 
+	               $scope.metrics = result; 
+			        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
+		
+		DataService.getTimelineData()
+	            .then(function (result) {
+					console.log("Timeline results are in ");
+					console.log(result); 
+	               $scope.d3TrendData = result; 
+			        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
+				
+		DataService.getDashboardData()
+	            .then(function (result) {
+					console.log("Dashboard results are in ");
+					console.log(result); 
+	               $scope.dashboardData = result; 
+        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
+		
+		$scope.$watch('dashboard', function(newVal, oldValue) {
 			
-			console.log("data event received");
+			console.log("dashboard watch fired");
 			
-			console.debug(input);
+			console.debug($scope.dashboardData);
 			
-			var data = JSON.parse(input);
+			var data = $scope.dashboardData;
 			
 			if (typeof data !== "undefined" && data !== null) { 
 		
 				console.debug("new data:"+data[0]);
-				console.debug(data.length);
 			
 				for (var i = 0 ; i < data.length ; i++) {
-					console.log(data[0]);
-					console.debug("metrics length="+$scope.metrics.length);
 					console.debug($rootScope.currentUser);
 					
 					var currId = RegExp('[^/]*$').exec($rootScope.currentUser.UserId)||[,null][1];
@@ -246,98 +205,113 @@ myApp.controller('DashboardCtrl', ['$scope','$rootScope', '$location', '$http', 
   
 ]);
 
-myApp.controller('LeaderboardCtrl', ['$scope', '$location','$http','SiteConfigService','UserService', 'localStorageService', 'RESTService', 'socket',
-	function ($scope, $location, $http, SiteConfigService, UserService, localStorageService, RESTService, socket) {
+myApp.controller('LeaderboardCtrl', ['$scope','DataService',
+	function ($scope, DataService) {
   		
-		$scope.leaderdata = [];
 		$scope.order = '-oppcount';
 		  
-		  $scope.title = "LeaderboardCtrl";
-		       
-		        $scope.d3OnClick = function(item){
-		          alert(item.name);
-		        };
+		$scope.title = "LeaderboardCtrl";
 		
-		$scope.callback = function(data) {
-			console.debug("leaderboard callback");
-			console.debug(data);
+		DataService.getLeaderData()
+	            .then(function (result) {
+					console.log("Leader results are in ");
+					console.log(result); 
+	               $scope.leaderdata = result; 
+			        
+	            }, function (result) {
+	                alert("Error: No data returned");
+	            });
+		
+		$scope.toggleType = function() {
+			console.log('toggle the leaderboard');
+			console.log($scope.leaderboard.type);
 			
+			if ($scope.leaderboard.type === 'standard') {
+				$scope.leaderboard.type = 'bar';
+				$scope.leaderboard.toggleText = 'Standard View';
+			} else {
+				$scope.leaderboard.type = 'standard';
+				$scope.leaderboard.toggleText = 'Bar Chart View';
+			}
 		}
-		
-		$http.get('/sample_data/leader_data.json').success(function(response) {
-			console.debug("Leaderboard CTRL returned:");
-			console.debug(response);
-			
-			$scope.leaderdata = response ;
-			
-	        $scope.d3Data = response;
-		 });
-		 
- 		$scope.toggleType = function() {
- 			console.log('toggle the leaderboard');
- 			console.log($scope.leaderboard.type);
-			
- 			if ($scope.leaderboard.type === 'standard') {
- 				$scope.leaderboard.type = 'bar';
- 				$scope.leaderboard.toggleText = 'Standard View';
- 			} else {
- 				$scope.leaderboard.type = 'standard';
- 				$scope.leaderboard.toggleText = 'Bar Chart View';
- 			}
- 		}
 	
 	}
   
 ]);
 
-myApp.controller('CountdownCtrl', ['$scope', '$timeout', '$http', 'SiteConfigService', '$rootScope','RESTService',
-	function ($scope,$timeout, $http, SiteConfigService, $rootScope, RESTService) {
+myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService',
+	function ($scope,$timeout, SiteConfigService) {
 		
-		
-		$scope.init = function() {
-			$http.get('/sample_data/site_config.json').success(function(response) {
-				console.debug("CountdownCtrl REST returned:");
-				console.debug(response);
-				$scope.callback(response);
-			 });
+		SiteConfigService.getConfig()
+                .then(function (result) {
+					console.log("CountdownCtrl results are in ");
+					console.log(result); 
+					
+					var now = new Date().getTime();
 			
-		}
-		
-		$scope.callback = function(data) {
-			console.debug("config callback");
-			console.debug(data);
+					$scope.config = result.data ;
 			
-			var now = new Date().getTime();
-			
-		    $scope.$apply(function() {
-		              
-			var c = 0 ;
-			config.debug(data.StartDate);
-			
-			
-			if (((data.StartDate - now)/1000)>0) {
-				c=(data.StartDate - now)/1000;
-				config.debug(c);
-				$scope.countdownVal = c ;
-				//$rootScope.$broadcast('timer-start');
-			}
-		});
-			
-		}
-		
-		
+					if ($scope.config.active) {
+						$scope.config.countdown = ($scope.config.enddate - $scope.config.startdate)/1000;
+						$scope.config.countdown.tagline = 'Remaining time for this incentive';	
+					} else {
+				    	$scope.config.countdown = ($scope.config.startdate - now)/1000;
+						$scope.config.countdown.tagline = 'Time until incentive begins';
+					}
+				        
+                }, function (result) {
+                    alert("Error: No data returned");
+                });
             
 	}
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$http', '$route', 'RESTService', 'socket',
-	function ($scope, $rootScope, $http, $route, RESTService, socket) {
+myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfigService', 
+	function ($scope, $rootScope, $route, SiteConfigService) {
+  	
+		SiteConfigService.getConfig()
+                .then(function (result) {
+					console.log("SiteConfigCtrl results are in ");
+					console.log(result); 
+                   $scope.site = result.data; 
+				        
+                }, function (result) {
+                    alert("Error: No data returned");
+                });
+	
+	}
+  
+]);
+
+myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService','$http',
+	function ($scope, $rootScope, $route, RESTService, $http) {
+  	
+		$scope.init = function() {
+			$http.get('/sample_data/feed.json').success(function(response) {
+				console.debug("FeedCtrl returned:");
+				console.debug(response);
+				$scope.feed = response.items;
+			 });
+		}
+	
+	
+		$scope.incrementLike = function(feedItemId) {
+			RESTService.post("https://data.invtr.co/feed-item/"+feedItemId+"/like", function(data) {
+				console.debug("Increment Like REST returned:");
+				console.debug(JSON.stringify(data));
+			});
 		
-		$http.get('/sample_data/site_config.json').success(function(response) {
-			console.debug("SiteConfigCtrl returned:");
-			console.debug(response);
-			$scope.site = response;
-		 });
+		}
+	
+		$scope.addComment = function(feedItemId) {
+			
+			RESTService.post("https://data.invtr.co/feed-item/"+feedItemId+"/comment", JSON.stringify({"text":"my comment"}), function(data) {
+				console.debug("Add comment REST returned:");
+				console.debug(JSON.stringify(data));
+				$scope.comment = {};
+			});
+		}
+		
 	}
   
 ]);
@@ -353,34 +327,19 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'SiteConfigServ
 
 ]);
 
-myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService',
-	function ($scope, $rootScope, $route, RESTService) {
-  	
-		$scope.init = function() {
-			
-			$http.get('/sample_data/feed.json').success(function(response) {
-				console.debug("FeedCtrl returned:");
-				console.debug(response);
-				$scope.feed = response;
-			 });
-		}
-]);
 
-
-myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageService', 'socket',
-    function($scope, $timeout, $rootScope, localStorageService, socket) {
+myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
+    function($scope, $timeout, DataService, socket) {
   
-  	 $scope.messages = [];
-	 
-	 $http.get('/sample_data/chat.json').success(function(response) {
-		console.debug("Chat returned:");
-		console.debug(response);
-		
-  		 for (var i = 0 ; i < response.length ; i++) {
-  	     	// add the message to our model locally
-  	     	$scope.messages.push(response[i]);
-  		 }
-	 });
+	DataService.getChatMessages()
+            .then(function (result) {
+				console.log("Chat results are in ");
+				console.log(result); 
+               $scope.messages = result; 
+			        
+            }, function (result) {
+                alert("Error: No data returned");
+            });
 	 
 	  
 	 $scope.sendMessage = function () {
@@ -391,6 +350,8 @@ myApp.controller('Chat', ['$scope', '$timeout', '$rootScope','localStorageServic
 		 msg['username'] = "Stephen McCurry";
 	     msg['message'] = $scope.message.message;
 		 //msg['photo'] = $scope.message.photo;
+		 var now = new Date().getTime();
+		 msg['created_at'] = now ;
 		 msg['photo'] = "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T";
 		   
 	     socket.emit('send:message', msg, function(res) {

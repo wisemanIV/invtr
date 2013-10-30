@@ -1,10 +1,23 @@
 public class IncentiveBuilderClass {
 
-    Incentive__c incentive ;
+    Map<Id, Incentive> templates ;
+    Incentive incentive ;
+    public Id incentiveTemplateId { get; set;} 
     IncentiveRule__c rule ;
     public Boolean typeUpdate { get; set;} 
-    static Map<String,Schema.SObjectType> gd = Schema.getGlobalDescribe();  
+    static Map<String,Schema.SObjectType> gd = Schema.getGlobalDescribe(); 
     
+    public IncentiveBuilderClass() {
+        getSystemIncentives();
+    }
+    
+    public void selectIncentiveType() {
+        
+        Incentive template = templates.get(incentiveTemplateId);
+        
+        incentive.cloneRules(template) ;
+        
+    }
     
     public void selectEvent() {
         
@@ -24,7 +37,7 @@ public class IncentiveBuilderClass {
                 rule.Type__c = event.Type__c ;
                 rule.StartValue__c = event.StartValue__c ;
                 rule.EndValue__c = event.EndValue__c ;
-				rule.OwnerIdField__c = 'OwnerId';
+                rule.UserIdField__c = 'OwnerId';
                 break;
             }
         }
@@ -40,8 +53,8 @@ public class IncentiveBuilderClass {
     }
     
     public Incentive__c getIncentive() {
-          if(incentive == null) incentive = new Incentive__c();
-          return incentive;
+          if(incentive == null) incentive = new Incentive();
+          return incentive.getRecord();
     }
     
     public IncentiveRule__c getRule() {
@@ -49,12 +62,12 @@ public class IncentiveBuilderClass {
           return rule;
     }
     
-    public List<IncentiveRule__c> rules {
-        get { 
-            if (rules == null) rules = new List<IncentiveRule__c>();
-            return rules;
+    public List<IncentiveRule__c> getRules() {
+        if (incentiveTemplateId == null) {
+            return new List<IncentiveRule__c>();
+        } else {
+            return templates.get(incentiveTemplateId).getRules();
         }
-        set;
     }
     
     public void removeRule() {
@@ -132,12 +145,27 @@ public class IncentiveBuilderClass {
     }
     
     public static List<IncentiveRule__c> getSystemRules() {
-        List<Incentive__c> incentive = new List<Incentive__c>([select Id from Incentive__c where Name = 'SYSTEM']);
+        List<Incentive__c> incentive = new List<Incentive__c>([select Id, Title__c from Incentive__c where Name = 'SYSTEM']);
         List<IncentiveRule__c> events = new List<IncentiveRule__c>(); 
         
         if (incentive != null && incentive.size() > 0) events = CalculateMetrics.getRules(incentive[0].Id);
     
         return events ;
+    }
+    
+    public Map<Id, Incentive> getSystemIncentives() {
+        
+        if (templates == null) {
+            templates = new Map<Id, Incentive>();
+            List<Incentive__c> systemIncentives = new List<Incentive__c>([select Id, Title__c from Incentive__c where Name = 'SYSTEM']);
+            
+            for (Incentive__c systemIncentive: systemIncentives) {
+                Incentive i = new Incentive(systemIncentive) ;
+                templates.put(systemIncentive.Id, i);
+            }
+        }
+        
+        return templates ;
     }
     
     public List<SelectOption> getEvents()
@@ -151,6 +179,24 @@ public class IncentiveBuilderClass {
        {
            if (event.Title__c != null && event.Title__c != '') {
               options.add(new SelectOption(event.Title__c , event.Title__c ));
+           }
+       }
+       options.sort();
+       return options;
+      
+    }
+    
+    public List<SelectOption> getIncentiveTypes()
+    {
+       List<Incentive> incentiveTypes = getSystemIncentives().values();
+       List<SelectOption> options = new List<SelectOption>();
+       
+       options.add(new SelectOption('-- Select --', '-- Select --'));
+       
+       for(Incentive incentive: incentiveTypes)
+       {
+           if (incentive.getRecord().Title__c != null && incentive.getRecord().Title__c != '') {
+              options.add(new SelectOption(incentive.getRecord().Id, incentive.getRecord().Title__c ));
            }
        }
        options.sort();
@@ -185,45 +231,30 @@ public class IncentiveBuilderClass {
     }
     
     public PageReference step1() {
-      incentive.Active__c = false ;
-      incentive.Url__c = 'https://'+incentive.Name+'.invtr.co';
+      incentive.getRecord().Active__c = false ;
+      incentive.getRecord().Url__c = 'https://'+incentive.getRecord().Name+'.invtr.co';
         
-      // create the incentive record
-      insert incentive ;
       return Page.InvRules;
     }
  
    public PageReference step2() {
        
       List<User> ids = new List<User>([select Id from User where ProfileId in ('00ei00000013M1P','00ei00000013M1b','00ei00000013M1M','00ei00000013M1bAAE') and Id != :UserInfo.getUserId()]) ;
-      Id groupId = IncentiveBuilderClass.createGroup(incentive.Title__c, ids);
-      incentive.ChatterGroupId__c = groupId ;
-	  update incentive ;
-      save(incentive.Id, JSON.serializePretty(incentive));
+      Id groupId = IncentiveBuilderClass.createGroup(incentive.getRecord().ChatterGroupTitle__c, ids);
+      incentive.getRecord().ChatterGroupId__c = groupId ;
+      incentive.save() ;
+      save(incentive.getRecord().Id, JSON.serializePretty(incentive.getRecord()));
       PageReference pageRef = Page.InvAdmin;
       
       return pageRef.setRedirect(true);
    }
  
-   
-   public PageReference addRule() {
-       // store new rule
-       rule.IncentiveId__c = incentive.Id;
-       insert rule ;
-       IncentiveRule__c irClone = rule.clone();
-       
-       irClone.Id = rule.Id;
-       // refresh local copy
-       rules.add(irClone);
-       rule.clear();
-       return ApexPages.CurrentPage();
-   }
-    
     @future (callout=true)
     public static void save(Id incentiveId, String body) {
     
+        Incentive__c irec = [select Id, Url__c from Incentive__c where Id = :incentiveId];
+    
         HttpRequest req = new HttpRequest();
-        Incentive__c incentive = [select Id from Incentive__c where Id = :incentiveId] ;
             
         System.debug(body) ;
          
@@ -240,7 +271,7 @@ public class IncentiveBuilderClass {
         req.setBody(body);   
 
         Http http = new Http();
-  
+       
         try {
  
             //Execute web service call here    
@@ -254,13 +285,15 @@ public class IncentiveBuilderClass {
             if (res.getStatusCode() != 200) {
                 
                 String msg = 'code:'+res.getStatusCode()+' reason:'+res.getStatus() ;
-                incentive.Url__c = res.getStatus() ;
-				update incentive ;
+                irec.Url__c = res.getStatus() ;
+                update irec ;
             }
     
         } catch(System.CalloutException e) {
             System.debug(e);
-            incentive.Url__c = e.getMessage() ;
+            irec.Url__c = e.getMessage() ;
+            update irec;
+            
         }
         
     }

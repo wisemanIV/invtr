@@ -1,34 +1,82 @@
-[
-    {
-        "Id": "a0Xi0000001RzvPEAS", 
-        "Inviter__Count__c": 0, 
-        "Inviter__FirstName__c": "Stephen", 
-        "Inviter__FullPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
-        "Inviter__IncentiveIdentifier__c": "test8", 
-        "Inviter__LastName__c": "McCurry", 
-        "Inviter__OwnerId__c": "005i0000001GM5rAAG", 
-        "Inviter__Points__c": 0, 
-        "Inviter__RuleId__c": "a0Yi0000001cnRjEAI", 
-        "Inviter__SmallPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-        "attributes": {
-            "type": "Inviter__IncentiveRecord__c", 
-            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRecord__c/a0Xi0000001RzvPEAS"
+{
+    "data": [
+        {
+            "Id": "a0Xi0000001S9ViEAK", 
+            "Inviter__Count__c": 0, 
+            "Inviter__FirstName__c": "Stephen", 
+            "Inviter__FullPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+            "Inviter__IncentiveIdentifier__c": "test55", 
+            "Inviter__LastName__c": "McCurry", 
+            "Inviter__OwnerId__c": "005i0000001GM5rAAG", 
+            "Inviter__Points__c": 0, 
+            "Inviter__RuleId__c": "a0Yi0000001cv23EAA", 
+            "Inviter__SmallPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+            "attributes": {
+                "type": "Inviter__IncentiveRecord__c", 
+                "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRecord__c/a0Xi0000001S9ViEAK"
+            }
+        }, 
+        {
+            "Id": "a0Xi0000001S9VjEAK", 
+            "Inviter__Count__c": 1, 
+            "Inviter__FirstName__c": "Stephen", 
+            "Inviter__FullPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+            "Inviter__IncentiveIdentifier__c": "test55", 
+            "Inviter__LastName__c": "McCurry", 
+            "Inviter__OwnerId__c": "005i0000001GM5rAAG", 
+            "Inviter__Points__c": 600, 
+            "Inviter__RuleId__c": "a0Yi0000001cv14EAA", 
+            "Inviter__SmallPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+            "attributes": {
+                "type": "Inviter__IncentiveRecord__c", 
+                "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRecord__c/a0Xi0000001S9VjEAK"
+            }
         }
-    }, 
-    {
-        "Id": "a0Xi0000001RzvQEAS", 
-        "Inviter__Count__c": 1, 
-        "Inviter__FirstName__c": "Stephen", 
-        "Inviter__FullPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
-        "Inviter__IncentiveIdentifier__c": "test8", 
-        "Inviter__LastName__c": "McCurry", 
-        "Inviter__OwnerId__c": "005i0000001GM5rAAG", 
-        "Inviter__Points__c": 6800, 
-        "Inviter__RuleId__c": "a0Yi0000001cnReEAI", 
-        "Inviter__SmallPhotoUrl__c": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-        "attributes": {
-            "type": "Inviter__IncentiveRecord__c", 
-            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRecord__c/a0Xi0000001RzvQEAS"
+    ], 
+    "metrics": [
+        {
+            "Id": "a0Yi0000001cv14EAA", 
+            "Inviter__DisplayField__c": true, 
+            "Inviter__DisplayLabel__c": "New Opportunity", 
+            "Inviter__DisplayPointsFieldFormat__c": "$", 
+            "Inviter__DisplayPointsFieldLabel__c": "New Opp Revenue", 
+            "Inviter__DisplayPointsField__c": true, 
+            "Inviter__FieldTarget__c": "8", 
+            "Inviter__Object__c": "Opportunity", 
+            "Inviter__PointsFieldTarget__c": "100000", 
+            "Inviter__PointsField__c": "expectedrevenue", 
+            "Inviter__PointsMultiplier__c": 0, 
+            "Inviter__Title__c": "New opportunities", 
+            "Inviter__Type__c": "New", 
+            "Inviter__UserIdField__c": "OwnerId", 
+            "attributes": {
+                "type": "Inviter__IncentiveRule__c", 
+                "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001cv14EAA"
+            }
+        }, 
+        {
+            "Id": "a0Yi0000001cv23EAA", 
+            "Inviter__DisplayField__c": true, 
+            "Inviter__DisplayFormat__c": "$", 
+            "Inviter__DisplayLabel__c": "Opportunity Won", 
+            "Inviter__DisplayPointsFieldFormat__c": "$", 
+            "Inviter__DisplayPointsFieldLabel__c": "Booked Revenue", 
+            "Inviter__DisplayPointsField__c": true, 
+            "Inviter__EndValue__c": "Closed Won", 
+            "Inviter__FieldTarget__c": "5", 
+            "Inviter__Field__c": "StageName", 
+            "Inviter__Object__c": "Opportunity", 
+            "Inviter__PointsFieldTarget__c": "100000", 
+            "Inviter__PointsField__c": "amount", 
+            "Inviter__PointsMultiplier__c": 0, 
+            "Inviter__StartValue__c": "Any", 
+            "Inviter__Title__c": "Opportunities won", 
+            "Inviter__Type__c": "Update", 
+            "Inviter__UserIdField__c": "OwnerId", 
+            "attributes": {
+                "type": "Inviter__IncentiveRule__c", 
+                "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001cv23EAA"
+            }
         }
-    }
-]
+    ]
+}

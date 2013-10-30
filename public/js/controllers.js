@@ -71,44 +71,6 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
   }
 ]);
 
-myApp.controller('ContentCtrl', ['$scope', '$filter', '$location', '$routeParams', 'localStorageService',
-  function ($scope, $filter, $location, $routeParams, localStorageService) {
-   
-	$scope.selectedItem = $routeParams.postid ;
-	
-	$scope.boo.then(function() {
-		$scope.orderedPosts = $scope.orderPosts();
-		$scope.post = $scope.orderedPosts[$scope.selectedItem];
-	});
-	
-	$scope.$watch('posts', function() { $scope.orderedPosts = $scope.orderPosts(); });
-	
-	
-	$scope.addPost = function() {
-		
-		var now = new Date();
-		$scope.post.created_at = now
-	//	$scope.post.submitter_id = $scope.$parent.currentUser.id
-	//	$scope.post.submitter_name = $scope.$parent.currentUser.name
-		$scope.post.likes_count = 0 ;
-		$scope.post.attachment = $filter('youtube_id')($scope.post.attachment);
-	    $scope.posts.push($scope.post);
-		$scope.post = {};
-	}
-	
-    $scope.goPost = function (post) {
-		console.debug($scope.posts);
-    	$location.path('post/'+post);
-    };
-	
-	$scope.orderPosts = function () {
-		return $scope.posts.sort(function(a, b) {
-		    return a.created_at < b.created_at;
-		});
-	};
-}
-]);
-
 myApp.controller('DashboardCtrl', ['$scope','$rootScope', 'DataService',
 	function ($scope, $rootScope, DataService) {
 		
@@ -238,25 +200,29 @@ myApp.controller('LeaderboardCtrl', ['$scope','DataService',
   
 ]);
 
-myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService', '$rootScope','RESTService',
-	function ($scope,$timeout, SiteConfigService, $rootScope, RESTService) {
+myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService',
+	function ($scope,$timeout, SiteConfigService) {
 		
-		
-		$scope.init = function() {
-			RESTService.get("https://data.invtr.co/incentiveconfig", $scope.callback);
-		}
-		
-		$scope.callback = function(data) {
-			console.debug("CountdownCtrl callback");
-			console.debug(data);
+		SiteConfigService.getConfig()
+                .then(function (result) {
+					console.log("CountdownCtrl results are in ");
+					console.log(result); 
+					
+					var now = new Date().getTime();
 			
-			var now = new Date().getTime();
+					$scope.config = result.data ;
 			
-			$scope.config = data ;
-			
-		    $scope.config.countdown = (data.startdate - now)/1000;
-			
-		}
+					if ($scope.config.active) {
+						$scope.config.countdown = ($scope.config.enddate - $scope.config.startdate)/1000;
+						$scope.config.countdown.tagline = 'Remaining time for this incentive';	
+					} else {
+				    	$scope.config.countdown = ($scope.config.startdate - now)/1000;
+						$scope.config.countdown.tagline = 'Time until incentive begins';
+					}
+				        
+                }, function (result) {
+                    alert("Error: No data returned");
+                });
             
 	}
 ]);
@@ -266,7 +232,7 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfi
   	
 		SiteConfigService.getConfig()
                 .then(function (result) {
-					console.log("results are in ");
+					console.log("SiteConfigCtrl results are in ");
 					console.log(result); 
                    $scope.site = result.data; 
 				        

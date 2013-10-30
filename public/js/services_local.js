@@ -37,12 +37,11 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 		var dashboardData = [];
 		var metrics = [];
 		
-		socket.on('init:messages:'+$location.host().split(".")[0], function (input) {
-			console.log("CLIENT RECEIVES CHAT MESSAGE");
-
-			console.debug("new chat data:"+input);
-
-			var data = JSON.parse(input);
+		$http.get('/sample_data/chat.json').success(function(input) {
+			console.debug("Chat service returned:");
+			console.debug(input);
+			
+			var data = input;
 
 			if (typeof data !== "undefined" && data[0] !== null && data.length>0 && Object.keys(data).length > 0) { 
 
@@ -52,26 +51,17 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 				 }
 	
 			}
-
-		});
+		 });
 		
-		socket.on('invtr:leaderdata:'+$location.host().split(".")[0], function (data) {
+		$http.get('/sample_data/leader_data.json').success(function(response) {
+			console.debug("Leaderboard CTRL returned:");
+			console.debug(response);
 			
-			console.debug("Leaderboard data event");
-			console.debug(data);
-			
-			if (typeof data !== "undefined" && data !== null) { 
-		
-				console.debug("leader data:");
-			
-				leaderData = JSON.parse(data) ;
-				
-			}
-		    
-		});
-		
-		socket.on('invtr:timelinedata:'+$location.host().split(".")[0], function (input) {
-			console.log("timelinedata event received");
+			leaderData = response ;
+		 });
+		 
+ 		$http.get('/sample_data/timeseries.json').success(function(input) {
+ 			console.debug("Timeline service returned:");
 			
 			console.debug(input);
 			
@@ -127,11 +117,12 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 			
 		});
 		
-		socket.on('invtr:data:'+$location.host().split(".")[0], function (data) {
+ 		$http.get('/sample_data/dashboard_data.json').success(function(input) {
+ 			console.debug("Dashboard data service returned:");
 			
-			console.log("dashboard data event received");
+			console.debug(input);
 			
-			console.debug(JSON.stringify(data));
+			var data = input;
 			
 			if (typeof data !== "undefined" && data !== null) { 
 		
@@ -146,9 +137,7 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 		
 		 function processMetrics(data) {
 			console.debug("process metrics");
-			console.debug(JSON.parse(data));
-			
-			var data = JSON.parse(data);
+			console.debug(data);
 			
 			var m = new Array() ;
 			
@@ -235,11 +224,11 @@ myApp.factory('SiteConfigService', ['$http', '$rootScope', '$timeout', 'RESTServ
 
 	var siteConfig = {};
 	
-    var siteConfigfn = 	$http.get('/sample_data/site_config.json').success(function(response) {
-			console.debug("SiteConfigCtrl returned:");
-			console.debug(response);
-			siteConfig = response;
-		 });
+    var siteConfigfn = RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
+		console.log("SiteConfigService returns");
+		console.log(data);
+        siteConfig = data;
+    });
 
     return {
 
@@ -277,7 +266,7 @@ myApp.factory('UserService', ['$http', '$route', '$rootScope', '$location', '$co
 
 
 myApp.factory('socket', function ($rootScope) {
-  var socket = io.connect("https://data.invtr.co");
+/*  var socket = io.connect("");
   return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {  
@@ -297,7 +286,7 @@ myApp.factory('socket', function ($rootScope) {
         });
       })
     }
-  };
+  };*/
 });
 
 
