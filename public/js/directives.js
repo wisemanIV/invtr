@@ -375,6 +375,19 @@ directives.directive('datepicker', function() {
   };
 });
 
+directives.directive('slimscroll', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).slimscroll({
+                height: '260px',
+                size: '5px',
+                alwaysVisible: true,
+                railVisible: true
+            });
+        }
+    };
+});
+
 directives.directive('timer', ['$compile', function ($compile) {
 
 	    return  {

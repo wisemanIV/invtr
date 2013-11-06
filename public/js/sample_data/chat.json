@@ -2,19 +2,25 @@
     {
         "created_at": 1382682777409, 
         "message": "wacku", 
-        "photo": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+        "photo": "/img/1.jpg",
         "username": "Stephen McCurry"
     }, 
     {
         "created_at": 1382681979253, 
-        "message": "new one", 
-        "photo": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+        "message": "new one",
+        "photo": "/img/2.jpg",
         "username": "Stephen McCurry"
     }, 
     {
         "created_at": 1382681198493, 
-        "message": "a test", 
-        "photo": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+        "message": "a test",
+        "photo": "/img/3.jpg",
+        "username": "Stephen McCurry"
+    },
+    {
+        "created_at": 1382681198493,
+        "message": "a test",
+        "photo": "/img/5.jpg",
         "username": "Stephen McCurry"
     }
 ]

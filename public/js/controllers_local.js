@@ -352,12 +352,12 @@ myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
 		 //msg['photo'] = $scope.message.photo;
 		 var now = new Date().getTime();
 		 msg['created_at'] = now ;
-		 msg['photo'] = "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T";
+		 msg['photo'] = "/img/1.jpg";
 		   
-	     socket.emit('send:message', msg, function(res) {
-			 console.log("EMIT MESSAGE CALLBACK");
-			 console.log(res);
-	     });
+//	     socket.emit('send:message', msg, function(res) {
+//			 console.log("EMIT MESSAGE CALLBACK");
+//			 console.log(res);
+//	     });
 
 	     // add the message to our model locally
 	     $scope.messages.push(msg);
@@ -365,7 +365,7 @@ myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
 	     // clear message box
 	     $scope.message = '';
 	   };
-	  
+
 	
     }
 ]);

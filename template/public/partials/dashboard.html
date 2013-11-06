@@ -6,7 +6,7 @@
 .progress-meter .foreground {
   fill: #2E7AF9;
 }
-.progress-meter text {
+.progress-meter .text {
   font-family: 'Georgia' sans-serif;
   font-size: 90px;
 }
@@ -71,201 +71,159 @@
 				</section>
 			</div>
 
-		<div class="span4" ng-controller="SiteConfigCtrl">
-			<section class="widget large">
-				<header>
-					<h2>
-						{{site.title}}
-					</h2>
-				</header>
-				<div class="body">
+            <div class="span4" ng-controller="SiteConfigCtrl">
+                <section class="widget large">
+                    <header>
+                        <h2>{{site.title}}</h2>
+                    </header>
+                    <div class="body">
+                        <div class="wrapper">
+                            <div class="text">
+                                <a href="#">{{site.description}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div> <!--end span-->
+	    </div><!--end row-->
 
-					<div class="wrapper">
+        <div class="row">
+            <div class="span8" ng-controller="LeaderboardCtrl">
+                <section class="widget">
+                    <button ng-click="toggleType()" ng-init="leaderboard.type='standard';leaderboard.toggleText = 'Bar Chat View';">
+                          {{leaderboard.toggleText}}
+                     </button>
+                    <div ng-switch on="leaderboard.type">
+                        <div ng-switch-when="standard">
+                            <header>
+                                <h4>
+                                    Leaderboard
+                                </h4>
+                            </header>
+                            <div class="body">
+                                <table class="table table-striped no-margin sources-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="source-col-header">Source</th>
+                                            <th>Name</th>
+                                            <th>Points Total</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th class="chart-col-header hidden-xs">Trend</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     <tr ng-repeat="record in leaderdata | orderBy:'Inviter__PointsTotal__c':true">
+                                            <td><div class="icon">
+                                                <img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
+                                            </div>
+                                        </td>
+                                        <td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
+                                        <td>{{record.Inviter__PointsTotal__c}}</td>
+                                        <td class="hidden-xs"></td>
+                                        <td></td>
+                                        <td class="chart-cell hidden-xs">
+                                            <div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-switch-when="bar">
+                            <header>
+                                <h4>Leaderboard</h4>
+                            </header>
+                            <div class="body">
+                                <div>
+                                    <svg id="d3BarParent">
+                                    </svg>
+                                    <d3-bars data="d3Data" label="Inviter__FirstName__c" on-click="d3OnClick(item)"></d3-bars>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            </div>
 
-						<div class="text">
-							<a href="#">
-								{{site.description}}
-							</a>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!--end span-->
-		</div>
-		<!--end row-->
-	</div>
 
-	<div class="row">
-		<div class="span8" ng-controller="LeaderboardCtrl">
-			<section class="widget">
-				<button ng-click="toggleType()" ng-init="leaderboard.type='standard';leaderboard.toggleText = 'Bar Chat View';">
-				      {{leaderboard.toggleText}}
-				 </button>
-				<div ng-switch on="leaderboard.type">
-					<div ng-switch-when="standard">
-						<header>
-							<h4>
-								Leaderboard
-							</h4>
-						</header>
-						<div class="body">
-							<table class="table table-striped no-margin sources-table">
-								<thead>
-									<tr>
-										<th class="source-col-header">Source</th>
-										<th>Name</th>
-										<th>Points Total</th>
-										<th></th>
-										<th></th>
-										<th class="chart-col-header hidden-xs">Trend</th>
-									</tr>
-								</thead>
-								<tbody>
-								 <tr ng-repeat="record in leaderdata | orderBy:'Inviter__PointsTotal__c':true">
-										<td><div class="icon">
-											<img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
-										</div>
-									</td>
-									<td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
-									<td>{{record.Inviter__PointsTotal__c}}</td>
-									<td class="hidden-xs"></td>
-									<td></td>
-									<td class="chart-cell hidden-xs">
-										<div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div ng-switch-when="bar">
-						<header>
-							<h4>
-								Leaderboard
-							</h4>
-						</header>
-						<div class="body">
-							<div>
-								<svg id="d3BarParent">
-								</svg>
-							    <d3-bars data="d3Data" label="Inviter__FirstName__c" on-click="d3OnClick(item)"></d3-bars>
-							</div>
-					</div>
-				</div>
-		</section>
-		</div>
-		
+            <div class="span4">
+                <section id="chat" class="widget large">
+                    <header>
+                        <h4><i class="eicon-chat"></i>Chat</h4>
+                    </header>
+                    <div class="body">
+                        <div class="chat" ng-controller="Chat">
+                            <div id="chat-messages" class="chat-messages" slimscroll>
+                                <div ng-cloak ng-repeat="message in messages" class="chat-message">
+                                    <div class="sender pull-left">
+                                        <div class="icon"><img ng-src="{{message.photo}}" class="profile-img-small" alt=""></div>
+                                    </div>
+                                    <div class="chat-message-body on-right">
+                                        <span class="arrow"></span>
+                                        <div class="sender"><a href="#">{{message.username}}</a> said:</div>
+                                        <div class="text">{{message.message}}</div>
+                                        <div class="time">{{message.created_at|since}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form ng-submit="sendMessage()" class="chat-footer">
+                                <input id="new-message" type="text" ng-model="message.message" class="form-control input-transparent" placeholder="Enter your message.."/>
+                                <button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
+                            </form>
 
-		<div class="span4">
-			<section class="widget large">
 
-				<header>
-					<h4>
-						<i class="eicon-chat"></i>
-						Chat
-					</h4>
-				</header>
-				<div class="body">
-					<div id="chat" class="chat" ng-controller="Chat">
-						<div class="slimScrollDiv">
-							<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
+                        </div>
+                    </div>
+                </section>
+            </div>
 
-								<div ng-cloak ng-repeat="message in messages" class="chat-message">
-									<div class="sender pull-right">
-										<div class="icon"><img ng-src="{{message.photo}}" class="profile-img-small" alt=""></div>
-										<div class="time">{{message.created_at|since}}</div>
-									</div>
-									<div class="chat-message-body on-left">
-										<span class="arrow"></span>
-										<div class="sender"><a href="#">{{message.username}}</a></div>
-										<div class="text">{{message.message}}</div>
-									</div>
-								</div>
-							</div>
-							<div class="slimScrollBar ui-draggable"></div>
-							<div class="slimScrollRail"></div>
-						</div>
-					
-
-						<form ng-submit="sendMessage()" class="chat-footer row">
-							<div class="span5">
-								<input id="new-message" type="text" ng-model="message.message" class="form-control input-transparent" placeholder="Enter your message.."></input>
-							</div>
-							<div class="span3">
-								<button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
-							</div>
-						</form>
-
-					</div>
-				</div>
-			</section>
-		</div>
-
-		</div>
+        </div>
 		
 		
 		<div class="row">
 			<div class="span8" ng-controller="FeedCtrl" ng-init="init()">
-				<section class="widget large">
+				<section id="feed" class="widget large">
 					<header>
-						<h4>
-							Feed
-						</h4>
+						<h4>Feed</h4>
 						<div class="actions">
 							<button class="btn btn-transparent btn-xs">Show All <i class="icon-arrow-down"></i></button>
 						</div>
 					</header>
 					<div class="body">
-						<div class="slimScrollDiv" >
-							<div id="feed" class="feed">
+                        <div class="feed" slimscroll>
 							<div class="wrapper">
-								<div class="vertical-line"></div>
-								<div ng-repeat="item in feed">
+								<!--<div class="vertical-line"></div>-->
+								<div ng-repeat="item in feed" class="feed-item">
 								<section class="feed-item">
-									<div class="icon pull-left">
-										<i class="icon-comment"></i>
-									</div>
+									<div class="icon pull-left"><i class="icon-comment"></i></div>
 									<div class="feed-item-body">
-					  				  <div id="submitterImage">
-					  					  <img ng-src="{{item.actor.photo.smallPhotoUrl}}">
-					  				  </div>
-										<div class="text">
-											{{item.body.text}}
-										</div>
-										<div ng-show="item.attachment">
-											<a href={{item.attachment.url}}>{{item.attachment.title}}</a>
-									    </div>
-										<div id="createdAt">{{item.createdDate|since}} by <span id="createdBy"> {{item.actor.name}}</span></div>
+                                        <div class="submitterImage"><img ng-src="{{item.actor.photo.smallPhotoUrl}}"/></div>
+										<div class="text">{{item.body.text}}</div>
+										<div ng-show="item.attachment"><a href={{item.attachment.url}}>{{item.attachment.title}}</a></div>
+										<div class="createdAt">{{item.createdDate|since}} by <span id="createdBy">{{item.actor.name}}</span></div>
 										<div>
 											<span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
 											<span>{{item.likes.total}}</span>
 										</div>
-										<div>
-											<span>{{item.comments.comments.length}} Comments</span>
-										</div>
-						  			  <form ng-submit="addComment('{{item.id}}')">
-						  			     <input maxlength="411" id="body" class="textarea" type="text" placeholder="Reply…" ng-model="comment.body">
-						  			  </form>
+										<div><span>{{item.comments.comments.length}} Comments</span></div>
+                                        <form ng-submit="addComment('{{item.id}}')">
+                                            <input maxlength="411" id="body" class="textarea" type="text" placeholder="Reply…" ng-model="comment.body">
+                                        </form>
 						  			    <div id='commentBlock' ng-show="item.comments.comments.length>0" ng-repeat="comment in item.comments.comments | reverse">
-							  				  <div class="clr"></div>
-							  				  <div id="commentSubmitter">
-							  					  <img id="submitterImg" ng-src="">
-							  				  </div>
-				
-							  				  <div id="commentRight">
-								  				<div id="submitterImage">
-								  					  <img ng-src="{{comment.user.photo.smallPhotoUrl}}">
-								  				</div>
-							  				  	<div id="commentBody">{{comment.body.text}}</div>
-							  					<div id="createdAt">{{comment.createdDate|since}} by {{comment.user.name}}</div>
-												<div>
-													<span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
-													<span>{{item.likes.total}}</span>
-												</div>
-							    				  <div id="arrow">
-							    				  </div>
-							  				  </div>
-						  			   </div>
+                                            <div class="clr"></div>
+                                            <div id="commentSubmitter"><img id="submitterImg" ng-src=""/></div>
+                                            <div id="commentRight">
+                                                <div class="submitterImage"><img ng-src="{{comment.user.photo.smallPhotoUrl}}"/></div>
+                                                <div class="commentBody">{{comment.body.text}}</div>
+                                                <div class="createdAt">{{comment.createdDate|since}} by {{comment.user.name}}</div>
+                                                <div>
+                                                    <span ng-click="incrementLike('{{item.id}}')">{{likesMessage}}</span>
+                                                    <span>{{item.likes.total}}</span>
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
+                                        </div>
 									</div>
 								</section>
 							    </div>
@@ -280,24 +238,20 @@
 										</div>
 									</div>
 								</section>
-								<!--end wrapper-->
-							</div>
-							<!--end slimscroll-->
-						</div>
-						<!--end body-->
-					</div>
+							</div><!--end wrapper-->
+					    </div>
+					</div><!--end body-->
 				</section>
-					<!--end col-->
 			</div>
 		
 		
-		<div class="span4">
-			<section class="widget large">
+            <div class="span4">
+                <section class="widget large">
 
-		
-			</section>
-		</div>
-	</div>
+
+                </section>
+            </div>
+        </div>
 					
 
 

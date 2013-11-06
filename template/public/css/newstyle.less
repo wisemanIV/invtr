@@ -1,5 +1,7 @@
 // top level styles
 @import 'vendor/bootstrap/bootstrap-needed.less';
+@import "_partials/chat";
+@import "_partials/feed";
 
 
 @color1: #F1F0FF;
@@ -19,6 +21,18 @@ html {
 	font-family: 'Titillium Web', sans-serif;
 	color: @color2;
 	background-attachment: fixed;
+}
+@bg1:#FFFE48;
+@bg2:#FFB200;
+@bg3:#BF280A;
+
+body {
+  font-weight: 300;
+  padding-bottom: 100px;
+  background-color: @bg1;
+  background: radial-gradient(farthest-side ellipse at 10% 0, @bg1, @bg2, @bg3), url("../img/bgnoise_lg.png");
+  background: -webkit-radial-gradient(10% 0, farthest-side ellipse, @bg1, @bg2, @bg3), url("../img/bgnoise_lg.png");
+  background: -moz-radial-gradient(10% 0, farthest-side ellipse, @bg1, @bg2, @bg3), url("../img/bgnoise_lg.png");
 }
 
 .box-dimension {
@@ -51,7 +65,11 @@ html {
 	box-shadow: 0 0 3px rgba(0,0,0,.3);
 }
 
-
+.row > div {
+  height:100%;
+  display:block;
+  overflow:hidden;
+}
 
 a {
 	text-decoration: none;
@@ -73,6 +91,15 @@ a {
 button {
 	.box-dimension-small;
 	padding: 10px 20px;
+    &.ng-binding {
+      float:right;
+      clear:none;
+      display:inline-block;
+      z-index:300;
+      position:absolute;
+      right:0;
+      top:0;
+    }
 }
 
 // nav header
@@ -146,33 +173,54 @@ div.main-body {
 	.widget {
 		margin-bottom: 20px;
 		.box-dimension;
+        overflow:hidden;
+      height:auto;
+        z-index:100;
+        div[ng-switch] {
+            display: block;
+            width:100%;
+            z-index: 200;
+//          background: #fb5b00;
+        }
 		header {
 			width: 100%;
-			float: left;
+//			float: left;
+            display:block;
+            overflow:hidden;
 			position: relative;
 			border-bottom: 1px solid @color3;
 			.actions {
 				float: right;
 			}
-			h2, h4 {
+            h1,h2,h3,h4,h5,h6 {
 				float: left;
 				padding: 10px 0 10px 10px;
-				font-size: 20px;
 				font-weight: 600;
+                color:midnightblue;
 			}
+            h2,h4 {
+              font-size: 20px;
+              line-height:25px;
+            }
 
 		}
+        & > header {
+          h1,h2,h3,h4,h5,h6 {
+            line-height:inherit;
+
+          }
+        }
 		.body {
 			height: 315px;
-			padding: 20px;
-			overflow: scroll;
+            margin-top:0;
+			padding: 10px 0;
+//			overflow: scroll;
 
 			td {
 				border-color: @color3;
 			}
 		}
 	}
-
 }
 
 // footer
@@ -185,4 +233,21 @@ footer {
 	position: fixed;
 	bottom: 0px;
 	z-index: 100;
+}
+timer {
+  font-size:210%;
+}
+.tagline {
+  font-size: 26px;
+}
+.hero-unit {
+  color: white;
+  width:640px;
+}
+.background {
+//  background: url('https://www.invtr.co/img/splash2.jpeg') no-repeat center center fixed;
+//  -webkit-background-size: cover;
+//  -moz-background-size: cover;
+//  -o-background-size: cover;
+//  background-size: cover;
 }

@@ -318,10 +318,80 @@ img {
   line-height: 1.5em;
   color: #d2d2d2;
 }
+#chat .body {
+  padding: 10px 0 0 0;
+  height: auto;
+}
+#chat .chat-message .sender {
+  padding: 0 0 5px 0;
+}
+#chat .chat-message .icon img {
+  -webkit-border-radius: 75%;
+  -moz-border-radius: 75%;
+  -ms-border-radius: 75%;
+  -o-border-radius: 75%;
+  border-radius: 75%;
+}
+#chat .chat-message .time {
+  color: #ccc;
+  text-align: right;
+  font-size: 80%;
+  margin-bottom: -8px;
+}
+#chat .chat-message-body {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  background-color: white;
+  color: #ccc;
+  -webkit-box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #cccccc;
+  box-shadow: 0 0 5px #cccccc;
+  z-index: 9;
+}
+#chat .chat-message-body .arrow {
+  z-index: 10;
+}
+#chat .chat-message-body a {
+  color: #FFB200;
+}
+#chat .chat-footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#chat form {
+  width: 100%;
+}
+#chat form input[type=text] {
+  border-width: 0.5%;
+  padding: 1%;
+  width: 70%;
+  float: left;
+}
+#chat form button[type=submit] {
+  border-width: 0.5%;
+  padding: 1%;
+  display: inline-block;
+  width: 25%;
+  float: right;
+}
+#feed {
+  color: black;
+}
 html {
   font-family: 'Titillium Web', sans-serif;
   color: #443266;
   background-attachment: fixed;
+}
+body {
+  font-weight: 300;
+  padding-bottom: 100px;
+  background-color: #fffe48;
+  background: radial-gradient(farthest-side ellipse at 10% 0, #fffe48, #ffb200, #bf280a), url("../img/bgnoise_lg.png");
+  background: -webkit-radial-gradient(10% 0, farthest-side ellipse, #fffe48, #ffb200, #bf280a), url("../img/bgnoise_lg.png");
+  background: -moz-radial-gradient(10% 0, farthest-side ellipse, #fffe48, #ffb200, #bf280a), url("../img/bgnoise_lg.png");
 }
 .box-dimension {
   background: rgba(253, 253, 255, 0.9);
@@ -340,6 +410,11 @@ html {
 .profile-img-small {
   border: 2px solid #f1f0ff;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+.row > div {
+  height: 100%;
+  display: block;
+  overflow: hidden;
 }
 a {
   text-decoration: none;
@@ -370,6 +445,15 @@ button {
   box-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 1px 3px rgba(0, 0, 0, 0.2);
   padding: 10px 20px;
 }
+button.ng-binding {
+  float: right;
+  clear: none;
+  display: inline-block;
+  z-index: 300;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 header.nav-header {
   width: 100%;
   height: 60px;
@@ -393,7 +477,7 @@ header.nav-header .container ul.nav {
   left: 0;
   display: block;
   float: left;
-  margin: 20px 10px 0 0;
+  margin: 8px 10px 10px 10px;
   height: 60px;
 }
 header.nav-header .container ul.nav li {
@@ -435,27 +519,53 @@ div.main-body .widget {
   background: rgba(253, 253, 255, 0.9);
   box-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 rgba(0, 0, 0, 0.2), 0 5px 1px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 2px;
+  overflow: hidden;
+  height: auto;
+  z-index: 100;
+}
+div.main-body .widget div[ng-switch] {
+  display: block;
+  width: 100%;
+  z-index: 200;
 }
 div.main-body .widget header {
   width: 100%;
-  float: left;
+  display: block;
+  overflow: hidden;
   position: relative;
   border-bottom: 1px solid #c3c3e5;
 }
 div.main-body .widget header .actions {
   float: right;
 }
+div.main-body .widget header h1,
 div.main-body .widget header h2,
-div.main-body .widget header h4 {
+div.main-body .widget header h3,
+div.main-body .widget header h4,
+div.main-body .widget header h5,
+div.main-body .widget header h6 {
   float: left;
   padding: 10px 0 10px 10px;
-  font-size: 20px;
   font-weight: 600;
+  color: midnightblue;
+}
+div.main-body .widget header h2,
+div.main-body .widget header h4 {
+  font-size: 20px;
+  line-height: 25px;
+}
+div.main-body .widget > header h1,
+div.main-body .widget > header h2,
+div.main-body .widget > header h3,
+div.main-body .widget > header h4,
+div.main-body .widget > header h5,
+div.main-body .widget > header h6 {
+  line-height: inherit;
 }
 div.main-body .widget .body {
   height: 315px;
-  padding: 20px;
-  overflow: scroll;
+  margin-top: 0;
+  padding: 10px 0;
 }
 div.main-body .widget .body td {
   border-color: #c3c3e5;
@@ -472,19 +582,12 @@ footer {
   z-index: 100;
 }
 timer {
-	font-size:210%;
+  font-size: 210%;
 }
 .tagline {
-font-size: 26px;
+  font-size: 26px;
 }
 .hero-unit {
-color: white;
-width:640px;
-}
-.background {
-  background: url('https://www.invtr.co/img/splash2.jpeg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  color: white;
+  width: 640px;
 }

@@ -270,127 +270,106 @@ rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-wid
 	<div class="row">
 		<div class="span8">
 
-			<section class="widget large">
+			<section id="chat" class="widget large">
 
 				<header>
-					<h4>
-						<i class="eicon-chat"></i>
-						Chat
-					</h4>
+					<h4><i class="eicon-chat"></i>Chat</h4>
 				</header>
 				<div class="body">
-					<div id="chat" class="chat ng-scope" ng-controller="Chat">
-						<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 240px;">
-							<div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: 240px;">
+					<div class="chat ng-scope" ng-controller="Chat">
+                        <div id="chat-messages" class="chat-messages" slimscroll>
+                            <!-- ngRepeat: message in messages -->
+                        </div>
 
-								<!-- ngRepeat: message in messages -->
-							</div>
-							<div class="slimScrollBar ui-draggable"></div>
-							<div class="slimScrollRail"></div>
-						</div>
-						
 
-						<form ng-submit="addMessage()" class="chat-footer row ng-pristine ng-valid">
-							<div class="span5">
-								<input id="new-message" type="text" ng-model="message.body" class="form-control input-transparent ng-pristine ng-valid" placeholder="Enter your message..">
-							</div>
-							<div class="span3">
-								<button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
-							</div>
-						</form>
-
+                        <form ng-submit="addMessage()" class="chat-footer ng-pristine ng-valid">
+                            <input id="new-message" type="text" ng-model="message.body" class="form-control input-transparent ng-pristine ng-valid" placeholder="Enter your message..">
+                            <button type="submit" id="new-message-btn" class="btn btn-transparent btn-block">Send</button>
+                        </form>
 					</div>
 				</div>
 			</section>
 		</div>
 
 		<div class="span4">
-			<section class="widget large">
+			<section id="feed" class="widget large">
 				<header>
-					<h4>
-						Feed
-					</h4>
+					<h4>Feed</h4>
 					<div class="actions">
 						<button class="btn btn-transparent btn-xs">Show All <i class="icon-arrow-down"></i></button>
 					</div>
 				</header>
 				<div class="body">
-					<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 280px;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: 280px;">
-						<div class="wrapper">
-							<div class="vertical-line"></div>
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<i class="icon-comment"></i>
-								</div>
-								<div class="feed-item-body">
-									<div class="text">
-										Kudos to <a href="https://hiphop.invtr.co/#">John Doe</a> for hitting his the target
-									</div>
-									<div class="time pull-left">
-										3 h
-									</div>
-								</div>
-							</section>
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<i class="icon-ok color-green"></i>
-								</div>
-								<div class="feed-item-body">
-									<div class="text">
-										Don't forget our <a href="https://hiphop.invtr.co/#">training call</a> at 9am PST tomorrow
-									</div>
-									<div class="time pull-left">
-										10 h
-									</div>
-								</div>
-							</section>
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<img src="./Inviter_files/14.jpg" class="img-circle" alt="">
-								</div>
-								<div class="feed-item-body">
-									<div class="text">
-										New user <a href="https://hiphop.invtr.co/#">Greg Wilson</a> registered.
-									</div>
-									<div class="time pull-left">
-										Today
-									</div>
-								</div>
-							</section>
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<i class="icon-bolt color-orange"></i>
-								</div>
-								<div class="feed-item-body">
-									<div class="text">
-										<a href="https://hiphop.invtr.co/#">New video</a> posted. Check it out now!
-									</div>
-									<div class="time pull-left">
-										Yesterday
-									</div>
-								</div>
-							</section>
-
-							<section class="feed-item">
-								<div class="icon pull-left">
-									<i class="icon-arrow-down"></i>
-								</div>
-								<div class="feed-item-body">
-									<div class="text">
-										<a href="https://hiphop.invtr.co/#">Load more...</a>
-									</div>
-								</div>
-							</section>
-							<!--end wrapper-->
-						</div>
-						<!--end slimscroll-->
-					</div>
-					<!--end body-->
-				</div>
-				<!--end col-->
-			</div>
-
-		</section></div>
+                    <div class="feed" slimscroll>
+                        <div class="wrapper">
+                            <div class="vertical-line"></div>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <i class="icon-comment"></i>
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        Kudos to <a href="https://hiphop.invtr.co/#">John Doe</a> for hitting his the target
+                                    </div>
+                                    <div class="time pull-left">
+                                        3 h
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <i class="icon-ok color-green"></i>
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        Don't forget our <a href="https://hiphop.invtr.co/#">training call</a> at 9am PST tomorrow
+                                    </div>
+                                    <div class="time pull-left">
+                                        10 h
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <img src="./Inviter_files/14.jpg" class="img-circle" alt="">
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        New user <a href="https://hiphop.invtr.co/#">Greg Wilson</a> registered.
+                                    </div>
+                                    <div class="time pull-left">
+                                        Today
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <i class="icon-bolt color-orange"></i>
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        <a href="https://hiphop.invtr.co/#">New video</a> posted. Check it out now!
+                                    </div>
+                                    <div class="time pull-left">
+                                        Yesterday
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <i class="icon-arrow-down"></i>
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        <a href="https://hiphop.invtr.co/#">Load more...</a>
+                                    </div>
+                                </div>
+                            </section>
+                        </div><!--end wrapper-->
+                    </div><!--end slimscroll-->
+                </div><!--end col-->
+            </section>
+        </div>
 		
 		
 		
