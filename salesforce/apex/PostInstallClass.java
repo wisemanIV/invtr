@@ -3,7 +3,7 @@ global class PostInstallClass implements InstallHandler {
   global void onInstall(InstallContext context) {
     if(context.previousVersion() == null) {
         
-        CalculateMetrics updater = new CalculateMetrics();
+     /*   CalculateMetrics updater = new CalculateMetrics();
         String sch='0 0 * * * ?';
         String jobID = system.schedule('Update incentives job 00', sch, updater);     
         sch='0 5 * * * ?';
@@ -29,7 +29,7 @@ global class PostInstallClass implements InstallHandler {
         sch='0 55 * * * ?';
         jobID = system.schedule('Update incentives job 55', sch, updater);
         
-        pushData(context.organizationId(), context.installerId()) ;
+        pushData(context.organizationId(), context.installerId()) ;*/
     }
   }
     
@@ -76,187 +76,214 @@ global class PostInstallClass implements InstallHandler {
         }
     }
     
-    public static void setupInitialEvents() {
-		
-		List<IncentiveRule__c> rules = IncentiveBuilderClass.getSystemRules() ;
-		if (rules != null && rules.size() > 0) delete rules; 
-		List<Incentive__c> incentives = new List<Incentive__c>([select Id from Incentive__c where Name='SYSTEM']);
-		if (incentives != null && incentives.size() > 0)  delete incentives ;
-	
-		
-        Incentive__c incentive = new Incentive__c() ;
-        incentive.Name = 'SYSTEM';
-        incentive.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
-        incentive.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
-        insert incentive ;
-		
-		// INCENTIVE Sales - tiered opportunity builder
-		
-		Incentive__c oppi = new Incentive__c() ;
-		oppi.Name = 'SYSTEM';
-		oppi.Type = 'Points Tiered';
-		oppi.Title__c = 'Sales - points tiered new + won opportunities';
+    private static Map<String, IncentiveEvent__c> events = new Map<String, IncentiveEvent__c>();
+    
+    public static void buildInitialConfig() {
+        setupEvents();
+        setupIncentives();
+    }
+    
+    public static void setupEvents() {
+        
+        IncentiveEvent__c event = new IncentiveEvent__c();
+        event = buildEvent('Accounts Opened', 'Account', 'New', null, null, null, 'OwnerId') ;
+        events.put('Accounts Opened', event);
+        // TODO set start and end value
+        event = buildEvent('Cases Closed', 'Case', 'Update', 'Status', null, null, 'OwnerId') ;
+        events.put('Cases Closed', event);
+        event = buildEvent('Leads Generated', 'Lead', 'New', null, null, null, 'OwnerId') ;
+        events.put('Leads Generated', event);
+        event = buildEvent('New Opportunity', 'Opportunity', 'New', null, null, null, 'OwnerId'); 
+        events.put('New Opportunity', event);
+        event = buildEvent('Opportunity Won', 'Opportunity', 'Update', 'StageName', 'Any', 'Closed Won', 'OwnerId') ;
+        events.put('Opportunity Won', event);
+        
+    }
+    
+    public static IncentiveEvent__c buildEvent(String title, String objName, String type, String field, String startValue, String endValue, String userIdField) {
+        
+        IncentiveEvent__c event = new IncentiveEvent__c() ;
+        event.Title__c = title;
+        event.Object__c = objName;
+        event.Type__c = type;
+        event.Field__c = field;
+        event.StartValue__c = startValue;
+        event.EndValue__c = endValue;
+        event.UserIdField__c = userIdField;
+        
+        insert event;
+        
+        return event ;
+        
+    }
+    
+    public static void setupIncentives() {
+        
+        List<IncentiveRule__c> rules = IncentiveBuilderClass.getSystemRules() ;
+        if (rules != null && rules.size() > 0) delete rules; 
+        List<Incentive__c> incentives = new List<Incentive__c>([select Id from Incentive__c where Name in ('SYSTEM','FORMAT')]);
+        if (incentives != null && incentives.size() > 0)  delete incentives ;
+        
+        
+        // INCENTIVE Sales - tiered opportunity builder
+        
+        Incentive__c oppi = new Incentive__c() ;
+        oppi.Name = 'FORMAT';
+        oppi.Type__c = 'Points Tiered';
+        oppi.Title__c = 'Trip Incentive';
+        oppi.Description__c = 'A long running tiered incentive format. Success is based on new opportunities created and opportunities won. Entrants will receive 1/2 point per Expected $ Revenue on new opportunities and 1 point per Actual Revenue on opportunities closed. All activity must take place during the incentive window. Everybody who achevies the points level for a tier will receive the prize associated with that tier.';
         oppi.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
         oppi.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
-		insert oppi ;
+        insert oppi ;
         
         IncentiveRule__c rule = new IncentiveRule__c() ;
-        rule.Title__c = 'New opportunities';
-		rule.DisplayLabel__c = 'New Opportunity';
-		rule.DisplayFormat__c = '';
-		rule.DisplayPointsFieldFormat__c = '$';
-		rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
-        rule.Object__c = 'Opportunity';
-        rule.Type__c = 'New';
+        rule.IncentiveEventId__c = events.get('New Opportunity').Id ;
+        rule.Title__c = 'New Opportunity';
+        rule.DisplayFormat__c = '';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
         rule.PointsField__c = 'Expected Amount';
-		rule.PointsMultiplier__c = 0.5;
+        rule.PointsMultiplier__c = 0.5;
         rule.IncentiveId__c = oppi.Id;
-		rule.UserIdField__c = 'OwnerId';
+        rule.Target__c = 0;
         insert rule ;
         
         rule = new IncentiveRule__c() ;
-        rule.Title__c = 'Opportunities won';
-		rule.DisplayLabel__c = 'Opportunity Won';
-		rule.DisplayFormat__c = '$';
-		rule.DisplayPointsFieldFormat__c = '$';
-		rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
-        rule.Object__c = 'Opportunity';
-        rule.Type__c = 'Update';
-		rule.Field__c = 'StageName';
-        rule.StartValue__c = 'Any';
-        rule.EndValue__c = 'Closed Won';
+        rule.IncentiveEventId__c = events.get('Opportunity Won').Id ;
+        rule.Title__c = 'Opportunity Won';
+        rule.DisplayFormat__c = '$';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
         rule.PointsField__c = 'Amount' ;
+        rule.PointsMultiplier__c = 1;
         rule.IncentiveId__c = oppi.Id;
-		rule.UserIdField__c = 'OwnerId';
-		insert rule;
-		
-		IncentiveTier__c tier1 = new IncentiveTier__c();
-		tier1.Level = 1000 ;
-		tier1.Prize = '$10 Starbucks Gift Certificate';
-		tier1.IncentiveId__c = oppi.Id;
-		insert tier1;
-		
-		IncentiveTier__c tier1 = new IncentiveTier__c();
-		tier1.Level = 5000 ;
-		tier1.Prize = 'Dinner for 2 at Gary Dankos';
-		tier1.IncentiveId__c = oppi.Id;
-		insert tier1;
-		
-		IncentiveTier__c tier1 = new IncentiveTier__c();
-		tier1.Level = 20000 ;
-		tier1.Prize = 'Trip to Mexico';
-		tier1.IncentiveId__c = oppi.Id;
-		insert tier1;
-		
-		// END - Sales - tiered opportunity builder
-		
-		// INCENTIVE Sales - stack up your rewards
-		
-		Incentive__c oppis = new Incentive__c() ;
-		oppi.Name = 'SYSTEM';
-		oppi.Type = 'Stack Up';
-		oppi.Title__c = 'Sales - stack up your rewards won opportunities';
-        oppi.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
-        oppi.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
-		insert oppis ;
-        
-        rule = new IncentiveRule__c() ;
-        rule.Title__c = 'Opportunities won';
-		rule.DisplayLabel__c = 'Opportunity Won';
-		rule.DisplayFormat__c = '$';
-		rule.DisplayPointsFieldFormat__c = '$';
-		rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
-        rule.Object__c = 'Opportunity';
-        rule.Type__c = 'Update';
-		rule.Field__c = 'StageName';
-        rule.StartValue__c = 'Any';
-        rule.EndValue__c = 'Closed Won';
-        rule.PointsField__c = 'Amount' ;
-		rule.PointsFieldTarget__c = 20000 ;
-        rule.IncentiveId__c = oppis.Id;
-		rule.UserIdField__c = 'OwnerId';
-		rule.StackUp__c = true ;
-		rule.Prize__c = '$100 Cash Bonus';
-		insert rule;
-		
-		// END - Sales - stack up your rewards
-		
-		// INCENTIVE Sales - multi criteria
-		
-		Incentive__c oppi = new Incentive__c() ;
-		oppi.Name = 'SYSTEM';
-		oppi.Type = 'Multi Criteria';
-		oppi.Title__c = 'Sales - multi criteria new and won opportunities';
-        oppi.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
-        oppi.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
-		oppi.Prize__c = '$10 Starbucks Gift Certificate';
-		insert oppi ;
-        
-        IncentiveRule__c rule = new IncentiveRule__c() ;
-        rule.Title__c = 'New opportunities';
-		rule.DisplayLabel__c = 'New Opportunity';
-		rule.DisplayFormat__c = '';
-		rule.DisplayPointsFieldFormat__c = '$';
-		rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
-        rule.Object__c = 'Opportunity';
-        rule.Type__c = 'New';
-        rule.PointsField__c = 'Expected Amount';
-        rule.IncentiveId__c = oppi.Id;
-		rule.UserIdField__c = 'OwnerId';
-		rule.Target__c = '5' ;
-        insert rule ;
-        
-        rule = new IncentiveRule__c() ;
-        rule.Title__c = 'Opportunities won';
-		rule.DisplayLabel__c = 'Opportunity Won';
-		rule.DisplayFormat__c = '$';
-		rule.DisplayPointsFieldFormat__c = '$';
-		rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
-        rule.Object__c = 'Opportunity';
-        rule.Type__c = 'Update';
-		rule.Field__c = 'StageName';
-        rule.StartValue__c = 'Any';
-        rule.EndValue__c = 'Closed Won';
-        rule.PointsField__c = 'Amount' ;
-        rule.IncentiveId__c = oppi.Id;
-		rule.UserIdField__c = 'OwnerId';
-		rule.PointsTarget__c = '40000' ; 
-		insert rule;
-		
-		// END - Sales - multi criteria
-		
-        rule = new IncentiveRule__c() ;
-        rule.Title__c = 'Accounts opened';
-		rule.DisplayLabel__c = 'Accounts Opened';
-		rule.DisplayFormat__c = '';
-        rule.Object__c = 'Account';
-        rule.Type__c = 'New';
-        rule.PointsValue__c = 200 ;
-        rule.IncentiveId__c = incentive.Id;
-		
-		insert rule;
-		
-        rule = new IncentiveRule__c() ;
-        rule.Title__c = 'Cases Closed';
-		rule.DisplayLabel__c = 'Cases Closed';
-        rule.Object__c = 'Case';
-		rule.DisplayFormat__c = '';
-        rule.Type__c = 'Update';
-		rule.Field__c = 'Status';
-        rule.PointsValue__c = 200 ;
-        rule.IncentiveId__c = incentive.Id;
-		
-		insert rule;
-		
-        rule = new IncentiveRule__c() ;
-        rule.Title__c = 'Leads Generated';
-		rule.DisplayLabel__c = 'Leads Generated';
-		rule.DisplayFormat__c = '';
-        rule.Object__c = 'Lead';
-        rule.Type__c = 'New';
-        rule.PointsValue__c = 200 ;
-        rule.IncentiveId__c = incentive.Id;
-        
+        rule.Target__c = 0;
         insert rule;
+        
+        buildPrize('$10 Starbucks Gift Certificate', oppi.Id, 1, 1000);
+        buildPrize('Dinner for 2 at Gary Dankos', oppi.Id, 1, 5000);
+        buildPrize('Trip to Mexico', oppi.Id, 1, 20000);
+        
+        // END - Sales - tiered opportunity builder
+        
+        // INCENTIVE Sales - top in sales
+        
+        oppi = new Incentive__c() ;
+        oppi.Name = 'FORMAT';
+        oppi.Type__c = 'Position';
+        oppi.Title__c = 'King of the Leaderboard';
+        oppi.Description__c = 'This incentive rewards the entrant with the highest number of points at the end of the period. The runner up will also receive a prize. Entrants earn 1/2 point per Expected $ Revenue on new opportunities and 1 point per Actual Revenue on closed opportunities.';
+        oppi.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
+        oppi.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
+        insert oppi ;
+        
+        rule = new IncentiveRule__c() ;
+        rule.IncentiveEventId__c = events.get('New Opportunity').Id ;
+        rule.Title__c = 'New Opportunity';
+        rule.DisplayFormat__c = '';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
+        rule.PointsField__c = 'Expected Amount';
+        rule.PointsMultiplier__c = 0.5;
+        rule.IncentiveId__c = oppi.Id;
+        rule.Target__c = 0;
+        insert rule ;
+        
+        rule = new IncentiveRule__c() ;
+        rule.IncentiveEventId__c = events.get('Opportunity Won').Id ;
+        rule.Title__c = 'Opportunity Won';
+        rule.DisplayFormat__c = '$';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
+        rule.PointsField__c = 'Amount' ;
+        rule.PointsMultiplier__c = 1;
+        rule.IncentiveId__c = oppi.Id;
+        rule.Target__c = 0 ;
+        insert rule;
+        
+        buildPrize('21in iMac screen', oppi.Id, 1, null);
+        buildPrize('$10 Starbucks Gift Certificate', oppi.Id, 2, null);
+        
+        // END - Sales - points winner
+        
+        // INCENTIVE Sales - stack up your rewards
+        
+        Incentive__c oppis = new Incentive__c() ;
+        oppis.Name = 'FORMAT';
+        oppis.Type__c = 'Stack Up';
+        oppis.Title__c = 'Stack Up Your Rewards';
+        oppis.Description__c = 'Entrants will receive the prize for every $20k in booked revenue from closed opportunities. All activity must take place during the incentive period.';
+        oppis.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
+        oppis.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
+        insert oppis ;
+        
+        rule = new IncentiveRule__c() ;
+        rule.IncentiveEventId__c = events.get('Opportunity Won').Id ;
+        rule.Title__c = 'Opportunity Won';
+        rule.DisplayFormat__c = '$';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
+        rule.CountType__c = 'Points';
+        rule.Target__c = 20000 ;
+        rule.PointsMultiplier__c = 1;
+        rule.IncentiveId__c = oppis.Id;
+        insert rule;
+        
+        buildPrize('$100 Cash Bonus', oppis.Id, null, null);
+        
+        // END - Sales - stack up your rewards
+        
+        // INCENTIVE Sales - multi criteria
+        
+        oppi = new Incentive__c() ;
+        oppi.Name = 'FORMAT';
+        oppi.Type__c = 'Multi-criteria';
+        oppi.Title__c = 'Rocking the Business';
+        oppi.Description__c = 'Winners must enter a minimum of 5 new opportunities and book $40k in revenue from closed opportunities during the incentive period. To receive the next prize winners must book 5 new opportunities and acheive total sales of $50k';
+        oppi.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
+        oppi.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
+        insert oppi ;
+        
+        rule = new IncentiveRule__c() ;
+        rule.IncentiveEventId__c = events.get('New Opportunity').Id ;
+        rule.Title__c = 'New Opportunity';
+        rule.DisplayFormat__c = '';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
+        rule.PointsField__c = 'Expected Amount';
+        rule.IncentiveId__c = oppi.Id;
+        rule.CountType__c = 'Count';
+        rule.Target__c = 5 ;
+        insert rule ;
+        
+        rule = new IncentiveRule__c() ;
+        rule.IncentiveEventId__c = events.get('Opportunity Won').Id ;
+        rule.Title__c = 'Opportunity Won';
+        rule.DisplayFormat__c = '$';
+        rule.DisplayPointsFieldFormat__c = '$';
+        rule.DisplayPointsFieldLabel__c = 'Booked Revenue';
+        rule.PointsField__c = 'Amount' ;
+        rule.IncentiveId__c = oppi.Id;
+        rule.CountType__c = 'Points';
+        rule.Target__c = 40000 ; 
+        insert rule;
+        
+        buildPrize('21in iMac Screen', oppi.Id, null, null);
+        buildPrize('2 flights to New York', oppi.Id, null, null);
+       
+        
+        // END - Sales - multi criteria
+        
+       
+    }
+    
+    public static void buildPrize(String title, Id incentiveId, Integer pos, Integer level) {
+        IncentivePrize__c tier = new IncentivePrize__c();
+        tier.Prize__c = title;
+        tier.IncentiveId__c = incentiveId;
+        tier.Position__c = pos ;
+        tier.Level__c = level ;
+        insert tier;
+        
     }
 }

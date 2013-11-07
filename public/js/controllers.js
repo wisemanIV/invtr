@@ -289,8 +289,8 @@ myApp.controller('LogoutCtrl', ['$scope', '$location', '$route', 'SiteConfigServ
 ]);
 
 
-myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
-    function($scope, $timeout, DataService, socket) {
+myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket', '$rootScope',
+    function($scope, $timeout, DataService, socket, $rootScope) {
   
 	DataService.getChatMessages()
             .then(function (result) {
@@ -307,13 +307,14 @@ myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
 		 console.log("send message");
 		 
 		 var msg = new Object();
-		 //msg['username'] = $scope.message.username;
-		 msg['username'] = "Stephen McCurry";
+		 msg['username'] = $rootScope.currentUser.FirstName + " " + $rootScope.currentUser.LastName;
+		 msg['userid'] = $rootScope.currentUser.UserId;
 	     msg['message'] = $scope.message.message;
-		 //msg['photo'] = $scope.message.photo;
+		 msg['photo'] = $rootScope.currentUser.SmallPhotoUrl;
 		 var now = new Date().getTime();
 		 msg['created_at'] = now ;
-		 msg['photo'] = "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T";
+		 
+		 console.log("Chat username:"+msg['username']+" userid:"+msg['userid']+" photo:"+msg['photo']);
 		   
 	     socket.emit('send:message', msg, function(res) {
 			 console.log("EMIT MESSAGE CALLBACK");

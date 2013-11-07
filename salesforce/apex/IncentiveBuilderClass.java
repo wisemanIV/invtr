@@ -1,31 +1,112 @@
 public class IncentiveBuilderClass {
 
+    Id templateId ;
     Map<Id, Incentive> templates ;
     Incentive incentive ;
-    public Id incentiveTemplateId { get; set;} 
     IncentiveRule__c rule ;
-    public Boolean typeUpdate { get; set;} 
+    public Boolean typeUpdate { get; set;}
     static Map<String,Schema.SObjectType> gd = Schema.getGlobalDescribe(); 
+    Set<Id> events ;
+    String currObj { get; set;}
+    // display variables
+    public boolean showTarget {get;set;}
+    public boolean showPointsTarget {get;set;}
+    public boolean showPointsMultiplier {get;set;}
+    public boolean showPointsValue {get;set;}
+    public boolean showPointsField {get;set;}
+    public boolean showEvents {get;set;}
+    public boolean showPrizes {get;set;}
+	public boolean showRequirements {get;set;}
+	public boolean showReqColumn {get;set;}
+    
+    public void setEvents(String lst) {
+        System.debug('Set events');
+        
+        events = new Set<Id>();
+        
+        List<String> st = lst.split(',');
+        for (String s : st)
+           events.add(s);
+        
+    }
+    
+    public void updateEvents() {
+    }
+    
+    public void dummy() {
+    System.debug('DUMMY FUNCTION');
+    }
+    
+    public Id getTemplateId() {
+    System.debug('GETTEMPLATEID');
+        return templateId ;
+    }
+    
+    public void setTemplateId(String templateId) {
+    System.debug('SETTEMPLATEID');
+        this.templateId = templateId;
+    }
     
     public IncentiveBuilderClass() {
-        getSystemIncentives();
+        incentive = new Incentive();
+        getIncentiveFormats();
     }
     
-    public void selectIncentiveType() {
+    public void setDisplayVariables() {
+        Incentive__c i = incentive.getRecord();
+        // Prize section
+        if (i.Type__c == 'Points Tiered') {
+			showRequirements = false ;
+			showReqColumn = true;
+        } else if (i.Type__c == 'Position') {
+			showRequirements = false ;
+			showReqColumn = false ;
+        } else if (i.Type__c == 'Stack Up') {
+			showRequirements = true ;
+			showReqColumn = true ;
+        } else if (i.Type__c == 'Multi-criteria') {
+			showRequirements = true ;
+			showReqColumn = true;
+        } else {
+			showRequirements = true ;
+			showReqColumn = true;
+        }
         
-        Incentive template = templates.get(incentiveTemplateId);
+        // Events Section
+        List<IncentiveRule__c> r = incentive.getRules(); 
         
-        incentive.cloneRules(template) ;
+        showTarget = false; 
+        showPointsTarget = false ;
+        showPointsMultiplier = false ;
+        showPointsValue = false;
+        showPointsField = false;  
+        showEvents = false; 
         
+        for (IncentiveRule__c rule: r) {
+            
+            showEvents = true ;
+           
+            if (rule.PointsMultiplier__c != null && rule.PointsMultiplier__c > 0) {
+                showPointsMultiplier = true;
+            }
+            if (rule.PointsValue__c != null && rule.PointsValue__c > 0) {
+                showPointsValue = true;
+            }
+            if (rule.PointsField__c != null && rule.PointsField__c != '') {
+                showPointsField = true;
+            }
+			
+        }
+		
     }
     
-    public void selectEvent() {
+   /* public void selectEvent() {
         
         List<IncentiveRule__c> events = getSystemRules() ;
         
         for (IncentiveRule__c event: events) {
             if (event.Title__c == rule.Title__c) {
-                // TODO make thi more intelligent by looping through fields. implemented in clone function
+                // TODO make this more intelligent by looping through fields. implemented in clone function
                 rule.Object__c = event.Object__c ;
                 rule.Field__c = event.Field__c ;
                 rule.DisplayFormat__c = event.DisplayFormat__c ;
@@ -41,20 +122,25 @@ public class IncentiveBuilderClass {
                 break;
             }
         }
-    }
+    }*/
     
-    public void toggleType() {
+    /*public void toggleType() {
         ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.ERROR,'Error: Invalid Input.');
         if (rule.Type__c != null && rule.Type__c =='Update') {
                 typeUpdate = true ;
         } else {
             typeUpdate = false ;
         }
-    }
+    }*/
     
     public Incentive__c getIncentive() {
           if(incentive == null) incentive = new Incentive();
           return incentive.getRecord();
+    }
+    
+    public Incentive getIncentiveObj() {
+          if(incentive == null) incentive = new Incentive();
+          return incentive;
     }
     
     public IncentiveRule__c getRule() {
@@ -63,27 +149,32 @@ public class IncentiveBuilderClass {
     }
     
     public List<IncentiveRule__c> getRules() {
-        if (incentiveTemplateId == null) {
+        if (templateId == null || templateId == '') {
             return new List<IncentiveRule__c>();
         } else {
-            return templates.get(incentiveTemplateId).getRules();
+            return incentive.getRules();
         }
     }
+    
     
     public void removeRule() {
         Id ruleId = ApexPages.currentPage().getParameters().get('ruleId');
         
-        IncentiveRule__c r = [Select Id from IncentiveRule__c where Id = :ruleId];
-        
-        delete r ;
+        incentive.removeRule(ruleId) ;
     }
     
-    public List<SelectOption> getNumericFields()   
+    public void removePrize() {
+        Id prizeId = ApexPages.currentPage().getParameters().get('prizeId');
+        
+        incentive.removePrize(prizeId);
+    }
+    
+    public static List<SelectOption> getNumericFields(String currObj)   
     {  
         List<SelectOption> fields = new List<SelectOption>();
         fields.add(new SelectOption('-- None --', '-- None --')); 
       
-        Schema.SObjectType sobjType = gd.get(rule.Object__c);  
+        Schema.SObjectType sobjType = gd.get(currObj);  
         if (sobjType != null) {
         Schema.DescribeSObjectResult r = sobjType.getDescribe();  
         Map<String,Schema.SObjectField> M = r.fields.getMap(); 
@@ -103,12 +194,12 @@ public class IncentiveBuilderClass {
         return fields;  
     }  
     
-    public List<SelectOption> getSobjectFields()   
+    public static List<SelectOption> getSobjectFields(String currObj)   
     {  
         List<SelectOption> fields = new List<SelectOption>();
         fields.add(new SelectOption('-- None --', '-- None --')); 
       
-        Schema.SObjectType sobjType = gd.get(rule.Object__c);  
+        Schema.SObjectType sobjType = gd.get(currObj);  
         if (sobjType != null) {
         Schema.DescribeSObjectResult r = sobjType.getDescribe();  
         Map<String,Schema.SObjectField> M = r.fields.getMap();  
@@ -144,8 +235,24 @@ public class IncentiveBuilderClass {
       
     }
     
+    public List<SelectOption> getEvents()
+    {
+       List<IncentiveEvent__c> events = [select Title__c, Object__c from IncentiveEvent__c];
+       List<SelectOption> options = new List<SelectOption>();
+       
+       options.add(new SelectOption('-- Select --', '-- Select --'));
+       
+       for(IncentiveEvent__c event : events)
+       {
+           options.add(new SelectOption(event.Title__c, event.Title__c));
+       }
+       options.sort();
+       return options;
+      
+    }
+    
     public static List<IncentiveRule__c> getSystemRules() {
-        List<Incentive__c> incentive = new List<Incentive__c>([select Id, Title__c from Incentive__c where Name = 'SYSTEM']);
+        List<Incentive__c> incentive = [select Id, Title__c from Incentive__c where Name in ('SYSTEM', 'FORMAT')];
         List<IncentiveRule__c> events = new List<IncentiveRule__c>(); 
         
         if (incentive != null && incentive.size() > 0) events = CalculateMetrics.getRules(incentive[0].Id);
@@ -153,11 +260,18 @@ public class IncentiveBuilderClass {
         return events ;
     }
     
-    public Map<Id, Incentive> getSystemIncentives() {
+    public List<incentive__c> getIncentiveFormats() {
+        List<Incentive__c> formats = new List<Incentive__c>([select Id, Title__c, Description__c, Type__c from Incentive__c where Name = 'FORMAT']);
+       
+        return formats ;
+    }
+   
+    
+    public Map<Id, Incentive> getFormats() {
         
         if (templates == null) {
             templates = new Map<Id, Incentive>();
-            List<Incentive__c> systemIncentives = new List<Incentive__c>([select Id, Title__c from Incentive__c where Name = 'SYSTEM']);
+            List<Incentive__c> systemIncentives = new List<Incentive__c>([select Id, Name, Title__c, Type__c from Incentive__c where Name = 'FORMAT']);
             
             for (Incentive__c systemIncentive: systemIncentives) {
                 Incentive i = new Incentive(systemIncentive) ;
@@ -168,48 +282,60 @@ public class IncentiveBuilderClass {
         return templates ;
     }
     
-    public List<SelectOption> getEvents()
+    public class ObjEvent {
+        
+        public String obj {get;set;}
+        List<IncentiveEvent__c> events ;
+        List<SelectOption> objPointFields ;
+        
+        public ObjEvent(String objectName) {
+            this.obj = objectName ;
+            events = new List<IncentiveEvent__c>();
+            objPointFields = getNumericFields(objectName);
+        }
+        
+        public List<IncentiveEvent__c> getEvents() {
+            return events ;
+        }
+        
+        public List<SelectOption> getObjPointFields() {
+            return objPointFields;
+        }
+        
+        public void addEvent(IncentiveEvent__c event) {
+            this.events.add(event);
+        }
+    }
+    
+    public List<ObjEvent> getEventObjs()
     {
-       List<IncentiveRule__c> events = getSystemRules();
-       List<SelectOption> options = new List<SelectOption>();
+       List<IncentiveEvent__c> events = [select Title__c, Object__c from IncentiveEvent__c];
+       Map<String, ObjEvent> objEvents = new Map<String, ObjEvent>() ;
        
-       options.add(new SelectOption('-- Select --', '-- Select --'));
-       
-       for(IncentiveRule__c event : events)
+       for(IncentiveEvent__c event : events)
        {
            if (event.Title__c != null && event.Title__c != '') {
-              options.add(new SelectOption(event.Title__c , event.Title__c ));
+               
+              ObjEvent objEvent ;
+              if (objEvents.containsKey(event.Object__c )) {
+                 objEvent = objEvents.get(event.Object__c);
+              } else {
+                 objEvent = new ObjEvent(event.Object__c);
+                 objEvents.put(event.Object__c, objEvent);
+              }
+              objEvent.addEvent(event) ;
            }
        }
-       options.sort();
-       return options;
+       return objEvents.values();
       
     }
     
-    public List<SelectOption> getIncentiveTypes()
-    {
-       List<Incentive> incentiveTypes = getSystemIncentives().values();
-       List<SelectOption> options = new List<SelectOption>();
-       
-       options.add(new SelectOption('-- Select --', '-- Select --'));
-       
-       for(Incentive incentive: incentiveTypes)
-       {
-           if (incentive.getRecord().Title__c != null && incentive.getRecord().Title__c != '') {
-              options.add(new SelectOption(incentive.getRecord().Id, incentive.getRecord().Title__c ));
-           }
-       }
-       options.sort();
-       return options;
-      
-    }
-    
-    public List<SelectOption> getTypes()
+    public List<SelectOption> getRuleCountTypes()
     {
       List<SelectOption> options = new List<SelectOption>();
         
        Schema.DescribeFieldResult fieldResult =
-       IncentiveRule__c.Type__c.getDescribe();
+       IncentiveRule__c.CountType__c.getDescribe();
        List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
         
        for( Schema.PicklistEntry f : ple)
@@ -225,23 +351,47 @@ public class IncentiveBuilderClass {
       return Page.InvAdmin;
     }
     
-    public PageReference back() {
-      rule = null ;
-      return Page.InvNewIncentive;
+    // called by basic details back button
+    public PageReference step0() {
+    
+      return Page.InvFormatSelector;
     }
     
+    // Called by format selector -> basic details
     public PageReference step1() {
-      incentive.getRecord().Active__c = false ;
-      incentive.getRecord().Url__c = 'https://'+incentive.getRecord().Name+'.invtr.co';
+          
+        Incentive template = getFormats().get(templateId);
         
-      return Page.InvRules;
+        incentive.clone(template) ;
+        
+        setDisplayVariables() ;
+        
+        return Page.InvBasicDetails;
+    }
+    
+    // Called by basic details -> event selector
+    public PageReference step2() {
+    
+      return Page.InvEventSelector;
+    }
+    
+    public PageReference step3() {
+    
+      return Page.InvPrizeSelector;
     }
  
-   public PageReference step2() {
+   public PageReference step4() {
        
+       System.debug('STEP 4');
+       
+      // TODO figure out how to do this properly
       List<User> ids = new List<User>([select Id from User where ProfileId in ('00ei00000013M1P','00ei00000013M1b','00ei00000013M1M','00ei00000013M1bAAE') and Id != :UserInfo.getUserId()]) ;
-      Id groupId = IncentiveBuilderClass.createGroup(incentive.getRecord().ChatterGroupTitle__c, ids);
-      incentive.getRecord().ChatterGroupId__c = groupId ;
+      
+      if (incentive.getRecord().ChatterGroupTitle__c != null && incentive.getRecord().ChatterGroupTitle__c != '') {
+        Id groupId = IncentiveBuilderClass.createGroup(incentive.getRecord().ChatterGroupTitle__c, ids);
+        incentive.getRecord().ChatterGroupId__c = groupId ;
+      }
+      
       incentive.save() ;
       save(incentive.getRecord().Id, JSON.serializePretty(incentive.getRecord()));
       PageReference pageRef = Page.InvAdmin;
@@ -251,6 +401,8 @@ public class IncentiveBuilderClass {
  
     @future (callout=true)
     public static void save(Id incentiveId, String body) {
+        
+        System.debug('Save');
     
         Incentive__c irec = [select Id, Url__c from Incentive__c where Id = :incentiveId];
     

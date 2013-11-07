@@ -1,33 +1,131 @@
-<apex:page controller="IncentiveController">
+<apex:page controller="IncentiveController" sidebar="false">
+    <!-- Bootstrap -->
+    <style type="text/css">
+        .pbTitle {
+            white-space: nowrap
+        }
+    </style>      
+    <apex:define name="header">
+         <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-1.9.1.js')}"  />
+         <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/ui/jquery-ui_1-10-3.js')}"  />
+         <apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/jquery-ui.css')}"  />
+         <apex:stylesheet value="{!URLFOR($Resource.vfbootstrap, '/vfbootstrap/css/bootstrap.css')}"/>
+         <apex:stylesheet value="{!URLFOR($Resource.bootstrap, '/dist/css/bootstrap-theme.css')}"/>
+         <apex:stylesheet value="{!URLFOR($Resource.vfbootstrap, '/vfbootstrap/css/bootstrap-responsive.css')}"/>
+         <apex:includeScript value="{!URLFOR($Resource.bootstrap, '/dist/js/bootstrap.js')}"/>
+         
+         <style>
+         
+         .center-block {
+           display: block;
+           margin-left: auto;
+           margin-right: auto;
+           text-align: center;
+         }
+         
+         </style>
+         
+    </apex:define>
+    <apex:define name="body">
+      <apex:form >
+      <div id = "force">
+      
+      
+      <apex:dataList styleClass="nav active nav-tabs" value="{!nav}" var="navItem">
+        <apex:commandLink value="{!navItem}"/>
+      </apex:dataList>
+      
      
-    <apex:form >
-    
-     <apex:pageBlock id="master"> 
-        <apex:pageBlockButtons >
-            <apex:commandButton action="{!URLFOR($Page.InvNewIncentive)}" value="Create New Incentive"/>
-        </apex:pageBlockButtons>
-   
-    
-        <apex:pageBlockTable value="{!lstIncentives}" var="inc">
-             <apex:column headerValue="Incentive Name" value="{!inc.name}"/>
-             <apex:column headerValue="Is Active?" value="{!inc.Active__c}"/>
-             <apex:column headerValue="Display Title" value="{!inc.Title__c}"/>
-             <apex:column headerValue="Start Date" value="{!inc.StartDate__c}"/>
-             <apex:column headerValue="End Date" value="{!inc.EndDate__c}"/>
-             <apex:column headerValue="Url">
-                <a href='{!inc.Url__c}' target='_new'>{!inc.Url__c}</a>
-             </apex:column>
-             <apex:column headerValue="Actions">
-                 <apex:commandButton action="{!URLFOR($Page.InvEditIncentive)}" value="Edit"/>
-                  <apex:commandButton action="{!removeIncentive}" value="Delete" rerender="master, hiddenBlock">
-                      <apex:param name="incId" value="{!inc.Id}"/>
-                   </apex:commandButton>
-				   <apex:commandButton action="{!cloneIncentive}" value="Clone"/>
-                   <apex:pageBlock id="hiddenBlock" rendered="false"></apex:pageBlock>
-             </apex:column>
-        </apex:pageBlockTable>
+      <apex:pageBlock id="updateBlock" title="Inviter Dashboard" mode="edit">
+      
+     <apex:outputPanel layout="block" styleClass="center-block">
+            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="myFunction()">New Incentive</button>
+        </apex:outputPanel>
         
-      </apex:pageBlock> 
-    </apex:form>
-     
+        
+        <apex:pageBlockSection showHeader="false" columns="1">
+        
+            <apex:dataTable value="{!lstIncentives}" var="inc" id="selectable" styleClass="table" rowClasses="table-hover">
+            
+                <apex:column >
+
+                    <apex:facet name="header">Incentive Name</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputText value="{!inc.name}"/>
+                   
+                </apex:column>
+                <apex:column >
+
+                    <apex:facet name="header">Is Active?</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputText value="{!inc.Active__c}"/>
+                   
+                </apex:column>
+                <apex:column >
+
+                    <apex:facet name="header">Title</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputText value="{!inc.Title__c}"/>
+                   
+                </apex:column>
+                <apex:column >
+
+                    <apex:facet name="header">Start Date</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputText value="{!inc.StartDate__c}"/>
+                   
+                </apex:column>
+                <apex:column >
+
+                    <apex:facet name="header">End Date</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputText value="{!inc.EndDate__c}"/>
+                   
+                </apex:column>
+                <apex:column >
+
+                    <apex:facet name="header">Url</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputLink value="{!inc.Url__c}" target="_new">{!inc.Url__c}</apex:outputLink>
+                   
+                </apex:column>
+                <apex:column >
+
+                    <apex:facet name="header">Actions</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                  
+				    <apex:outputPanel styleClass="icon-edit" onclick="editIncentive('{!inc.Id}')" />
+                    <apex:outputPanel styleClass="icon-remove" onclick="removeInc('{!inc.Id}')" />
+                   
+                </apex:column>
+                
+            </apex:dataTable>
+         
+      </apex:pageBlockSection>
+      
+    </apex:pageBlock>
+    
+    </div>
+     <apex:actionFunction action="{!URLFOR($Page.InvFormatSelector)}" name="myFunction" />
+     <apex:actionFunction action="{!removeIncentive}" name="removeInc" rerender="updateBlock">
+            <apex:param name="incId" value=""/>
+	 </apex:actionFunction>
+     <apex:actionFunction action="{!editIncentive}" name="editIncentive" rerender="updateBlock">
+            <apex:param name="incId" value=""/>
+	 </apex:actionFunction>
+     </apex:form>
+     </apex:define>
 </apex:page>

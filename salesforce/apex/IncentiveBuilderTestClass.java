@@ -1,54 +1,71 @@
 @isTest
 private class IncentiveBuilderTestClass {
+    
+    static testMethod void testSetDisplayVariables() {
+        
+        IncentiveBuilderClass incentiveBuilder = new IncentiveBuilderClass();
+        
+        Incentive__c rec = new Incentive__c();
+        insert rec ;
+        IncentiveRule__c rule = new IncentiveRule__c();
+        rule.PointsField__c = 'Test';
+        rule.IncentiveId__c = rec.Id ;
+        insert rule;
+        
+        Incentive template = new Incentive(rec);
+        Incentive incentive = new Incentive();
+        
+        incentive.clone(template) ;
+        
+        List<IncentiveRule__c> rules = incentive.getRules();
+        
+        System.assertEquals(rules.size(), 1, 'Expected 1 rule');
+        
+        System.assertEquals(rules[0].PointsField__c, 'Test', 'Expected points field test');
+        
+        
+        System.assertEquals(incentiveBuilder.showPointsField, null, 'Expected show points field false');
+        
+        incentiveBuilder.setDisplayVariables() ;
+        
+        System.assertEquals(incentiveBuilder.showPointsField, true, 'Expected show points field true');
+    
+    }
+    
+    static testMethod void testStep1() {
+        
+        IncentiveBuilderClass incentiveBuilder = new IncentiveBuilderClass();
+        
+        Incentive template = TestHelpers.getIncentive();
+        
+        incentiveBuilder.setTemplateId(template.getRecord().Id);
+        
+        incentiveBuilder.step1() ;
+        
+        Incentive incentive = incentiveBuilder.getIncentiveObj();
+        
+        System.assertEquals(incentive.getPrizes(), template.getPrizes(), 'Expected incentive to have same prizes as template');
+        
+    }
+    
+    static testMethod void testGetFormats() {
+        
+        IncentiveBuilderClass incentiveBuilder = new IncentiveBuilderClass();
+        
+        Incentive template = TestHelpers.getIncentive();
+        
+        Map<Id, Incentive> formats = incentiveBuilder.getFormats();
+        
+        Incentive test = formats.get(template.getRecord().Id);
+        
+        System.assertEquals(test.getRecord().Name, template.getRecord().Name, 'Expected same name');
+        System.assertEquals(test.getRules().size(), template.getRules().size(), 'Expected same number of rules');
+        System.assertEquals(test.getPrizes().size(), template.getPrizes().size(), 'Expected same number of prizes');
+    
+        
+        
+    }
 
-    static testMethod void testStoreIncentive() {
-    
-        IncentiveBuilderClass incentiveBuilder = new IncentiveBuilderClass();
-        incentiveBuilder.setSubdomain('unittest1');
-        incentiveBuilder.setStartDate('2013-09-30 15:00:01');
-        incentiveBuilder.setEndDate('2013-10-30 15:00:01');
-        incentiveBuilder.setTitle('test title');
-        incentiveBuilder.setTagline('test tagline');
-        incentiveBuilder.setDescription('test description');
-        
-        incentiveBuilder.storeIncentive();
-        
-        List<Incentive__c> newIncentive = [SELECT Url__c, StartDate__c, EndDate__c, Name FROM Incentive__c WHERE Name='unittest1']; 
-        
-        System.assertEquals(newIncentive.size(), 1, 'Expected 1 new incentive');
-    
-        
-    }
-    
-    static testMethod void testBuildSite() {
-        // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
-        
-        IncentiveBuilderClass incentiveBuilder = new IncentiveBuilderClass();
-        incentiveBuilder.setSubdomain('unittest');
-        System.assertEquals(incentiveBuilder.getSubdomain(), 'unittest', 'subdomain mismatch');
-        
-        incentiveBuilder.setStartDate('2013-09-30 15:00:01');
-        System.assertEquals(incentiveBuilder.getStartDate(), '2013-09-30 15:00:01', 'start date mismatch');
-       
-       
-        incentiveBuilder.setEndDate('2013-10-30 15:00:01');
-        System.assertEquals(incentiveBuilder.getEndDate(), '2013-10-30 15:00:01', 'end date mismatch');
-        
-        incentiveBuilder.setTitle('test title');
-        System.assertEquals(incentiveBuilder.getTitle(), 'test title', 'title mismatch');
-        
-        
-        incentiveBuilder.setTagline('test tagline');
-        System.assertEquals(incentiveBuilder.getTagline(), 'test tagline', 'tagline mismatch');
-       
-        incentiveBuilder.setDescription('test description');
-        System.assertEquals(incentiveBuilder.getDescription(), 'test description', 'description mismatch');
-       
-       
-        PageReference pageRef = incentiveBuilder.buildSite() ;
-        
-        System.assertEquals(pageRef.getUrl(), '/apex/inviter__invsiteconfig', 'Expected success page');
-    }
+  
     
 }

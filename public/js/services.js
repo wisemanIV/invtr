@@ -235,11 +235,11 @@ myApp.factory('SiteConfigService', ['$http', '$rootScope', '$timeout', 'RESTServ
 
 	var siteConfig = {};
 	
-    var siteConfigfn = 	$http.get('/sample_data/site_config.json').success(function(response) {
-			console.debug("SiteConfigCtrl returned:");
-			console.debug(response);
-			siteConfig = response;
-		 });
+    var siteConfigfn = RESTService.get("https://data.invtr.co/incentiveconfig", function(data) {
+		console.log("SiteConfigService returns");
+		console.log(data);
+        siteConfig = data;
+    });
 
     return {
 

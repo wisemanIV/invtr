@@ -346,13 +346,12 @@ myApp.controller('Chat', ['$scope', '$timeout', 'DataService', 'socket',
 		 console.log("send message");
 		 
 		 var msg = new Object();
-		 //msg['username'] = $scope.message.username;
-		 msg['username'] = "Stephen McCurry";
+		 msg['username'] = $rootScope.currentUser.FirstName + " " + $rootScope.currentUser.LastName;
+		 msg['userid'] = $rootScope.currentUser.UserId;
 	     msg['message'] = $scope.message.message;
-		 //msg['photo'] = $scope.message.photo;
+		 msg['photo'] = $rootScope.currentUser.SmallPhotoUrl;
 		 var now = new Date().getTime();
 		 msg['created_at'] = now ;
-		 msg['photo'] = "/img/1.jpg";
 		   
 //	     socket.emit('send:message', msg, function(res) {
 //			 console.log("EMIT MESSAGE CALLBACK");
