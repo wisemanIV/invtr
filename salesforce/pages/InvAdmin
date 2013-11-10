@@ -76,6 +76,15 @@
                 </apex:column>
                 <apex:column >
 
+                    <apex:facet name="header">Chatter</apex:facet>
+
+                    <apex:facet name="footer"></apex:facet>
+                    
+                    <apex:outputLink value="/_ui/core/chatter/groups/GroupProfilePage?g={!inc.ChatterGroupId__c}">Chatter Group</apex:outputLink>
+                   
+                </apex:column>
+                <apex:column >
+
                     <apex:facet name="header">Start Date</apex:facet>
 
                     <apex:facet name="footer"></apex:facet>

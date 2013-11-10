@@ -51,6 +51,7 @@ myApp.controller('UserCtrl', ['$scope', '$location', '$rootScope', '$http', 'Use
 	    $rootScope.currentUser = $scope.user ;
 	    $rootScope.authenticated = true ;
 	    $scope.authenticated = true;
+		$rootScope.go('dashboard');
 	});	
 	
 	$scope.login = function() {
@@ -173,15 +174,10 @@ myApp.controller('LeaderboardCtrl', ['$scope','DataService',
 		  
 		$scope.title = "LeaderboardCtrl";
 		
-		DataService.getLeaderData()
-	            .then(function (result) {
-					console.log("Leader results are in ");
-					console.log(result); 
-	               $scope.leaderdata = result; 
-			        
-	            }, function (result) {
-	                alert("Error: No data returned");
-	            });
+		DataService.getLeaderData(function (result) {
+			console.log("Leader results are in ");
+		    $scope.leaderdata = result; 
+		});
 		
 		$scope.toggleType = function() {
 			console.log('toggle the leaderboard');
@@ -206,18 +202,28 @@ myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService',
 		SiteConfigService.getConfig()
                 .then(function (result) {
 					console.log("CountdownCtrl results are in ");
-					console.log(result); 
+					
+					$scope.config = JSON.parse(result.data.data).record ;
+					
+					console.log($scope.config); 
 					
 					var now = new Date().getTime();
+					var start = new Date($scope.config.Inviter__StartDate__c).getTime();
+					var end = new Date($scope.config.Inviter__EndDate__c).getTime();
+					
+					console.log(end-start);
+					console.log($scope.config.Inviter__Active__c);
 			
-					$scope.config = result.data ;
-			
-					if ($scope.config.active) {
-						$scope.config.countdown = ($scope.config.enddate - $scope.config.startdate)/1000;
-						$scope.config.countdown.tagline = 'Remaining time for this incentive';	
+					if ($scope.config.Inviter__Active__c) {
+						$scope.config.showcountdown = true ;
+						$scope.config.countdown = (end - start)/1000;
+						$scope.config.tagline = 'Incentive ends in';	
+					} else if (!$scope.config.Inviter__Active__c && start>now) {
+						$scope.config.showcountdown = true ;
+				    	$scope.config.countdown = (start - now)/1000;
+						$scope.config.tagline = 'Incentive starts in';
 					} else {
-				    	$scope.config.countdown = ($scope.config.startdate - now)/1000;
-						$scope.config.countdown.tagline = 'Time until incentive begins';
+						$scope.config.showcountdown = false ;
 					}
 				        
                 }, function (result) {
@@ -233,8 +239,9 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfi
 		SiteConfigService.getConfig()
                 .then(function (result) {
 					console.log("SiteConfigCtrl results are in ");
-					console.log(result); 
-                   $scope.site = result.data; 
+					var cnfg = JSON.parse(result.data.data).record ;
+					console.log(cnfg); 
+                   $scope.site = cnfg; 
 				        
                 }, function (result) {
                     alert("Error: No data returned");

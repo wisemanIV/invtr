@@ -16,8 +16,8 @@ public class IncentiveBuilderClass {
     public boolean showPointsField {get;set;}
     public boolean showEvents {get;set;}
     public boolean showPrizes {get;set;}
-	public boolean showRequirements {get;set;}
-	public boolean showReqColumn {get;set;}
+    public boolean showRequirements {get;set;}
+    public boolean showReqColumn {get;set;}
     
     public void setEvents(String lst) {
         System.debug('Set events');
@@ -56,20 +56,20 @@ public class IncentiveBuilderClass {
         Incentive__c i = incentive.getRecord();
         // Prize section
         if (i.Type__c == 'Points Tiered') {
-			showRequirements = false ;
-			showReqColumn = true;
+            showRequirements = false ;
+            showReqColumn = true;
         } else if (i.Type__c == 'Position') {
-			showRequirements = false ;
-			showReqColumn = false ;
+            showRequirements = false ;
+            showReqColumn = false ;
         } else if (i.Type__c == 'Stack Up') {
-			showRequirements = true ;
-			showReqColumn = true ;
+            showRequirements = true ;
+            showReqColumn = true ;
         } else if (i.Type__c == 'Multi-criteria') {
-			showRequirements = true ;
-			showReqColumn = true;
+            showRequirements = true ;
+            showReqColumn = true;
         } else {
-			showRequirements = true ;
-			showReqColumn = true;
+            showRequirements = true ;
+            showReqColumn = true;
         }
         
         // Events Section
@@ -95,9 +95,9 @@ public class IncentiveBuilderClass {
             if (rule.PointsField__c != null && rule.PointsField__c != '') {
                 showPointsField = true;
             }
-			
+            
         }
-		
+        
     }
     
    /* public void selectEvent() {
@@ -393,18 +393,20 @@ public class IncentiveBuilderClass {
       }
       
       incentive.save() ;
-      save(incentive.getRecord().Id, JSON.serializePretty(incentive.getRecord()));
+      save(incentive.getRecord().Id);
       PageReference pageRef = Page.InvAdmin;
       
       return pageRef.setRedirect(true);
    }
  
     @future (callout=true)
-    public static void save(Id incentiveId, String body) {
+    public static void save(Id incentiveId) {
         
         System.debug('Save');
     
-        Incentive__c irec = [select Id, Url__c from Incentive__c where Id = :incentiveId];
+        Incentive incentive = new Incentive(incentiveId);
+        
+        String body = JSON.serializePretty(incentive);
     
         HttpRequest req = new HttpRequest();
             
@@ -437,14 +439,14 @@ public class IncentiveBuilderClass {
             if (res.getStatusCode() != 200) {
                 
                 String msg = 'code:'+res.getStatusCode()+' reason:'+res.getStatus() ;
-                irec.Url__c = res.getStatus() ;
-                update irec ;
+                incentive.getRecord().Url__c = res.getStatus() ;
+                update incentive.getRecord() ;
             }
     
         } catch(System.CalloutException e) {
             System.debug(e);
-            irec.Url__c = e.getMessage() ;
-            update irec;
+            incentive.getRecord().Url__c = e.getMessage() ;
+            update incentive.getRecord() ;
             
         }
         

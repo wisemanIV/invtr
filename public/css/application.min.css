@@ -12112,7 +12112,7 @@ table.dataTable thead td:active {
 
 /* line 13, D:/projects/admin/sass/_svg.scss */
 svg text {
-  fill: #f8f8f8;
+  fill: black;
   font-family: inherit;
 }
 
@@ -14155,7 +14155,7 @@ input.input-padding-increased[type=search], input.input-padding-increased.search
 /* line 1564, D:/projects/admin/sass/_base.scss */
 .table th {
   font-weight: 300;
-  color: white;
+  color: black;
 }
 
 /* line 1569, D:/projects/admin/sass/_base.scss */

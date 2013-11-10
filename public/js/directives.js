@@ -203,7 +203,7 @@ directives.directive('d3Bars', function() {
 	              .data(data)
 	              .enter()
 	                .append("text")
-	                .attr("fill", "#fff")
+	                .attr("fill", "black")
 	                .attr("y", function(d, i){return i * 35 + 22;})
 	                .attr("x", 15)
 	                .text(function(d){return d[scope.label];});

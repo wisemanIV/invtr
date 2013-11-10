@@ -130,7 +130,7 @@ global class PostInstallClass implements InstallHandler {
         Incentive__c oppi = new Incentive__c() ;
         oppi.Name = 'FORMAT';
         oppi.Type__c = 'Points Tiered';
-        oppi.Title__c = 'Trip Incentive';
+        oppi.Title__c = 'Presidents Club';
         oppi.Description__c = 'A long running tiered incentive format. Success is based on new opportunities created and opportunities won. Entrants will receive 1/2 point per Expected $ Revenue on new opportunities and 1 point per Actual Revenue on opportunities closed. All activity must take place during the incentive window. Everybody who achevies the points level for a tier will receive the prize associated with that tier.';
         oppi.StartDate__c = Datetime.parse('09/01/2001 10:00 AM') ;
         oppi.EndDate__c =Datetime.parse('09/01/2022 10:00 AM') ;
@@ -160,9 +160,9 @@ global class PostInstallClass implements InstallHandler {
         rule.Target__c = 0;
         insert rule;
         
-        buildPrize('$10 Starbucks Gift Certificate', oppi.Id, 1, 1000);
-        buildPrize('Dinner for 2 at Gary Dankos', oppi.Id, 1, 5000);
-        buildPrize('Trip to Mexico', oppi.Id, 1, 20000);
+        buildPrize('$10 Starbucks Gift Certificate', oppi.Id, 1, 1000, 'http://www.invtr.co/img/prizes/starbucks-gift-card.png');
+        buildPrize('Dinner for 2 at Gary Dankos', oppi.Id, 1, 5000, 'http://www.invtr.co/img/prizes/gary_danko.jpg');
+        buildPrize('Trip to Mexico', oppi.Id, 1, 20000, 'http://www.invtr.co/img/prizes/mexico-trip.jpg');
         
         // END - Sales - tiered opportunity builder
         
@@ -201,8 +201,8 @@ global class PostInstallClass implements InstallHandler {
         rule.Target__c = 0 ;
         insert rule;
         
-        buildPrize('21in iMac screen', oppi.Id, 1, null);
-        buildPrize('$10 Starbucks Gift Certificate', oppi.Id, 2, null);
+        buildPrize('21in iMac screen', oppi.Id, 1, null, 'http://www.invtr.co/img/prizes/apple-imac.jpg');
+        buildPrize('$10 Starbucks Gift Certificate', oppi.Id, 2, null, 'http://www.invtr.co/img/prizes/starbucks-gift-card.png');
         
         // END - Sales - points winner
         
@@ -229,7 +229,7 @@ global class PostInstallClass implements InstallHandler {
         rule.IncentiveId__c = oppis.Id;
         insert rule;
         
-        buildPrize('$100 Cash Bonus', oppis.Id, null, null);
+        buildPrize('$100 Cash Bonus', oppis.Id, null, null, 'http://www.invtr.co/img/prizes/cash100.jpeg');
         
         // END - Sales - stack up your rewards
         
@@ -268,8 +268,8 @@ global class PostInstallClass implements InstallHandler {
         rule.Target__c = 40000 ; 
         insert rule;
         
-        buildPrize('21in iMac Screen', oppi.Id, null, null);
-        buildPrize('2 flights to New York', oppi.Id, null, null);
+        buildPrize('21in iMac Screen', oppi.Id, null, null, 'http://www.invtr.co/img/prizes/apple-imac.jpg');
+        buildPrize('2 flights to New York', oppi.Id, null, null, 'http://www.invtr.co/img/prizes/newyork.jpeg');
        
         
         // END - Sales - multi criteria
@@ -277,12 +277,13 @@ global class PostInstallClass implements InstallHandler {
        
     }
     
-    public static void buildPrize(String title, Id incentiveId, Integer pos, Integer level) {
+    public static void buildPrize(String title, Id incentiveId, Integer pos, Integer level, String url) {
         IncentivePrize__c tier = new IncentivePrize__c();
         tier.Prize__c = title;
         tier.IncentiveId__c = incentiveId;
         tier.Position__c = pos ;
         tier.Level__c = level ;
+		tier.ImageUrl__c = url ;
         insert tier;
         
     }

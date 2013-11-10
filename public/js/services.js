@@ -1,11 +1,12 @@
 'use strict';
 
 // simple stub that could use a lot of work...
-myApp.factory('RESTService',
-    function ($http) {
+myApp.factory('RESTService', ['$http', '$location',
+    function ($http, $location) {
         return {
             get:function (url, callback) {
-                return $http.get(url, {withCredentials:true}).
+				
+                return $http.get(url, {withCredentials:true, headers:{'subdomain':$location.host()}}).
                     success(function (data, status, headers, config) {
                         callback(data);
                         //console.log(data.json);
@@ -26,7 +27,7 @@ myApp.factory('RESTService',
             }
         };
     }
-);
+	]);
 
 myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
     function ($http, $rootScope, socket, $location, $q) {
@@ -55,20 +56,7 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 
 		});
 		
-		socket.on('invtr:leaderdata:'+$location.host().split(".")[0], function (data) {
-			
-			console.debug("Leaderboard data event");
-			console.debug(data);
-			
-			if (typeof data !== "undefined" && data !== null) { 
 		
-				console.debug("leader data:");
-			
-				leaderData = JSON.parse(data) ;
-				
-			}
-		    
-		});
 		
 		socket.on('invtr:timelinedata:'+$location.host().split(".")[0], function (input) {
 			console.log("timelinedata event received");
@@ -79,7 +67,7 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 			
 			console.log(data); 
 			
-			if (typeof data !== "undefined" && data !== null) { 
+			if (typeof data !== "undefined" && Object.keys(data).length > 0) { 
 				
 				var timelineData = [] ;
 					
@@ -87,7 +75,7 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 				
 				var userTimeline = data[currId] ;
 				
-				console.log(JSON.stringify(Object.keys(userTimeline)));
+				console.log(Object.keys(userTimeline));
 						
 				for(var j = 0 ; j < Object.keys(userTimeline).length ; j++) {
 					var dataRow = {} ;
@@ -200,11 +188,26 @@ myApp.factory('DataService', ['$http','$rootScope','socket', '$location', '$q',
 
                 return deferred.promise;
 			},
-			getLeaderData:function() {
-                var deferred = $q.defer();
-                deferred.resolve(leaderData);
-
-                return deferred.promise;
+			
+			getLeaderData:function(callback) {
+				
+				socket.on('invtr:leaderdata:'+$location.host().split(".")[0], function (data) {
+			
+					console.debug("Leaderboard data event");
+					console.debug(data);
+			
+					if (typeof data !== "undefined" && data !== null) { 
+		
+						var leaders = JSON.parse(data);
+						console.debug("leader data:");
+						console.debug(leaders);
+			
+						callback(leaders);
+				
+					}
+		    
+				});
+				
 			},
 			getTimelineData:function() {
                 var deferred = $q.defer();

@@ -388,10 +388,11 @@ html {
 body {
   font-weight: 300;
   padding-bottom: 100px;
-  background-color: #fffe48;
-  background: radial-gradient(farthest-side ellipse at 10% 0, #fffe48, #ffb200, #bf280a), url("../img/bgnoise_lg.png");
-  background: -webkit-radial-gradient(10% 0, farthest-side ellipse, #fffe48, #ffb200, #bf280a), url("../img/bgnoise_lg.png");
-  background: -moz-radial-gradient(10% 0, farthest-side ellipse, #fffe48, #ffb200, #bf280a), url("../img/bgnoise_lg.png");
+  background: url('http://www.invtr.co/img/americascupl.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 .box-dimension {
   background: rgba(253, 253, 255, 0.9);
