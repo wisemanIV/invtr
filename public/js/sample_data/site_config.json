@@ -1,10 +1,290 @@
 {
-    "active": "true", 
-    "background_image": "http://www.google.com", 
-    "description": "a test description", 
-    "enddate": "2013-11-02T01:15:00.000+0000", 
-    "startdate": "2013-10-16T01:15:00.000+0000", 
-    "subdomain": "test8", 
-    "tagline": "a test tagline", 
-    "title": "a test title"
+    "prizes": [
+        {
+            "prize": {
+                "Id": "a0di0000002HG9lAAG", 
+                "Inviter__ImageUrl__c": "http://www.invtr.co/img/prizes/mexico-trip.jpg", 
+                "Inviter__Level__c": 20000, 
+                "Inviter__Position__c": 1, 
+                "Inviter__Prize__c": "Trip to Mexico", 
+                "attributes": {
+                    "type": "Inviter__IncentivePrize__c", 
+                    "url": "/services/data/v29.0/sobjects/Inviter__IncentivePrize__c/a0di0000002HG9lAAG"
+                }
+            }, 
+            "requirements": [
+                {
+                    "Id": "a0Yi0000001dXB6EAM", 
+                    "Inviter__DisplayField__c": false, 
+                    "Inviter__DisplayPointsFieldFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldLabel__c": "New Opp Revenue", 
+                    "Inviter__DisplayPointsField__c": false, 
+                    "Inviter__IncentiveEventId__c": "a0ei0000001MFccAAG", 
+                    "Inviter__IncentiveEventId__r": {
+                        "Id": "a0ei0000001MFccAAG", 
+                        "Inviter__Object__c": "Opportunity", 
+                        "Inviter__Type__c": "New", 
+                        "Inviter__UserIdField__c": "OwnerId", 
+                        "attributes": {
+                            "type": "Inviter__IncentiveEvent__c", 
+                            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFccAAG"
+                        }
+                    }, 
+                    "Inviter__PointsField__c": "Expected Amount", 
+                    "Inviter__PointsMultiplier__c": 0.5, 
+                    "Inviter__Target__c": 0, 
+                    "Inviter__Title__c": "New Opportunity", 
+                    "attributes": {
+                        "type": "Inviter__IncentiveRule__c", 
+                        "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB6EAM"
+                    }
+                }, 
+                {
+                    "Id": "a0Yi0000001dXB7EAM", 
+                    "Inviter__DisplayField__c": false, 
+                    "Inviter__DisplayFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldLabel__c": "Booked Revenue", 
+                    "Inviter__DisplayPointsField__c": false, 
+                    "Inviter__IncentiveEventId__c": "a0ei0000001MFcdAAG", 
+                    "Inviter__IncentiveEventId__r": {
+                        "Id": "a0ei0000001MFcdAAG", 
+                        "Inviter__EndValue__c": "Closed Won", 
+                        "Inviter__Field__c": "StageName", 
+                        "Inviter__Object__c": "Opportunity", 
+                        "Inviter__StartValue__c": "Any", 
+                        "Inviter__Type__c": "Update", 
+                        "Inviter__UserIdField__c": "OwnerId", 
+                        "attributes": {
+                            "type": "Inviter__IncentiveEvent__c", 
+                            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFcdAAG"
+                        }
+                    }, 
+                    "Inviter__PointsField__c": "Amount", 
+                    "Inviter__PointsMultiplier__c": 1, 
+                    "Inviter__Target__c": 0, 
+                    "Inviter__Title__c": "Opportunity Won", 
+                    "attributes": {
+                        "type": "Inviter__IncentiveRule__c", 
+                        "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB7EAM"
+                    }
+                }
+            ]
+        }, 
+        {
+            "prize": {
+                "Id": "a0di0000002HG9mAAG", 
+                "Inviter__ImageUrl__c": "http://www.invtr.co/img/prizes/gary_danko.jpg", 
+                "Inviter__Level__c": 5000, 
+                "Inviter__Position__c": 1, 
+                "Inviter__Prize__c": "Dinner for 2 at Gary Dankos", 
+                "attributes": {
+                    "type": "Inviter__IncentivePrize__c", 
+                    "url": "/services/data/v29.0/sobjects/Inviter__IncentivePrize__c/a0di0000002HG9mAAG"
+                }
+            }, 
+            "requirements": [
+                {
+                    "Id": "a0Yi0000001dXB6EAM", 
+                    "Inviter__DisplayField__c": false, 
+                    "Inviter__DisplayPointsFieldFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldLabel__c": "New Opp Revenue", 
+                    "Inviter__DisplayPointsField__c": false, 
+                    "Inviter__IncentiveEventId__c": "a0ei0000001MFccAAG", 
+                    "Inviter__IncentiveEventId__r": {
+                        "Id": "a0ei0000001MFccAAG", 
+                        "Inviter__Object__c": "Opportunity", 
+                        "Inviter__Type__c": "New", 
+                        "Inviter__UserIdField__c": "OwnerId", 
+                        "attributes": {
+                            "type": "Inviter__IncentiveEvent__c", 
+                            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFccAAG"
+                        }
+                    }, 
+                    "Inviter__PointsField__c": "Expected Amount", 
+                    "Inviter__PointsMultiplier__c": 0.5, 
+                    "Inviter__Target__c": 0, 
+                    "Inviter__Title__c": "New Opportunity", 
+                    "attributes": {
+                        "type": "Inviter__IncentiveRule__c", 
+                        "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB6EAM"
+                    }
+                }, 
+                {
+                    "Id": "a0Yi0000001dXB7EAM", 
+                    "Inviter__DisplayField__c": false, 
+                    "Inviter__DisplayFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldLabel__c": "Booked Revenue", 
+                    "Inviter__DisplayPointsField__c": false, 
+                    "Inviter__IncentiveEventId__c": "a0ei0000001MFcdAAG", 
+                    "Inviter__IncentiveEventId__r": {
+                        "Id": "a0ei0000001MFcdAAG", 
+                        "Inviter__EndValue__c": "Closed Won", 
+                        "Inviter__Field__c": "StageName", 
+                        "Inviter__Object__c": "Opportunity", 
+                        "Inviter__StartValue__c": "Any", 
+                        "Inviter__Type__c": "Update", 
+                        "Inviter__UserIdField__c": "OwnerId", 
+                        "attributes": {
+                            "type": "Inviter__IncentiveEvent__c", 
+                            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFcdAAG"
+                        }
+                    }, 
+                    "Inviter__PointsField__c": "Amount", 
+                    "Inviter__PointsMultiplier__c": 1, 
+                    "Inviter__Target__c": 0, 
+                    "Inviter__Title__c": "Opportunity Won", 
+                    "attributes": {
+                        "type": "Inviter__IncentiveRule__c", 
+                        "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB7EAM"
+                    }
+                }
+            ]
+        }, 
+        {
+            "prize": {
+                "Id": "a0di0000002HG9nAAG", 
+                "Inviter__ImageUrl__c": "http://www.invtr.co/img/prizes/starbucks-gift-card.png", 
+                "Inviter__Level__c": 1000, 
+                "Inviter__Position__c": 1, 
+                "Inviter__Prize__c": "$10 Starbucks Gift Certificate", 
+                "attributes": {
+                    "type": "Inviter__IncentivePrize__c", 
+                    "url": "/services/data/v29.0/sobjects/Inviter__IncentivePrize__c/a0di0000002HG9nAAG"
+                }
+            }, 
+            "requirements": [
+                {
+                    "Id": "a0Yi0000001dXB6EAM", 
+                    "Inviter__DisplayField__c": false, 
+                    "Inviter__DisplayPointsFieldFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldLabel__c": "New Opp Revenue", 
+                    "Inviter__DisplayPointsField__c": false, 
+                    "Inviter__IncentiveEventId__c": "a0ei0000001MFccAAG", 
+                    "Inviter__IncentiveEventId__r": {
+                        "Id": "a0ei0000001MFccAAG", 
+                        "Inviter__Object__c": "Opportunity", 
+                        "Inviter__Type__c": "New", 
+                        "Inviter__UserIdField__c": "OwnerId", 
+                        "attributes": {
+                            "type": "Inviter__IncentiveEvent__c", 
+                            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFccAAG"
+                        }
+                    }, 
+                    "Inviter__PointsField__c": "Expected Amount", 
+                    "Inviter__PointsMultiplier__c": 0.5, 
+                    "Inviter__Target__c": 0, 
+                    "Inviter__Title__c": "New Opportunity", 
+                    "attributes": {
+                        "type": "Inviter__IncentiveRule__c", 
+                        "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB6EAM"
+                    }
+                }, 
+                {
+                    "Id": "a0Yi0000001dXB7EAM", 
+                    "Inviter__DisplayField__c": false, 
+                    "Inviter__DisplayFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldFormat__c": "$", 
+                    "Inviter__DisplayPointsFieldLabel__c": "Booked Revenue", 
+                    "Inviter__DisplayPointsField__c": false, 
+                    "Inviter__IncentiveEventId__c": "a0ei0000001MFcdAAG", 
+                    "Inviter__IncentiveEventId__r": {
+                        "Id": "a0ei0000001MFcdAAG", 
+                        "Inviter__EndValue__c": "Closed Won", 
+                        "Inviter__Field__c": "StageName", 
+                        "Inviter__Object__c": "Opportunity", 
+                        "Inviter__StartValue__c": "Any", 
+                        "Inviter__Type__c": "Update", 
+                        "Inviter__UserIdField__c": "OwnerId", 
+                        "attributes": {
+                            "type": "Inviter__IncentiveEvent__c", 
+                            "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFcdAAG"
+                        }
+                    }, 
+                    "Inviter__PointsField__c": "Amount", 
+                    "Inviter__PointsMultiplier__c": 1, 
+                    "Inviter__Target__c": 0, 
+                    "Inviter__Title__c": "Opportunity Won", 
+                    "attributes": {
+                        "type": "Inviter__IncentiveRule__c", 
+                        "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB7EAM"
+                    }
+                }
+            ]
+        }
+    ], 
+    "record": {
+        "Id": "a0Vi0000001kixpEAA", 
+        "Inviter__Active__c": true, 
+        "Inviter__ChatterGroupId__c": "0F9i0000000H6VvCAK", 
+        "Inviter__EndDate__c": "2013-11-23T00:25:00.000+0000", 
+        "Inviter__StartDate__c": "2013-11-08T00:25:00.000+0000", 
+        "Inviter__Tagline__c": "A test tagline", 
+        "Inviter__Title__c": "Presidents Club", 
+        "Inviter__Url__c": "https://testpres102.invtr.co", 
+        "Name": "testpres102", 
+        "attributes": {
+            "type": "Inviter__Incentive__c", 
+            "url": "/services/data/v29.0/sobjects/Inviter__Incentive__c/a0Vi0000001kixpEAA"
+        }
+    }, 
+    "rules": [
+        {
+            "Id": "a0Yi0000001dXB6EAM", 
+            "Inviter__DisplayField__c": false, 
+            "Inviter__DisplayPointsFieldFormat__c": "$", 
+            "Inviter__DisplayPointsFieldLabel__c": "New Opp Revenue", 
+            "Inviter__DisplayPointsField__c": false, 
+            "Inviter__IncentiveEventId__c": "a0ei0000001MFccAAG", 
+            "Inviter__IncentiveEventId__r": {
+                "Id": "a0ei0000001MFccAAG", 
+                "Inviter__Object__c": "Opportunity", 
+                "Inviter__Type__c": "New", 
+                "Inviter__UserIdField__c": "OwnerId", 
+                "attributes": {
+                    "type": "Inviter__IncentiveEvent__c", 
+                    "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFccAAG"
+                }
+            }, 
+            "Inviter__PointsField__c": "Expected Amount", 
+            "Inviter__PointsMultiplier__c": 0.5, 
+            "Inviter__Target__c": 0, 
+            "Inviter__Title__c": "New Opportunity", 
+            "attributes": {
+                "type": "Inviter__IncentiveRule__c", 
+                "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB6EAM"
+            }
+        }, 
+        {
+            "Id": "a0Yi0000001dXB7EAM", 
+            "Inviter__DisplayField__c": false, 
+            "Inviter__DisplayFormat__c": "$", 
+            "Inviter__DisplayPointsFieldFormat__c": "$", 
+            "Inviter__DisplayPointsFieldLabel__c": "Booked Revenue", 
+            "Inviter__DisplayPointsField__c": false, 
+            "Inviter__IncentiveEventId__c": "a0ei0000001MFcdAAG", 
+            "Inviter__IncentiveEventId__r": {
+                "Id": "a0ei0000001MFcdAAG", 
+                "Inviter__EndValue__c": "Closed Won", 
+                "Inviter__Field__c": "StageName", 
+                "Inviter__Object__c": "Opportunity", 
+                "Inviter__StartValue__c": "Any", 
+                "Inviter__Type__c": "Update", 
+                "Inviter__UserIdField__c": "OwnerId", 
+                "attributes": {
+                    "type": "Inviter__IncentiveEvent__c", 
+                    "url": "/services/data/v29.0/sobjects/Inviter__IncentiveEvent__c/a0ei0000001MFcdAAG"
+                }
+            }, 
+            "Inviter__PointsField__c": "Amount", 
+            "Inviter__PointsMultiplier__c": 1, 
+            "Inviter__Target__c": 0, 
+            "Inviter__Title__c": "Opportunity Won", 
+            "attributes": {
+                "type": "Inviter__IncentiveRule__c", 
+                "url": "/services/data/v29.0/sobjects/Inviter__IncentiveRule__c/a0Yi0000001dXB7EAM"
+            }
+        }
+    ]
 }
