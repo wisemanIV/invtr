@@ -216,6 +216,31 @@ top: -10px;
 z-index: 200;
 }
 
+#advanced {
+width: 80px;
+height: 80px;
+background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange);
+background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+-webkit-animation-name: spin;
+-webkit-animation-duration: 2s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-timing-function: linear;
+-moz-animation-name: spin;
+-moz-animation-duration: 2s;
+-moz-animation-iteration-count: infinite;
+-moz-animation-timing-function: linear;
+-ms-animation-name: spin;
+-ms-animation-duration: 2s;
+-ms-animation-iteration-count: infinite;
+-ms-animation-timing-function: linear;
+}
+.circle {
+border-radius: 50%;
+display: inline-block;
+margin-right: 20px;
+}
+
 </style>
 <div fade-in class="wrap">
 	
@@ -455,70 +480,17 @@ z-index: 200;
         </div>
 		
 		<div class="row">
-			<div class="span8">
+			<div class="span8" ng-controller="SiteConfigCtrl">
 				<section id="tracker" class="widget large">
 					<header>
 						<h4>Presidents Club Tracker</h4>
 					</header>
 						<!-- ENCOURAGEMENT -->
 						<div id="retailTracker">
-							<div class="rewardMarker reward1">
-								<div class="description">
-									<p class="prv"></p><p class="earnings"></p>						
-								</div>
-							</div>
-							<div class="rewardMarker reward2">
-								<div class="description">
-									<p class="prv">1,000 points</p>
-								</div>
-								<div class="rewardArrow"></div>
-							</div>
-							<div class="rewardMarker reward3">
-								<div class="description">
-									<p class="prv">5,000 points</p>
-								</div>
-								<div class="rewardArrow"></div>
-							</div>
-							<div class="rewardMarker reward4">
-								<div class="description">
-									<p class="prv">25,000 points</p>
-								</div>
-								<div class="rewardArrow"></div>
-							</div>
-							<!-- GOAL -->
-							<!--<div id="progressBar">
-								<span class="retail">Retail Sales</span>-->
-								<!-- Goal Marker is 12px behind actual 600px width -->
-							<div class="progress-bar blue stripes">
-								    <span style="width: 40%"></span>
-								<div id="goalMarker" style="left: 536px">
-									<span class="top_back">
-										<span class="top_tri"></span>
-									</span>
-									<span class="bottom_back">
-										<span class="bottom_tri"></span>
-									</span>
-								</div>
-								<!-- progress bar width is 600px -->
-								<!--<span class="progress" id="progress" style="width: 0px;"></span>-->
-							</div>
+							
+							<gh-progress data="prizes"/>
+							
 						</div>
-						<div id="badges">
-							<div class="prize badge1">
-								<p><strong></strong><br></p>					
-							</div>
-							<div class="prize badge2">
-								<img class="prizeImg" src="http://www.invtr.co/img/imac27.png">
-								<p><strong>Winning</strong><br>Gift Card</p>					
-							</div>
-							<div class="prize badge3">
-								<img class="prizeImg" src="http://www.invtr.co/img/imac27.png">
-								<p><strong>Killing It</strong><br>27in iMac/p>					
-							</div>
-							<div class="prize badge4">
-								<img class="prizeImg" src="http://www.invtr.co/img/imac27.png">
-								<p><strong>Presidents Club</strong><br>Trip to Mexico</p>				
-							</div>
 								
 				</section>
 	            </div>

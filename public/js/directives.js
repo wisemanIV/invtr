@@ -516,4 +516,20 @@ directives.directive('timer', ['$compile', function ($compile) {
 	      }]
 	    };
 	  }]);
+	  
+directives.directive('ghProgress', function () {
+	
+	return {
+	  restrict: 'E',
+	  templateUrl : 'partials/progressMarker.html',
+	  scope: {
+	    data: "="
+	  },
+	  link: function (scope, element, attrs) {
+		  
+		  console.log("being called alright");
+	  }
+  }
+	  
+});
 

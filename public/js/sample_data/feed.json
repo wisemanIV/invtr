@@ -1,5 +1,5 @@
 {
-    "currentPageUrl": "/services/data/v29.0/chatter/feeds/record/0F9i0000000H4PhCAK/feed-items", 
+    "currentPageUrl": "/services/data/v29.0/chatter/feeds/record/0F9i0000000H6VvCAK/feed-items", 
     "isModifiedToken": null, 
     "isModifiedUrl": null, 
     "items": [
@@ -12,7 +12,7 @@
                 "isInThisCommunity": true, 
                 "lastName": "McCurry", 
                 "motif": {
-                    "color": "1797C0", 
+                    "color": "20aeb8", 
                     "largeIconUrl": "/img/icon/profile64.png", 
                     "mediumIconUrl": "/img/icon/profile32.png", 
                     "smallIconUrl": "/img/icon/profile16.png"
@@ -20,286 +20,11 @@
                 "mySubscription": null, 
                 "name": "Stephen McCurry", 
                 "photo": {
-                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
                     "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
                     "photoVersionId": "729i0000000HQIEAA4", 
                     "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
-                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
-                }, 
-                "title": null, 
-                "type": "User", 
-                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
-                "userType": "Internal"
-            }, 
-            "attachment": {
-                "title": "intro video", 
-                "type": "Link", 
-                "url": "http://youtu.be/ErC1Vf6Px48"
-            }, 
-            "body": {
-                "messageSegments": [
-                    {
-                        "text": "welcome to the incentive", 
-                        "type": "Text"
-                    }
-                ], 
-                "text": "welcome to the incentive"
-            }, 
-            "canShare": true, 
-            "clientInfo": null, 
-            "comments": {
-                "comments": [
-                    {
-                        "attachment": null, 
-                        "body": {
-                            "messageSegments": [
-                                {
-                                    "text": "test comment", 
-                                    "type": "Text"
-                                }
-                            ], 
-                            "text": "test comment"
-                        }, 
-                        "clientInfo": null, 
-                        "createdDate": "2013-10-24T06:03:30.000Z", 
-                        "feedItem": {
-                            "id": "0D5i000000FTyxjCAD", 
-                            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000FTyxjCAD"
-                        }, 
-                        "id": "0D7i0000000UbW5CAK", 
-                        "isDeleteRestricted": false, 
-                        "likes": {
-                            "currentPageUrl": "/services/data/v29.0/chatter/comments/0D7i0000000UbW5CAK/likes", 
-                            "likes": [], 
-                            "nextPageUrl": null, 
-                            "previousPageUrl": null, 
-                            "total": 0
-                        }, 
-                        "likesMessage": null, 
-                        "moderationFlags": null, 
-                        "myLike": null, 
-                        "parent": {
-                            "id": "0F9i0000000H4PhCAK", 
-                            "url": "/services/data/v29.0/chatter/groups/0F9i0000000H4PhCAK"
-                        }, 
-                        "relativeCreatedDate": "Just Now", 
-                        "type": "TextComment", 
-                        "url": "/services/data/v29.0/chatter/comments/0D7i0000000UbW5CAK", 
-                        "user": {
-                            "companyName": "Inviter", 
-                            "firstName": "Stephen", 
-                            "id": "005i0000001GM5rAAG", 
-                            "isActive": true, 
-                            "isInThisCommunity": true, 
-                            "lastName": "McCurry", 
-                            "motif": {
-                                "color": "1797C0", 
-                                "largeIconUrl": "/img/icon/profile64.png", 
-                                "mediumIconUrl": "/img/icon/profile32.png", 
-                                "smallIconUrl": "/img/icon/profile16.png"
-                            }, 
-                            "mySubscription": null, 
-                            "name": "Stephen McCurry", 
-                            "photo": {
-                                "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
-                                "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
-                                "photoVersionId": "729i0000000HQIEAA4", 
-                                "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-                                "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
-                                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
-                            }, 
-                            "title": null, 
-                            "type": "User", 
-                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
-                            "userType": "Internal"
-                        }
-                    }
-                ], 
-                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000FTyxjCAD/comments", 
-                "nextPageUrl": null, 
-                "total": 1
-            }, 
-            "createdDate": "2013-10-24T00:40:16.000Z", 
-            "event": false, 
-            "id": "0D5i000000FTyxjCAD", 
-            "isBookmarkedByCurrentUser": false, 
-            "isDeleteRestricted": false, 
-            "isLikedByCurrentUser": true, 
-            "likes": {
-                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000FTyxjCAD/likes", 
-                "likes": [
-                    {
-                        "id": "0I0i0000000TedvCAC", 
-                        "likedItem": {
-                            "id": "0D5i000000FTyxjCAD", 
-                            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000FTyxjCAD"
-                        }, 
-                        "url": "/services/data/v29.0/chatter/likes/0I0i0000000TedvCAC", 
-                        "user": {
-                            "companyName": "Inviter", 
-                            "firstName": "Stephen", 
-                            "id": "005i0000001GM5rAAG", 
-                            "isActive": true, 
-                            "isInThisCommunity": true, 
-                            "lastName": "McCurry", 
-                            "motif": {
-                                "color": "1797C0", 
-                                "largeIconUrl": "/img/icon/profile64.png", 
-                                "mediumIconUrl": "/img/icon/profile32.png", 
-                                "smallIconUrl": "/img/icon/profile16.png"
-                            }, 
-                            "mySubscription": null, 
-                            "name": "Stephen McCurry", 
-                            "photo": {
-                                "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
-                                "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
-                                "photoVersionId": "729i0000000HQIEAA4", 
-                                "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-                                "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
-                                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
-                            }, 
-                            "title": null, 
-                            "type": "User", 
-                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
-                            "userType": "Internal"
-                        }
-                    }
-                ], 
-                "nextPageUrl": null, 
-                "previousPageUrl": null, 
-                "total": 1
-            }, 
-            "likesMessage": {
-                "messageSegments": [
-                    {
-                        "text": "You like this.", 
-                        "type": "Text"
-                    }
-                ], 
-                "text": "You like this."
-            }, 
-            "moderationFlags": null, 
-            "modifiedDate": "2013-10-24T06:03:30.000Z", 
-            "myLike": {
-                "id": "0I0i0000000TedvCAC", 
-                "url": "/services/data/v29.0/chatter/likes/0I0i0000000TedvCAC"
-            }, 
-            "originalFeedItem": null, 
-            "originalFeedItemActor": null, 
-            "parent": {
-                "canHaveChatterGuests": false, 
-                "community": null, 
-                "description": null, 
-                "emailToChatterAddress": null, 
-                "id": "0F9i0000000H4PhCAK", 
-                "isArchived": false, 
-                "isAutoArchiveDisabled": false, 
-                "lastFeedItemPostDate": "2013-10-24T06:03:30.000Z", 
-                "memberCount": 2, 
-                "motif": {
-                    "color": "1797C0", 
-                    "largeIconUrl": "/img/icon/groups64.png", 
-                    "mediumIconUrl": "/img/icon/groups32.png", 
-                    "smallIconUrl": "/img/icon/groups16.png"
-                }, 
-                "myRole": "GroupOwner", 
-                "mySubscription": {
-                    "id": "0FBi0000000HcsqGAC", 
-                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HcsqGAC"
-                }, 
-                "name": "a test title 12", 
-                "owner": {
-                    "companyName": "Inviter", 
-                    "firstName": "Stephen", 
-                    "id": "005i0000001GM5rAAG", 
-                    "isActive": true, 
-                    "isInThisCommunity": true, 
-                    "lastName": "McCurry", 
-                    "motif": {
-                        "color": "1797C0", 
-                        "largeIconUrl": "/img/icon/profile64.png", 
-                        "mediumIconUrl": "/img/icon/profile32.png", 
-                        "smallIconUrl": "/img/icon/profile16.png"
-                    }, 
-                    "mySubscription": null, 
-                    "name": "Stephen McCurry", 
-                    "photo": {
-                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
-                        "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
-                        "photoVersionId": "729i0000000HQIEAA4", 
-                        "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
-                        "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
-                    }, 
-                    "title": null, 
-                    "type": "User", 
-                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
-                    "userType": "Internal"
-                }, 
-                "photo": {
-                    "fullEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_200.png?fromEmail=1", 
-                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/F", 
-                    "photoVersionId": null, 
-                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/T", 
-                    "standardEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_45.png?fromEmail=1", 
-                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H4PhCAK/photo"
-                }, 
-                "type": "CollaborationGroup", 
-                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H4PhCAK", 
-                "visibility": "PublicAccess"
-            }, 
-            "photoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-            "preamble": {
-                "messageSegments": [
-                    {
-                        "motif": {
-                            "color": "1797C0", 
-                            "largeIconUrl": "/img/icon/profile64.png", 
-                            "mediumIconUrl": "/img/icon/profile32.png", 
-                            "smallIconUrl": "/img/icon/profile16.png"
-                        }, 
-                        "reference": {
-                            "id": "005i0000001GM5rAAG", 
-                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG"
-                        }, 
-                        "text": "Stephen McCurry", 
-                        "type": "EntityLink"
-                    }
-                ], 
-                "text": "Stephen McCurry"
-            }, 
-            "relativeCreatedDate": "5h ago", 
-            "topics": {
-                "canAssignTopics": true, 
-                "topics": []
-            }, 
-            "type": "LinkPost", 
-            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000FTyxjCAD", 
-            "visibility": "AllUsers"
-        }, 
-        {
-            "actor": {
-                "companyName": "Inviter", 
-                "firstName": "Stephen", 
-                "id": "005i0000001GM5rAAG", 
-                "isActive": true, 
-                "isInThisCommunity": true, 
-                "lastName": "McCurry", 
-                "motif": {
-                    "color": "1797C0", 
-                    "largeIconUrl": "/img/icon/profile64.png", 
-                    "mediumIconUrl": "/img/icon/profile32.png", 
-                    "smallIconUrl": "/img/icon/profile16.png"
-                }, 
-                "mySubscription": null, 
-                "name": "Stephen McCurry", 
-                "photo": {
-                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
-                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
-                    "photoVersionId": "729i0000000HQIEAA4", 
-                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
                     "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
                 }, 
                 "title": null, 
@@ -311,28 +36,28 @@
             "body": {
                 "messageSegments": [
                     {
-                        "text": "here we go!", 
+                        "text": "Quick update to say keep going it will be over soon!", 
                         "type": "Text"
                     }
                 ], 
-                "text": "here we go!"
+                "text": "Quick update to say keep going it will be over soon!"
             }, 
             "canShare": true, 
             "clientInfo": null, 
             "comments": {
                 "comments": [], 
-                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000FTywlCAD/comments", 
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I1G7iCAF/comments", 
                 "nextPageUrl": null, 
                 "total": 0
             }, 
-            "createdDate": "2013-10-24T00:38:08.000Z", 
+            "createdDate": "2013-11-11T22:39:53.000Z", 
             "event": false, 
-            "id": "0D5i000000FTywlCAD", 
+            "id": "0D5i000000I1G7iCAF", 
             "isBookmarkedByCurrentUser": false, 
             "isDeleteRestricted": false, 
             "isLikedByCurrentUser": false, 
             "likes": {
-                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000FTywlCAD/likes", 
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I1G7iCAF/likes", 
                 "likes": [], 
                 "nextPageUrl": null, 
                 "previousPageUrl": null, 
@@ -340,7 +65,7 @@
             }, 
             "likesMessage": null, 
             "moderationFlags": null, 
-            "modifiedDate": "2013-10-24T00:38:08.000Z", 
+            "modifiedDate": "2013-11-11T22:39:53.000Z", 
             "myLike": null, 
             "originalFeedItem": null, 
             "originalFeedItemActor": null, 
@@ -349,23 +74,23 @@
                 "community": null, 
                 "description": null, 
                 "emailToChatterAddress": null, 
-                "id": "0F9i0000000H4PhCAK", 
+                "id": "0F9i0000000H6VvCAK", 
                 "isArchived": false, 
                 "isAutoArchiveDisabled": false, 
-                "lastFeedItemPostDate": "2013-10-24T06:03:30.000Z", 
+                "lastFeedItemPostDate": "2013-11-11T22:39:53.000Z", 
                 "memberCount": 2, 
                 "motif": {
-                    "color": "1797C0", 
+                    "color": "5e87de", 
                     "largeIconUrl": "/img/icon/groups64.png", 
                     "mediumIconUrl": "/img/icon/groups32.png", 
                     "smallIconUrl": "/img/icon/groups16.png"
                 }, 
                 "myRole": "GroupOwner", 
                 "mySubscription": {
-                    "id": "0FBi0000000HcsqGAC", 
-                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HcsqGAC"
+                    "id": "0FBi0000000HivsGAC", 
+                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HivsGAC"
                 }, 
-                "name": "a test title 12", 
+                "name": "a test chatter", 
                 "owner": {
                     "companyName": "Inviter", 
                     "firstName": "Stephen", 
@@ -374,7 +99,7 @@
                     "isInThisCommunity": true, 
                     "lastName": "McCurry", 
                     "motif": {
-                        "color": "1797C0", 
+                        "color": "20aeb8", 
                         "largeIconUrl": "/img/icon/profile64.png", 
                         "mediumIconUrl": "/img/icon/profile32.png", 
                         "smallIconUrl": "/img/icon/profile16.png"
@@ -382,11 +107,11 @@
                     "mySubscription": null, 
                     "name": "Stephen McCurry", 
                     "photo": {
-                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthm32DVzFhjYzBfhi4lpj0yt", 
+                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
                         "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
                         "photoVersionId": "729i0000000HQIEAA4", 
                         "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
-                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnGypRPCY8GNyG-ob8B-2hx", 
+                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
                         "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
                     }, 
                     "title": null, 
@@ -400,10 +125,10 @@
                     "photoVersionId": null, 
                     "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/T", 
                     "standardEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_45.png?fromEmail=1", 
-                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H4PhCAK/photo"
+                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK/photo"
                 }, 
                 "type": "CollaborationGroup", 
-                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H4PhCAK", 
+                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK", 
                 "visibility": "PublicAccess"
             }, 
             "photoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
@@ -411,7 +136,7 @@
                 "messageSegments": [
                     {
                         "motif": {
-                            "color": "1797C0", 
+                            "color": "20aeb8", 
                             "largeIconUrl": "/img/icon/profile64.png", 
                             "mediumIconUrl": "/img/icon/profile32.png", 
                             "smallIconUrl": "/img/icon/profile16.png"
@@ -426,13 +151,661 @@
                 ], 
                 "text": "Stephen McCurry"
             }, 
-            "relativeCreatedDate": "5h ago", 
+            "relativeCreatedDate": "5m ago", 
             "topics": {
                 "canAssignTopics": true, 
                 "topics": []
             }, 
             "type": "TextPost", 
-            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000FTywlCAD", 
+            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000I1G7iCAF", 
+            "visibility": "AllUsers"
+        }, 
+        {
+            "actor": {
+                "companyName": "Inviter", 
+                "firstName": "Stephen", 
+                "id": "005i0000001GM5rAAG", 
+                "isActive": true, 
+                "isInThisCommunity": true, 
+                "lastName": "McCurry", 
+                "motif": {
+                    "color": "20aeb8", 
+                    "largeIconUrl": "/img/icon/profile64.png", 
+                    "mediumIconUrl": "/img/icon/profile32.png", 
+                    "smallIconUrl": "/img/icon/profile16.png"
+                }, 
+                "mySubscription": null, 
+                "name": "Stephen McCurry", 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                    "photoVersionId": "729i0000000HQIEAA4", 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                }, 
+                "title": null, 
+                "type": "User", 
+                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                "userType": "Internal"
+            }, 
+            "attachment": {
+                "checksum": "2054fd3e83099df8fbe5306486054548", 
+                "description": null, 
+                "downloadUrl": "/services/data/v29.0/chatter/files/069i0000000SuhkAAC/content?versionNumber=1", 
+                "fileExtension": "jpg", 
+                "fileSize": "33382", 
+                "fileType": "Image - jpg", 
+                "hasImagePreview": true, 
+                "hasPdfPreview": false, 
+                "id": "069i0000000SuhkAAC", 
+                "isInMyFileSync": false, 
+                "mimeType": "image/jpeg", 
+                "renditionUrl": "/services/data/v29.0/chatter/files/069i0000000SuhkAAC/rendition", 
+                "title": "mexico-trip", 
+                "type": "Content", 
+                "versionId": "068i0000000T2PQAA0"
+            }, 
+            "body": {
+                "messageSegments": [
+                    {
+                        "text": "Look where you could be! Keep selling", 
+                        "type": "Text"
+                    }
+                ], 
+                "text": "Look where you could be! Keep selling"
+            }, 
+            "canShare": true, 
+            "clientInfo": null, 
+            "comments": {
+                "comments": [], 
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I1GLYCA3/comments", 
+                "nextPageUrl": null, 
+                "total": 0
+            }, 
+            "createdDate": "2013-11-11T22:39:32.000Z", 
+            "event": false, 
+            "id": "0D5i000000I1GLYCA3", 
+            "isBookmarkedByCurrentUser": false, 
+            "isDeleteRestricted": false, 
+            "isLikedByCurrentUser": false, 
+            "likes": {
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I1GLYCA3/likes", 
+                "likes": [], 
+                "nextPageUrl": null, 
+                "previousPageUrl": null, 
+                "total": 0
+            }, 
+            "likesMessage": null, 
+            "moderationFlags": null, 
+            "modifiedDate": "2013-11-11T22:39:32.000Z", 
+            "myLike": null, 
+            "originalFeedItem": null, 
+            "originalFeedItemActor": null, 
+            "parent": {
+                "canHaveChatterGuests": false, 
+                "community": null, 
+                "description": null, 
+                "emailToChatterAddress": null, 
+                "id": "0F9i0000000H6VvCAK", 
+                "isArchived": false, 
+                "isAutoArchiveDisabled": false, 
+                "lastFeedItemPostDate": "2013-11-11T22:39:53.000Z", 
+                "memberCount": 2, 
+                "motif": {
+                    "color": "5e87de", 
+                    "largeIconUrl": "/img/icon/groups64.png", 
+                    "mediumIconUrl": "/img/icon/groups32.png", 
+                    "smallIconUrl": "/img/icon/groups16.png"
+                }, 
+                "myRole": "GroupOwner", 
+                "mySubscription": {
+                    "id": "0FBi0000000HivsGAC", 
+                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HivsGAC"
+                }, 
+                "name": "a test chatter", 
+                "owner": {
+                    "companyName": "Inviter", 
+                    "firstName": "Stephen", 
+                    "id": "005i0000001GM5rAAG", 
+                    "isActive": true, 
+                    "isInThisCommunity": true, 
+                    "lastName": "McCurry", 
+                    "motif": {
+                        "color": "20aeb8", 
+                        "largeIconUrl": "/img/icon/profile64.png", 
+                        "mediumIconUrl": "/img/icon/profile32.png", 
+                        "smallIconUrl": "/img/icon/profile16.png"
+                    }, 
+                    "mySubscription": null, 
+                    "name": "Stephen McCurry", 
+                    "photo": {
+                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                        "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                        "photoVersionId": "729i0000000HQIEAA4", 
+                        "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                        "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                    }, 
+                    "title": null, 
+                    "type": "User", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                    "userType": "Internal"
+                }, 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_200.png?fromEmail=1", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/F", 
+                    "photoVersionId": null, 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_45.png?fromEmail=1", 
+                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK/photo"
+                }, 
+                "type": "CollaborationGroup", 
+                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK", 
+                "visibility": "PublicAccess"
+            }, 
+            "photoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+            "preamble": {
+                "messageSegments": [
+                    {
+                        "motif": {
+                            "color": "20aeb8", 
+                            "largeIconUrl": "/img/icon/profile64.png", 
+                            "mediumIconUrl": "/img/icon/profile32.png", 
+                            "smallIconUrl": "/img/icon/profile16.png"
+                        }, 
+                        "reference": {
+                            "id": "005i0000001GM5rAAG", 
+                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG"
+                        }, 
+                        "text": "Stephen McCurry", 
+                        "type": "EntityLink"
+                    }
+                ], 
+                "text": "Stephen McCurry"
+            }, 
+            "relativeCreatedDate": "5m ago", 
+            "topics": {
+                "canAssignTopics": true, 
+                "topics": []
+            }, 
+            "type": "ContentPost", 
+            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000I1GLYCA3", 
+            "visibility": "AllUsers"
+        }, 
+        {
+            "actor": {
+                "companyName": "Inviter", 
+                "firstName": "Stephen", 
+                "id": "005i0000001GM5rAAG", 
+                "isActive": true, 
+                "isInThisCommunity": true, 
+                "lastName": "McCurry", 
+                "motif": {
+                    "color": "20aeb8", 
+                    "largeIconUrl": "/img/icon/profile64.png", 
+                    "mediumIconUrl": "/img/icon/profile32.png", 
+                    "smallIconUrl": "/img/icon/profile16.png"
+                }, 
+                "mySubscription": null, 
+                "name": "Stephen McCurry", 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                    "photoVersionId": "729i0000000HQIEAA4", 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                }, 
+                "title": null, 
+                "type": "User", 
+                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                "userType": "Internal"
+            }, 
+            "attachment": {
+                "title": "Crazy dominos trick", 
+                "type": "Link", 
+                "url": "http://www.youtube.com/watch?v=ARM42-eorzE"
+            }, 
+            "body": {
+                "messageSegments": [
+                    {
+                        "text": "Welcome to a great incentive. Check out this video to find out more!", 
+                        "type": "Text"
+                    }
+                ], 
+                "text": "Welcome to a great incentive. Check out this video to find out more!"
+            }, 
+            "canShare": true, 
+            "clientInfo": null, 
+            "comments": {
+                "comments": [], 
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I1GKuCAN/comments", 
+                "nextPageUrl": null, 
+                "total": 0
+            }, 
+            "createdDate": "2013-11-11T22:38:36.000Z", 
+            "event": false, 
+            "id": "0D5i000000I1GKuCAN", 
+            "isBookmarkedByCurrentUser": false, 
+            "isDeleteRestricted": false, 
+            "isLikedByCurrentUser": false, 
+            "likes": {
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I1GKuCAN/likes", 
+                "likes": [], 
+                "nextPageUrl": null, 
+                "previousPageUrl": null, 
+                "total": 0
+            }, 
+            "likesMessage": null, 
+            "moderationFlags": null, 
+            "modifiedDate": "2013-11-11T22:38:36.000Z", 
+            "myLike": null, 
+            "originalFeedItem": null, 
+            "originalFeedItemActor": null, 
+            "parent": {
+                "canHaveChatterGuests": false, 
+                "community": null, 
+                "description": null, 
+                "emailToChatterAddress": null, 
+                "id": "0F9i0000000H6VvCAK", 
+                "isArchived": false, 
+                "isAutoArchiveDisabled": false, 
+                "lastFeedItemPostDate": "2013-11-11T22:39:53.000Z", 
+                "memberCount": 2, 
+                "motif": {
+                    "color": "5e87de", 
+                    "largeIconUrl": "/img/icon/groups64.png", 
+                    "mediumIconUrl": "/img/icon/groups32.png", 
+                    "smallIconUrl": "/img/icon/groups16.png"
+                }, 
+                "myRole": "GroupOwner", 
+                "mySubscription": {
+                    "id": "0FBi0000000HivsGAC", 
+                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HivsGAC"
+                }, 
+                "name": "a test chatter", 
+                "owner": {
+                    "companyName": "Inviter", 
+                    "firstName": "Stephen", 
+                    "id": "005i0000001GM5rAAG", 
+                    "isActive": true, 
+                    "isInThisCommunity": true, 
+                    "lastName": "McCurry", 
+                    "motif": {
+                        "color": "20aeb8", 
+                        "largeIconUrl": "/img/icon/profile64.png", 
+                        "mediumIconUrl": "/img/icon/profile32.png", 
+                        "smallIconUrl": "/img/icon/profile16.png"
+                    }, 
+                    "mySubscription": null, 
+                    "name": "Stephen McCurry", 
+                    "photo": {
+                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                        "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                        "photoVersionId": "729i0000000HQIEAA4", 
+                        "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                        "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                    }, 
+                    "title": null, 
+                    "type": "User", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                    "userType": "Internal"
+                }, 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_200.png?fromEmail=1", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/F", 
+                    "photoVersionId": null, 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_45.png?fromEmail=1", 
+                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK/photo"
+                }, 
+                "type": "CollaborationGroup", 
+                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK", 
+                "visibility": "PublicAccess"
+            }, 
+            "photoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+            "preamble": {
+                "messageSegments": [
+                    {
+                        "motif": {
+                            "color": "20aeb8", 
+                            "largeIconUrl": "/img/icon/profile64.png", 
+                            "mediumIconUrl": "/img/icon/profile32.png", 
+                            "smallIconUrl": "/img/icon/profile16.png"
+                        }, 
+                        "reference": {
+                            "id": "005i0000001GM5rAAG", 
+                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG"
+                        }, 
+                        "text": "Stephen McCurry", 
+                        "type": "EntityLink"
+                    }
+                ], 
+                "text": "Stephen McCurry"
+            }, 
+            "relativeCreatedDate": "6m ago", 
+            "topics": {
+                "canAssignTopics": true, 
+                "topics": []
+            }, 
+            "type": "LinkPost", 
+            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000I1GKuCAN", 
+            "visibility": "AllUsers"
+        }, 
+        {
+            "actor": {
+                "companyName": "Inviter", 
+                "firstName": "Stephen", 
+                "id": "005i0000001GM5rAAG", 
+                "isActive": true, 
+                "isInThisCommunity": true, 
+                "lastName": "McCurry", 
+                "motif": {
+                    "color": "20aeb8", 
+                    "largeIconUrl": "/img/icon/profile64.png", 
+                    "mediumIconUrl": "/img/icon/profile32.png", 
+                    "smallIconUrl": "/img/icon/profile16.png"
+                }, 
+                "mySubscription": null, 
+                "name": "Stephen McCurry", 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                    "photoVersionId": "729i0000000HQIEAA4", 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                }, 
+                "title": null, 
+                "type": "User", 
+                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                "userType": "Internal"
+            }, 
+            "attachment": null, 
+            "body": {
+                "messageSegments": [
+                    {
+                        "text": "test it", 
+                        "type": "Text"
+                    }
+                ], 
+                "text": "test it"
+            }, 
+            "canShare": true, 
+            "clientInfo": null, 
+            "comments": {
+                "comments": [], 
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I0RC0CAN/comments", 
+                "nextPageUrl": null, 
+                "total": 0
+            }, 
+            "createdDate": "2013-11-10T21:14:08.000Z", 
+            "event": false, 
+            "id": "0D5i000000I0RC0CAN", 
+            "isBookmarkedByCurrentUser": false, 
+            "isDeleteRestricted": false, 
+            "isLikedByCurrentUser": false, 
+            "likes": {
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I0RC0CAN/likes", 
+                "likes": [], 
+                "nextPageUrl": null, 
+                "previousPageUrl": null, 
+                "total": 0
+            }, 
+            "likesMessage": null, 
+            "moderationFlags": null, 
+            "modifiedDate": "2013-11-10T21:14:08.000Z", 
+            "myLike": null, 
+            "originalFeedItem": null, 
+            "originalFeedItemActor": null, 
+            "parent": {
+                "canHaveChatterGuests": false, 
+                "community": null, 
+                "description": null, 
+                "emailToChatterAddress": null, 
+                "id": "0F9i0000000H6VvCAK", 
+                "isArchived": false, 
+                "isAutoArchiveDisabled": false, 
+                "lastFeedItemPostDate": "2013-11-11T22:39:53.000Z", 
+                "memberCount": 2, 
+                "motif": {
+                    "color": "5e87de", 
+                    "largeIconUrl": "/img/icon/groups64.png", 
+                    "mediumIconUrl": "/img/icon/groups32.png", 
+                    "smallIconUrl": "/img/icon/groups16.png"
+                }, 
+                "myRole": "GroupOwner", 
+                "mySubscription": {
+                    "id": "0FBi0000000HivsGAC", 
+                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HivsGAC"
+                }, 
+                "name": "a test chatter", 
+                "owner": {
+                    "companyName": "Inviter", 
+                    "firstName": "Stephen", 
+                    "id": "005i0000001GM5rAAG", 
+                    "isActive": true, 
+                    "isInThisCommunity": true, 
+                    "lastName": "McCurry", 
+                    "motif": {
+                        "color": "20aeb8", 
+                        "largeIconUrl": "/img/icon/profile64.png", 
+                        "mediumIconUrl": "/img/icon/profile32.png", 
+                        "smallIconUrl": "/img/icon/profile16.png"
+                    }, 
+                    "mySubscription": null, 
+                    "name": "Stephen McCurry", 
+                    "photo": {
+                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                        "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                        "photoVersionId": "729i0000000HQIEAA4", 
+                        "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                        "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                    }, 
+                    "title": null, 
+                    "type": "User", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                    "userType": "Internal"
+                }, 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_200.png?fromEmail=1", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/F", 
+                    "photoVersionId": null, 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_45.png?fromEmail=1", 
+                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK/photo"
+                }, 
+                "type": "CollaborationGroup", 
+                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK", 
+                "visibility": "PublicAccess"
+            }, 
+            "photoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+            "preamble": {
+                "messageSegments": [
+                    {
+                        "motif": {
+                            "color": "20aeb8", 
+                            "largeIconUrl": "/img/icon/profile64.png", 
+                            "mediumIconUrl": "/img/icon/profile32.png", 
+                            "smallIconUrl": "/img/icon/profile16.png"
+                        }, 
+                        "reference": {
+                            "id": "005i0000001GM5rAAG", 
+                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG"
+                        }, 
+                        "text": "Stephen McCurry", 
+                        "type": "EntityLink"
+                    }
+                ], 
+                "text": "Stephen McCurry"
+            }, 
+            "relativeCreatedDate": "Yesterday at 1:14 PM", 
+            "topics": {
+                "canAssignTopics": true, 
+                "topics": []
+            }, 
+            "type": "TextPost", 
+            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000I0RC0CAN", 
+            "visibility": "AllUsers"
+        }, 
+        {
+            "actor": {
+                "companyName": "Inviter", 
+                "firstName": "Stephen", 
+                "id": "005i0000001GM5rAAG", 
+                "isActive": true, 
+                "isInThisCommunity": true, 
+                "lastName": "McCurry", 
+                "motif": {
+                    "color": "20aeb8", 
+                    "largeIconUrl": "/img/icon/profile64.png", 
+                    "mediumIconUrl": "/img/icon/profile32.png", 
+                    "smallIconUrl": "/img/icon/profile16.png"
+                }, 
+                "mySubscription": null, 
+                "name": "Stephen McCurry", 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                    "photoVersionId": "729i0000000HQIEAA4", 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                }, 
+                "title": null, 
+                "type": "User", 
+                "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                "userType": "Internal"
+            }, 
+            "attachment": null, 
+            "body": {
+                "messageSegments": [
+                    {
+                        "text": "testing", 
+                        "type": "Text"
+                    }
+                ], 
+                "text": "testing"
+            }, 
+            "canShare": true, 
+            "clientInfo": null, 
+            "comments": {
+                "comments": [], 
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I0QvSCAV/comments", 
+                "nextPageUrl": null, 
+                "total": 0
+            }, 
+            "createdDate": "2013-11-10T19:37:06.000Z", 
+            "event": false, 
+            "id": "0D5i000000I0QvSCAV", 
+            "isBookmarkedByCurrentUser": false, 
+            "isDeleteRestricted": false, 
+            "isLikedByCurrentUser": false, 
+            "likes": {
+                "currentPageUrl": "/services/data/v29.0/chatter/feed-items/0D5i000000I0QvSCAV/likes", 
+                "likes": [], 
+                "nextPageUrl": null, 
+                "previousPageUrl": null, 
+                "total": 0
+            }, 
+            "likesMessage": null, 
+            "moderationFlags": null, 
+            "modifiedDate": "2013-11-10T19:37:06.000Z", 
+            "myLike": null, 
+            "originalFeedItem": null, 
+            "originalFeedItemActor": null, 
+            "parent": {
+                "canHaveChatterGuests": false, 
+                "community": null, 
+                "description": null, 
+                "emailToChatterAddress": null, 
+                "id": "0F9i0000000H6VvCAK", 
+                "isArchived": false, 
+                "isAutoArchiveDisabled": false, 
+                "lastFeedItemPostDate": "2013-11-11T22:39:53.000Z", 
+                "memberCount": 2, 
+                "motif": {
+                    "color": "5e87de", 
+                    "largeIconUrl": "/img/icon/groups64.png", 
+                    "mediumIconUrl": "/img/icon/groups32.png", 
+                    "smallIconUrl": "/img/icon/groups16.png"
+                }, 
+                "myRole": "GroupOwner", 
+                "mySubscription": {
+                    "id": "0FBi0000000HivsGAC", 
+                    "url": "/services/data/v29.0/chatter/group-memberships/0FBi0000000HivsGAC"
+                }, 
+                "name": "a test chatter", 
+                "owner": {
+                    "companyName": "Inviter", 
+                    "firstName": "Stephen", 
+                    "id": "005i0000001GM5rAAG", 
+                    "isActive": true, 
+                    "isInThisCommunity": true, 
+                    "lastName": "McCurry", 
+                    "motif": {
+                        "color": "20aeb8", 
+                        "largeIconUrl": "/img/icon/profile64.png", 
+                        "mediumIconUrl": "/img/icon/profile32.png", 
+                        "smallIconUrl": "/img/icon/profile16.png"
+                    }, 
+                    "mySubscription": null, 
+                    "name": "Stephen McCurry", 
+                    "photo": {
+                        "fullEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthnO_3NjPLfflBnJKkTz1xL8", 
+                        "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/F", 
+                        "photoVersionId": "729i0000000HQIEAA4", 
+                        "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+                        "standardEmailPhotoUrl": "https://na15.salesforce.com/ncsphoto/puu8QM8Ya8HQEUKHwuxODFAbRAIAR4YDhpvLwPElthkQFv4EGTYjvg90aTDOIDFv", 
+                        "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG/photo"
+                    }, 
+                    "title": null, 
+                    "type": "User", 
+                    "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG", 
+                    "userType": "Internal"
+                }, 
+                "photo": {
+                    "fullEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_200.png?fromEmail=1", 
+                    "largePhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/F", 
+                    "photoVersionId": null, 
+                    "smallPhotoUrl": "https://c.na15.content.force.com/profilephoto/0F9/T", 
+                    "standardEmailPhotoUrl": "https://na15.salesforce.com/img/userprofile/default_group_profile_45.png?fromEmail=1", 
+                    "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK/photo"
+                }, 
+                "type": "CollaborationGroup", 
+                "url": "/services/data/v29.0/chatter/groups/0F9i0000000H6VvCAK", 
+                "visibility": "PublicAccess"
+            }, 
+            "photoUrl": "https://c.na15.content.force.com/profilephoto/729i0000000HQIE/T", 
+            "preamble": {
+                "messageSegments": [
+                    {
+                        "motif": {
+                            "color": "20aeb8", 
+                            "largeIconUrl": "/img/icon/profile64.png", 
+                            "mediumIconUrl": "/img/icon/profile32.png", 
+                            "smallIconUrl": "/img/icon/profile16.png"
+                        }, 
+                        "reference": {
+                            "id": "005i0000001GM5rAAG", 
+                            "url": "/services/data/v29.0/chatter/users/005i0000001GM5rAAG"
+                        }, 
+                        "text": "Stephen McCurry", 
+                        "type": "EntityLink"
+                    }
+                ], 
+                "text": "Stephen McCurry"
+            }, 
+            "relativeCreatedDate": "Yesterday at 11:37 AM", 
+            "topics": {
+                "canAssignTopics": true, 
+                "topics": []
+            }, 
+            "type": "TextPost", 
+            "url": "/services/data/v29.0/chatter/feed-items/0D5i000000I0QvSCAV", 
             "visibility": "AllUsers"
         }
     ], 

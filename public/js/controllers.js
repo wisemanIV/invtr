@@ -239,9 +239,10 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfi
 		SiteConfigService.getConfig()
                 .then(function (result) {
 					console.log("SiteConfigCtrl results are in ");
-					var cnfg = JSON.parse(result.data.data).record ;
+					var cnfg = JSON.parse(result.data.data) ;
 					console.log(cnfg); 
-                   $scope.site = cnfg; 
+                   $scope.site = cnfg.record; 
+				   $scope.prizes = cnfg.prizes; 
 				        
                 }, function (result) {
                     alert("Error: No data returned");
@@ -257,7 +258,7 @@ myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService',
 		$scope.init = function() {
 			RESTService.get("https://data.invtr.co/feed", function(data) {
 				console.debug("FeedCtrl REST returned:");
-				//console.debug(JSON.stringify(data));
+				console.debug(JSON.stringify(data));
 				$scope.feed = data.items;
 			});
 		}

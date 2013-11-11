@@ -1,0 +1,31 @@
+<div class="rewardMarker reward1">
+	<div class="description">
+		<p class="prv"></p><p class="earnings"></p>						
+	</div>
+</div>
+
+<div ng-repeat="prize in data" class="rewardMarker reward2">
+		<div class="description">
+			<p class="prv">{{prize.prize.Inviter__Level__c}} points</p>
+		</div>
+		<div class="rewardArrow"></div>
+		
+		<div class="prize badge1">
+				<p><strong></strong><br></p>					
+			</div>
+			<div id="advanced" class="circle badge{{$index}}"/>
+		</div>
+		
+</div>
+
+<div class="progress-bar blue stripes">
+	    <span style="width: 40%"></span>
+	<div id="goalMarker" style="left: 536px">
+		<span class="top_back">
+			<span class="top_tri"></span>
+		</span>
+		<span class="bottom_back">
+			<span class="bottom_tri"></span>
+		</span>
+	</div>
+</div>
