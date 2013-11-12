@@ -523,11 +523,52 @@ directives.directive('ghProgress', function () {
 	  restrict: 'E',
 	  templateUrl : 'partials/progressMarker.html',
 	  scope: {
-	    data: "="
+	    data: "=",
+		points: "="
 	  },
 	  link: function (scope, element, attrs) {
 		  
-		  console.log("being called alright");
+		  console.log("Progress Directive");
+		  
+		  console.log(scope.data);
+		  
+		  element.ready(function(){
+			 
+			  var arr = [];
+			  // first find the highest level 
+			  for (var i = 0 ; i < scope.data.length ; i++) {
+				  var level = scope.data[i].prize.Inviter__Level__c;
+			      arr.push(level);
+			  }
+			  
+			  var maxLevel = Math.max.apply(Math, arr)*1.15; // arbitrary add 15% to make it look nice
+			  
+			  var progressPercent = Math.round((scope.points/maxLevel)*100) ;
+			  // TODO retrieve progress bar width programatically
+			  var width = 650;
+			  
+			  for (var i = 0 ; i < scope.data.length ; i++) {
+				 console.log('looping:'+i);
+		         var rew = $(element).find('#reward'+scope.data[i].prize.Inviter__Level__c);
+				 
+				 var levelPercent =  Math.round((scope.data[i].prize.Inviter__Level__c / maxLevel) * 100);
+				 console.log("calculate");
+				 console.log(levelPercent);
+				 console.log(progressPercent);
+				 if (levelPercent <= progressPercent) {
+				 	var prizeBadge = $(element).find('#badge'+scope.data[i].prize.Inviter__Level__c);
+					prizeBadge.addClass('advanced');
+				 }
+				 // 40 is the margin-left for the marker line (could be retrieved programatically)
+				 var pixels = ((scope.data[i].prize.Inviter__Level__c / maxLevel )*width)-40;
+				 // prob use left instead of margin-left
+		         rew.css("margin-left",pixels+"px");
+			 }
+			 
+			 var progress = $(element).find('#progress');
+			 progress.css("width", progressPercent+"%"); 
+			 
+		  });
 	  }
   }
 	  

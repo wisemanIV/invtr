@@ -27,7 +27,7 @@ position: relative;
 top: 16px;
 left: 23px;
 width: 600px;
-height: 270px;
+height: 335px;
 color: black;
 }
 
@@ -35,6 +35,7 @@ color: black;
 position: relative;
 display: inline-block;
 height: 67px;
+margin: 20px 20px 20px 20px;
 }
 
 #retailTracker .description {
@@ -46,18 +47,21 @@ width: 150px;
 
 #retailTracker .rewardArrow {
 width: 3px;
-height: 200px;
+height: 160px;
 position: absolute;
 top: 25px;
 background-color: #d3d4d6;
 display: block;
 z-index: -1;
+margin-left: 40px; 
 }
 
 #retailTracker .rewardMarker {
-position: relative;
+position: absolute;
 display: inline-block;
 height: 67px;
+float: left;
+height: 400px !important;
 }
 
 #badges .prize {
@@ -65,37 +69,13 @@ height: 67px;
 	color:black;
 }
 
-.rewardMarker.reward1 {
-	width:150px !important ;
-}
-.rewardMarker.reward2 {
-	width:150px !important ;
-}
-.rewardMarker.reward3 {
-	width:270px !important ;
-}
-.rewardMarker.reward4 {
-	width:50px !important ;
-}
-.badge1 {
-	width:200px !important ;
-}
-.badge2 {
-	width:200px !important ;
-}
-.badge3 {
-	width:200px !important ;
-}
-.badge4 {
-	width:200px !important ;
-}
-
 .progress-bar {
+	float: left;
 	background-color: #1a1a1a;
 	height: 25px;
 	padding: 5px;
-	width: 600px;
-	margin: 50px 0;
+	width: 650px;
+	margin: 120px 0;
 	z-index: 100;			
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -200,8 +180,14 @@ height: 67px;
 position: relative;
 }
 
-#badges .badge1 {
-left: 13px;
+.badge1 {
+float: left;
+margin-left: 35px;
+position: relative;
+top: 220px;
+z-index: 1;
+font-size: 13pt;
+}
 }
 
 #badges .badge1 .image {
@@ -216,29 +202,33 @@ top: -10px;
 z-index: 200;
 }
 
-#advanced {
-width: 80px;
-height: 80px;
-background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
-background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange);
-background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+.advanced {
+background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%) !important;
+background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange) !important;
+background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%) !important;
 -webkit-animation-name: spin;
--webkit-animation-duration: 2s;
+-webkit-animation-duration: 3s;
 -webkit-animation-iteration-count: infinite;
 -webkit-animation-timing-function: linear;
 -moz-animation-name: spin;
--moz-animation-duration: 2s;
+-moz-animation-duration: 3s;
 -moz-animation-iteration-count: infinite;
 -moz-animation-timing-function: linear;
 -ms-animation-name: spin;
--ms-animation-duration: 2s;
+-ms-animation-duration: 3s;
 -ms-animation-iteration-count: infinite;
 -ms-animation-timing-function: linear;
 }
+
 .circle {
-border-radius: 50%;
-display: inline-block;
-margin-right: 20px;
+	margin-top: 190px;
+	width: 80px;
+	height: 80px;
+	background: grey;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+	margin-right: 20px;
 }
 
 </style>
@@ -250,54 +240,23 @@ margin-right: 20px;
 				<h2 class="page-title">{{site.incentivename}}</h2>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" ng-controller="SiteConfigCtrl">
 			<div class="span8">
-				<section class="widget">
-					<div ng-controller="DashboardCtrl" ng-init="init()">
-					<button ng-click="toggleType()" ng-init="dashboard.type='standard';dashboard.toggleText = 'Trendline View';">
-					      {{dashboard.toggleText}}
-					</button>
-					<div ng-switch on="dashboard.type">
-						<div ng-switch-when="standard">
-							<header>
-								<h4>Your stats</h4>
-							</header>
-							<div class="body no-margin">
-								<svg id="d3Parent">
-								</svg>
-								<div ng-show="metrics" ng-repeat="item in metrics">
-									<div ng-switch on="item.type">
-										<div ng-switch-when="dial">
-											<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
-										</div>
-										<div ng-switch-when="meter">
-											<gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
-										</div>
-									<!-- end switch -->	
-									</div>
-							    <!-- end repeat -->
-								</div>
-							<!-- end body -->
-							</div>
+				<section id="tracker" class="widget large">
+					<header>
+						<h4>Your Progress</h4>
+					</header>
+						<!-- ENCOURAGEMENT -->
+						<div id="retailTracker">
+							
+							<gh-progress data="prizes" points="prizes[1].prize.Inviter__Level__c"/>
+							
 						</div>
-						<div ng-switch-when="trendline">
-							<header>
-								<h4>
-									Trendline
-								</h4>
-							</header>
-							<div class="body">
-								<svg id="d3TrendParent">
-								</svg>
-								<gh-trend data="d3TrendData" metrics="metrics" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-trend>
-							</div>
-						</div>
-					</div>
-				</div>
+								
 				</section>
 			</div>
 
-            <div class="span4" ng-controller="SiteConfigCtrl">
+            <div class="span4">
                 <section class="widget large">
                     <header>
                         <h2>{{site.Inviter__Title__c}}</h2>
@@ -480,18 +439,50 @@ margin-right: 20px;
         </div>
 		
 		<div class="row">
-			<div class="span8" ng-controller="SiteConfigCtrl">
-				<section id="tracker" class="widget large">
-					<header>
-						<h4>Presidents Club Tracker</h4>
-					</header>
-						<!-- ENCOURAGEMENT -->
-						<div id="retailTracker">
-							
-							<gh-progress data="prizes"/>
-							
+			<div class="span8">
+				
+				<section class="widget">
+					<div ng-controller="DashboardCtrl" ng-init="init()">
+					<button ng-click="toggleType()" ng-init="dashboard.type='standard';dashboard.toggleText = 'Trendline View';">
+					      {{dashboard.toggleText}}
+					</button>
+					<div ng-switch on="dashboard.type">
+						<div ng-switch-when="standard">
+							<header>
+								<h4>Your stats</h4>
+							</header>
+							<div class="body no-margin">
+								<svg id="d3Parent">
+								</svg>
+								<div ng-show="metrics" ng-repeat="item in metrics">
+									<div ng-switch on="item.type">
+										<div ng-switch-when="dial">
+											<gh-dial val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-dial>
+										</div>
+										<div ng-switch-when="meter">
+											<gh-meter val="item.data" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-meter>
+										</div>
+									<!-- end switch -->	
+									</div>
+							    <!-- end repeat -->
+								</div>
+							<!-- end body -->
+							</div>
 						</div>
-								
+						<div ng-switch-when="trendline">
+							<header>
+								<h4>
+									Trendline
+								</h4>
+							</header>
+							<div class="body">
+								<svg id="d3TrendParent">
+								</svg>
+								<gh-trend data="d3TrendData" metrics="metrics" gh-format="item.format" metric-title="item.title" gh-target="item.target"></gh-trend>
+							</div>
+						</div>
+					</div>
+				</div>
 				</section>
 	            </div>
 	        </div>

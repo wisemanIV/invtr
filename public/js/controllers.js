@@ -233,7 +233,7 @@ myApp.controller('CountdownCtrl', ['$scope', '$timeout', 'SiteConfigService',
 	}
 ]);
 
-myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfigService', 
+myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfigService',
 	function ($scope, $rootScope, $route, SiteConfigService) {
   	
 		SiteConfigService.getConfig()
@@ -247,6 +247,19 @@ myApp.controller('SiteConfigCtrl', ['$scope', '$rootScope', '$route', 'SiteConfi
                 }, function (result) {
                     alert("Error: No data returned");
                 });
+				
+				$scope.open = function () {
+
+				    var modalInstance = $modal.open({
+				      templateUrl: 'myModalContent.html',
+				      controller: ModalInstanceCtrl,
+				      resolve: {
+				        items: function () {
+				          return $scope.items;
+				        }
+				      }
+				    });
+				}
 	
 	}
   
@@ -258,7 +271,7 @@ myApp.controller('FeedCtrl', ['$scope', '$rootScope', '$route', 'RESTService',
 		$scope.init = function() {
 			RESTService.get("https://data.invtr.co/feed", function(data) {
 				console.debug("FeedCtrl REST returned:");
-				console.debug(JSON.stringify(data));
+				//console.debug(JSON.stringify(data));
 				$scope.feed = data.items;
 			});
 		}

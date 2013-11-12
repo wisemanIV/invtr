@@ -2,18 +2,14 @@
 
 // declare top-level module which depends on filters,and services
 var myApp = angular.module('myApp',
-    ['myApp.filters',
+    [   'myApp.filters',
         'myApp.directives', // custom directives
-        'ngGrid', // angular grid
-        'ui', // angular ui
-        'ngSanitize', // for html-bind in ckeditor
-        'ui.bootstrap', // jquery ui bootstrap
-        '$strap.directives', // angular strap
-		'angularjs.media.directives',
-		'ngDragDrop',
-		'ngCookies',
 		'ngRoute',
-		'LocalStorageModule'
+        'ngSanitize', // for html-bind in ckeditor
+		'ngCookies',
+		'ngResource',
+		'LocalStorageModule',
+		'ui.bootstrap', // jquery ui bootstrap
     ]);
 	
 
