@@ -3,86 +3,92 @@ global class PostInstallClass implements InstallHandler {
   global void onInstall(InstallContext context) {
     if(context.previousVersion() == null) {
         
-        CalculateMetrics updater = new CalculateMetrics();
-        String sch='0 0 * * * ?';
-        String jobID = system.schedule('Update incentives job 00', sch, updater);     
-        sch='0 5 * * * ?';
-        jobID = system.schedule('Update incentives job 05', sch, updater);  
-        sch='0 10 * * * ?';
-        jobID = system.schedule('Update incentives job 10', sch, updater);  
-        sch='0 15 * * * ?';
-        jobID = system.schedule('Update incentives job 15', sch, updater);  
-        sch='0 20 * * * ?';
-        jobID = system.schedule('Update incentives job 20', sch, updater);  
-        sch='0 25 * * * ?';
-        jobID = system.schedule('Update incentives job 25', sch, updater);  
-        sch='0 30 * * * ?';
-        jobID = system.schedule('Update incentives job 30', sch, updater);  
-        sch='0 35 * * * ?';
-        jobID = system.schedule('Update incentives job 35', sch, updater);  
-        sch='0 40 * * * ?';
-        jobID = system.schedule('Update incentives job 40', sch, updater);  
-        sch='0 45 * * * ?';
-        jobID = system.schedule('Update incentives job 45', sch, updater);  
-        sch='0 50 * * * ?';
-        jobID = system.schedule('Update incentives job 50', sch, updater);  
-        sch='0 55 * * * ?';
-        jobID = system.schedule('Update incentives job 55', sch, updater);
-		
-        SmsClass sms = new SmsClass();
-        String sch='0 0 * * * ?';
-        String jobID = system.schedule('Update SMS job 00', sch, sms);     
-        sch='0 5 * * * ?';
-        jobID = system.schedule('Update SMS job 05', sch, sms);  
-        sch='0 10 * * * ?';
-        jobID = system.schedule('Update SMS job 10', sch, sms);  
-        sch='0 15 * * * ?';
-        jobID = system.schedule('Update SMS job 15', sch, sms);  
-        sch='0 20 * * * ?';
-        jobID = system.schedule('Update SMS job 20', sch, sms);  
-        sch='0 25 * * * ?';
-        jobID = system.schedule('Update SMS job 25', sch, sms);  
-        sch='0 30 * * * ?';
-        jobID = system.schedule('Update SMS job 30', sch, sms);  
-        sch='0 35 * * * ?';
-        jobID = system.schedule('Update SMS job 35', sch, sms);  
-        sch='0 40 * * * ?';
-        jobID = system.schedule('Update SMS job 40', sch, sms);  
-        sch='0 45 * * * ?';
-        jobID = system.schedule('Update SMS job 45', sch, sms);  
-        sch='0 50 * * * ?';
-        jobID = system.schedule('Update SMS job 50', sch, sms);  
-        sch='0 55 * * * ?';
-        jobID = system.schedule('Update SMS job 55', sch, sms);
-		
-        ChatterClass chatterS = new ChatterClass();
-        String sch='0 0 * * * ?';
-        String jobID = system.schedule('Update CHATTER job 00', sch, chatterS);     
-        sch='0 5 * * * ?';
-        jobID = system.schedule('Update CHATTER job 05', sch, chatterS);  
-        sch='0 10 * * * ?';
-        jobID = system.schedule('Update CHATTER job 10', sch, chatterS);  
-        sch='0 15 * * * ?';
-        jobID = system.schedule('Update CHATTER job 15', sch, chatterS);  
-        sch='0 20 * * * ?';
-        jobID = system.schedule('Update CHATTER job 20', sch, chatterS);  
-        sch='0 25 * * * ?';
-        jobID = system.schedule('Update CHATTER job 25', sch, chatterS);  
-        sch='0 30 * * * ?';
-        jobID = system.schedule('Update CHATTER job 30', sch, chatterS);  
-        sch='0 35 * * * ?';
-        jobID = system.schedule('Update CHATTER job 35', sch, chatterS);  
-        sch='0 40 * * * ?';
-        jobID = system.schedule('Update CHATTER job 40', sch, chatterS);  
-        sch='0 45 * * * ?';
-        jobID = system.schedule('Update CHATTER job 45', sch, chatterS);  
-        sch='0 50 * * * ?';
-        jobID = system.schedule('Update CHATTER job 50', sch, chatterS);  
-        sch='0 55 * * * ?';
-        jobID = system.schedule('Update CHATTER job 55', sch, chatterS);
+        PostInstallClass.scheduleJobs();
         
         pushData(context.organizationId(), context.installerId()) ;
+        
+        buildInitialConfig();
     }
+  }
+  
+  public static void scheduleJobs() {
+      CalculateMetrics updater = new CalculateMetrics();
+      String sch='0 0 * * * ?';
+      Id jobID = system.schedule('Update incentives job 00', sch, updater);     
+      sch='0 5 * * * ?';
+      jobID = system.schedule('Update incentives job 05', sch, updater);  
+      sch='0 10 * * * ?';
+      jobID = system.schedule('Update incentives job 10', sch, updater);  
+      sch='0 15 * * * ?';
+      jobID = system.schedule('Update incentives job 15', sch, updater);  
+      sch='0 20 * * * ?';
+      jobID = system.schedule('Update incentives job 20', sch, updater);  
+      sch='0 25 * * * ?';
+      jobID = system.schedule('Update incentives job 25', sch, updater);  
+      sch='0 30 * * * ?';
+      jobID = system.schedule('Update incentives job 30', sch, updater);  
+      sch='0 35 * * * ?';
+      jobID = system.schedule('Update incentives job 35', sch, updater);  
+      sch='0 40 * * * ?';
+      jobID = system.schedule('Update incentives job 40', sch, updater);  
+      sch='0 45 * * * ?';
+      jobID = system.schedule('Update incentives job 45', sch, updater);  
+      sch='0 50 * * * ?';
+      jobID = system.schedule('Update incentives job 50', sch, updater);  
+      sch='0 55 * * * ?';
+      jobID = system.schedule('Update incentives job 55', sch, updater);
+    
+      SmsClass sms = new SmsClass();
+      sch='0 0 * * * ?';
+      jobID = system.schedule('Update SMS job 00', sch, sms);     
+      sch='0 5 * * * ?';
+      jobID = system.schedule('Update SMS job 05', sch, sms);  
+      sch='0 10 * * * ?';
+      jobID = system.schedule('Update SMS job 10', sch, sms);  
+      sch='0 15 * * * ?';
+      jobID = system.schedule('Update SMS job 15', sch, sms);  
+      sch='0 20 * * * ?';
+      jobID = system.schedule('Update SMS job 20', sch, sms);  
+      sch='0 25 * * * ?';
+      jobID = system.schedule('Update SMS job 25', sch, sms);  
+      sch='0 30 * * * ?';
+      jobID = system.schedule('Update SMS job 30', sch, sms);  
+      sch='0 35 * * * ?';
+      jobID = system.schedule('Update SMS job 35', sch, sms);  
+      sch='0 40 * * * ?';
+      jobID = system.schedule('Update SMS job 40', sch, sms);  
+      sch='0 45 * * * ?';
+      jobID = system.schedule('Update SMS job 45', sch, sms);  
+      sch='0 50 * * * ?';
+      jobID = system.schedule('Update SMS job 50', sch, sms);  
+      sch='0 55 * * * ?';
+      jobID = system.schedule('Update SMS job 55', sch, sms);
+    
+      ChatterClass chatterS = new ChatterClass();
+      sch='0 0 * * * ?';
+      jobID = system.schedule('Update CHATTER job 00', sch, chatterS);     
+      sch='0 5 * * * ?';
+      jobID = system.schedule('Update CHATTER job 05', sch, chatterS);  
+      sch='0 10 * * * ?';
+      jobID = system.schedule('Update CHATTER job 10', sch, chatterS);  
+      sch='0 15 * * * ?';
+      jobID = system.schedule('Update CHATTER job 15', sch, chatterS);  
+      sch='0 20 * * * ?';
+      jobID = system.schedule('Update CHATTER job 20', sch, chatterS);  
+      sch='0 25 * * * ?';
+      jobID = system.schedule('Update CHATTER job 25', sch, chatterS);  
+      sch='0 30 * * * ?';
+      jobID = system.schedule('Update CHATTER job 30', sch, chatterS);  
+      sch='0 35 * * * ?';
+      jobID = system.schedule('Update CHATTER job 35', sch, chatterS);  
+      sch='0 40 * * * ?';
+      jobID = system.schedule('Update CHATTER job 40', sch, chatterS);  
+      sch='0 45 * * * ?';
+      jobID = system.schedule('Update CHATTER job 45', sch, chatterS);  
+      sch='0 50 * * * ?';
+      jobID = system.schedule('Update CHATTER job 50', sch, chatterS);  
+      sch='0 55 * * * ?';
+      jobID = system.schedule('Update CHATTER job 55', sch, chatterS);
   }
     
   public void pushData(ID orgId, ID installerId) {
@@ -136,6 +142,10 @@ global class PostInstallClass implements InstallHandler {
     }
     
     public static void setupEvents() {
+        
+        //cleanup
+        List<IncentiveEvent__c> lst = [select Id from IncentiveEvent__c];
+        delete lst ;
         
         IncentiveEvent__c event = new IncentiveEvent__c();
         event = buildEvent('Accounts Opened', 'Account', 'New', null, null, null, 'OwnerId') ;
@@ -194,7 +204,7 @@ global class PostInstallClass implements InstallHandler {
         rule.DisplayFormat__c = '';
         rule.DisplayPointsFieldFormat__c = '$';
         rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
-        rule.PointsField__c = 'Expected Amount';
+        rule.PointsField__c = 'ExpectedRevenue';
         rule.PointsMultiplier__c = 0.5;
         rule.IncentiveId__c = oppi.Id;
         rule.Target__c = 0;
@@ -235,7 +245,7 @@ global class PostInstallClass implements InstallHandler {
         rule.DisplayFormat__c = '';
         rule.DisplayPointsFieldFormat__c = '$';
         rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
-        rule.PointsField__c = 'Expected Amount';
+        rule.PointsField__c = 'ExpectedRevenue';
         rule.PointsMultiplier__c = 0.5;
         rule.IncentiveId__c = oppi.Id;
         rule.Target__c = 0;
@@ -302,7 +312,7 @@ global class PostInstallClass implements InstallHandler {
         rule.DisplayFormat__c = '';
         rule.DisplayPointsFieldFormat__c = '$';
         rule.DisplayPointsFieldLabel__c = 'New Opp Revenue';
-        rule.PointsField__c = 'Expected Amount';
+        rule.PointsField__c = 'ExpectedRevenue';
         rule.IncentiveId__c = oppi.Id;
         rule.CountType__c = 'Count';
         rule.Target__c = 5 ;
@@ -335,7 +345,7 @@ global class PostInstallClass implements InstallHandler {
         tier.IncentiveId__c = incentiveId;
         tier.Position__c = pos ;
         tier.Level__c = level ;
-		tier.ImageUrl__c = url ;
+        tier.ImageUrl__c = url ;
         insert tier;
         
     }
