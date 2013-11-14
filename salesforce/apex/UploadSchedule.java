@@ -154,7 +154,7 @@ global class UploadSchedule implements Schedulable {
         
    }
    
-   public boolean transmitData(String body, String target) {
+   public static boolean transmitData(String body, String target) {
        
        HttpRequest req = new HttpRequest();
          
