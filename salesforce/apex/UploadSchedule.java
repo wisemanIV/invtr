@@ -1,12 +1,23 @@
-global class UploadSchedule implements Schedulable {
-   global void execute(SchedulableContext SC) {
-      updateIncentives();
-      updateMetrics(); 
-      updateLeaders(); 
-      updateRules(); 
-      updateUsers();
-      updateTimeline();
+public class UploadSchedule {
+   
+   @future (callout=true)
+   public static void updateClient() {
+	  UploadSchedule us = new UploadSchedule();
+      us.execute() ;
    }
+   
+   public UploadSchedule() {
+   }
+   
+   public void execute() {
+       updateIncentives();
+       updateMetrics(); 
+       updateLeaders(); 
+       updateRules(); 
+       updateUsers();
+       updateTimeline();
+   }
+   
    
    public void updateIncentives() {
        

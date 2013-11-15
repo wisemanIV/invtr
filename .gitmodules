@@ -1,3 +1,6 @@
 [submodule "nodejs"]
 	path = nodejs
 	url = https://aene@bitbucket.org/smccurry/inviter-server.git
+[submodule "apn"]
+	path = apn
+	url = http://github.com/argon/node-apn.git

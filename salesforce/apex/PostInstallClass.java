@@ -38,57 +38,7 @@ global class PostInstallClass implements InstallHandler {
       sch='0 55 * * * ?';
       jobID = system.schedule('Update incentives job 55', sch, updater);
     
-      SmsClass sms = new SmsClass();
-      sch='0 0 * * * ?';
-      jobID = system.schedule('Update SMS job 00', sch, sms);     
-      sch='0 5 * * * ?';
-      jobID = system.schedule('Update SMS job 05', sch, sms);  
-      sch='0 10 * * * ?';
-      jobID = system.schedule('Update SMS job 10', sch, sms);  
-      sch='0 15 * * * ?';
-      jobID = system.schedule('Update SMS job 15', sch, sms);  
-      sch='0 20 * * * ?';
-      jobID = system.schedule('Update SMS job 20', sch, sms);  
-      sch='0 25 * * * ?';
-      jobID = system.schedule('Update SMS job 25', sch, sms);  
-      sch='0 30 * * * ?';
-      jobID = system.schedule('Update SMS job 30', sch, sms);  
-      sch='0 35 * * * ?';
-      jobID = system.schedule('Update SMS job 35', sch, sms);  
-      sch='0 40 * * * ?';
-      jobID = system.schedule('Update SMS job 40', sch, sms);  
-      sch='0 45 * * * ?';
-      jobID = system.schedule('Update SMS job 45', sch, sms);  
-      sch='0 50 * * * ?';
-      jobID = system.schedule('Update SMS job 50', sch, sms);  
-      sch='0 55 * * * ?';
-      jobID = system.schedule('Update SMS job 55', sch, sms);
-    
-      ChatterClass chatterS = new ChatterClass();
-      sch='0 0 * * * ?';
-      jobID = system.schedule('Update CHATTER job 00', sch, chatterS);     
-      sch='0 5 * * * ?';
-      jobID = system.schedule('Update CHATTER job 05', sch, chatterS);  
-      sch='0 10 * * * ?';
-      jobID = system.schedule('Update CHATTER job 10', sch, chatterS);  
-      sch='0 15 * * * ?';
-      jobID = system.schedule('Update CHATTER job 15', sch, chatterS);  
-      sch='0 20 * * * ?';
-      jobID = system.schedule('Update CHATTER job 20', sch, chatterS);  
-      sch='0 25 * * * ?';
-      jobID = system.schedule('Update CHATTER job 25', sch, chatterS);  
-      sch='0 30 * * * ?';
-      jobID = system.schedule('Update CHATTER job 30', sch, chatterS);  
-      sch='0 35 * * * ?';
-      jobID = system.schedule('Update CHATTER job 35', sch, chatterS);  
-      sch='0 40 * * * ?';
-      jobID = system.schedule('Update CHATTER job 40', sch, chatterS);  
-      sch='0 45 * * * ?';
-      jobID = system.schedule('Update CHATTER job 45', sch, chatterS);  
-      sch='0 50 * * * ?';
-      jobID = system.schedule('Update CHATTER job 50', sch, chatterS);  
-      sch='0 55 * * * ?';
-      jobID = system.schedule('Update CHATTER job 55', sch, chatterS);
+     
   }
     
   public void pushData(ID orgId, ID installerId) {

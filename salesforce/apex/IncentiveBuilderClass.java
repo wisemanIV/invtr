@@ -391,66 +391,14 @@ public class IncentiveBuilderClass {
         Id groupId = IncentiveBuilderClass.createGroup(incentive.getRecord().ChatterGroupTitle__c, ids);
         incentive.getRecord().ChatterGroupId__c = groupId ;
       }
-      
-      incentive.save() ;
-      save(incentive.getRecord().Id);
+      // push to client
+      UploadSchedule.updateClient() ;
+	  incentive.save();
+	  
       PageReference pageRef = Page.InvAdmin;
       
       return pageRef.setRedirect(true);
    }
- 
-    @future (callout=true)
-    public static void save(Id incentiveId) {
-        
-        System.debug('Save');
-    
-        Incentive incentive = new Incentive(incentiveId);
-        
-        String body = JSON.serializePretty(incentive);
-    
-        HttpRequest req = new HttpRequest();
-            
-        System.debug(body) ;
-         
-        //Set HTTPRequest Method
-        req.setMethod('POST');
-
-        //Set HTTPRequest header properties
-        req.setHeader('content-type',  'application/json');
-        //req.setHeader('Host','data.invtr.co');
-        req.setEndpoint('https://data.invtr.co/incentivebuilder');
-        req.setHeader('Connection','keep-alive');
-
-        //Set the HTTPRequest body  
-        req.setBody(body);   
-
-        Http http = new Http();
-       
-        try {
- 
-            //Execute web service call here    
-            HTTPResponse res = http.send(req);  
-
-            //Helpful debug messages
-            System.debug(res.toString());
-            System.debug('STATUS:'+res.getStatus());
-            System.debug('STATUS_CODE:'+res.getStatusCode());
-            
-            if (res.getStatusCode() != 200) {
-                
-                String msg = 'code:'+res.getStatusCode()+' reason:'+res.getStatus() ;
-                incentive.getRecord().Url__c = res.getStatus() ;
-                update incentive.getRecord() ;
-            }
-    
-        } catch(System.CalloutException e) {
-            System.debug(e);
-            incentive.getRecord().Url__c = e.getMessage() ;
-            update incentive.getRecord() ;
-            
-        }
-        
-    }
     
     public static Id createGroup(String groupName, List<User> users) {
         
