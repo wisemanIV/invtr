@@ -1,0 +1,57 @@
+<div class="span4" ng-controller="LeaderboardCtrl">
+    <section>
+        <button ng-click="toggleType()" ng-init="leaderboard.type='standard';leaderboard.toggleText = 'Bar Chat View';">
+              {{leaderboard.toggleText}}
+         </button>
+        <div ng-switch on="leaderboard.type">
+            <div ng-switch-when="standard">
+                <header>
+                    <h4>
+                        Leaderboard
+                    </h4>
+                </header>
+                <div class="body">
+                    <table class="table table-striped no-margin sources-table">
+                        <thead>
+                            <tr>
+                                <th class="source-col-header">Source</th>
+                                <th>Name</th>
+                                <th>Points Total</th>
+                                <th></th>
+                                <th></th>
+                                <th class="chart-col-header hidden-xs">Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         <tr ng-repeat="record in leaderdata | orderBy:'Inviter__PointsTotal__c':true">
+                                <td><div class="icon">
+                                    <img ng-src="{{record.Inviter__SmallPhotoUrl__c}}" class="profile-img-small" alt="">
+                                </div>
+                            </td>
+                            <td><strong class="color-green">{{record.Inviter__FirstName__c}} {{record.Inviter__LastName__c}}</strong></td>
+                            <td>{{record.Inviter__PointsTotal__c}}</td>
+                            <td class="hidden-xs"></td>
+                            <td></td>
+                            <td class="chart-cell hidden-xs">
+                                <div id="direct-trend"><canvas width="150" height="30" style="display: inline-block; width: 150px; height: 30px; vertical-align: top;"></canvas></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-switch-when="bar">
+                <header>
+                    <h4>Leaderboard</h4>
+                </header>
+                <div class="body">
+                    <div>
+                        <svg id="d3BarParent">
+                        </svg>
+                        <d3-bars data="leaderdata" label="Inviter__FirstName__c" on-click="d3OnClick(item)"></d3-bars>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</div>

@@ -1,0 +1,26 @@
+<div id="reward{{prize.prize.Inviter__Level__c}}" ng-repeat="prize in data | orderBy:'prize.Inviter__Level__c':false" class="rewardMarker reward2">
+		<div class="description">
+			<p>{{prize.prize.Inviter__Level__c}} points</p>
+		</div>
+		<div class="rewardArrow"></div>
+		
+		<div class="prize badge1">
+				<p><strong>{{$index+1}}</strong><br></p>					
+		</div>
+		<div id="badge{{prize.prize.Inviter__Level__c}}" class="circle badge2" ng-click="open()">
+	</div>
+</div>
+
+<div class="progress-bar blue stripes">
+	    <span id="progress"></span>
+	<div id="goalMarker" style="left: 536px">
+		<span class="top_back">
+			<span class="top_tri"></span>
+		</span>
+		<span class="bottom_back">
+			<span class="bottom_tri"></span>
+		</span>
+	</div>
+	
+</div>
+

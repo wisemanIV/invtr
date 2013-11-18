@@ -1,0 +1,248 @@
+<style>
+
+.progress-meter .background {
+  fill: #DFEAFD;
+}
+.progress-meter .foreground {
+  fill: #2E7AF9;
+}
+.progress-meter .text {
+  font-family: 'Georgia' sans-serif;
+  font-size: 90px;
+}
+.progress-meter .text2 {
+  font-family: 'Georgia' sans-serif;
+  font-size: 20px;
+}
+
+.retailSalesTracker {
+position: relative;
+border: 8px solid #eee;
+height: 365px;
+width: 642px;
+}
+
+#retailTracker {
+position: relative;
+top: 16px;
+left: 23px;
+width: 600px;
+height: 335px;
+color: black;
+}
+
+#retailTracker .rewardMarker {
+position: relative;
+display: inline-block;
+height: 67px;
+margin: 20px 20px 20px 20px;
+}
+
+#retailTracker .description {
+position: absolute;
+top: 5px;
+margin-bottom: 22px;
+width: 150px;
+}
+
+#retailTracker .rewardArrow {
+width: 3px;
+height: 160px;
+position: absolute;
+top: 25px;
+background-color: #d3d4d6;
+display: block;
+z-index: -1;
+margin-left: 40px; 
+}
+
+#retailTracker .rewardMarker {
+position: absolute;
+display: inline-block;
+height: 67px;
+float: left;
+height: 400px !important;
+}
+
+#badges .prize {
+	display:inline-block;
+	color:black;
+}
+
+.progress-bar {
+	float: left;
+	background-color: #1a1a1a;
+	height: 25px;
+	padding: 5px;
+	width: 650px;
+	margin: 120px 0;
+	z-index: 100;			
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	-webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;	          
+}
+
+.progress-bar span {
+	display: inline-block;
+	height: 100%;	
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+        -webkit-transition: width .4s ease-in-out;
+        -moz-transition: width .4s ease-in-out;
+        -ms-transition: width .4s ease-in-out;
+        -o-transition: width .4s ease-in-out;
+        transition: width .4s ease-in-out;    
+}
+
+.blue span {
+	background-color: #34c2e3;   
+}
+
+.stripes span {
+	-webkit-background-size: 30px 30px;
+	-moz-background-size: 30px 30px;
+	background-size: 30px 30px;			
+	background-image: -webkit-gradient(linear, left top, right bottom,
+						color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent),
+						color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)),
+						color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent),
+						to(transparent));
+	background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);            
+	
+	-webkit-animation: animate-stripes 3s linear infinite;
+	-moz-animation: animate-stripes 3s linear infinite;       		
+}
+
+@-webkit-keyframes animate-stripes { 
+	0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+@-moz-keyframes animate-stripes {
+	0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+.shine span {
+	position: relative;
+}
+
+.shine span::after {
+	content: '';
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: #fff;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;			
+	
+	-webkit-animation: animate-shine 2s ease-out infinite;
+	-moz-animation: animate-shine 2s ease-out infinite; 			
+}
+
+@-webkit-keyframes animate-shine { 
+	0% {opacity: 0; width: 0;}
+	50% {opacity: .5;}
+	100% {opacity: 0; width: 95%;}
+}
+
+
+@-moz-keyframes animate-shine {
+	0% {opacity: 0; width: 0;}
+	50% {opacity: .5;}
+	100% {opacity: 0; width: 95%;}
+}
+
+#badges {
+position: relative;
+}
+
+.badge1 {
+float: left;
+margin-left: 35px;
+position: relative;
+top: 220px;
+z-index: 1;
+font-size: 13pt;
+}
+}
+
+#badges .badge1 .image {
+background: transparent url('/images/reportsMyMonthlyRewardsBadges.png') no-repeat -81px 0;
+}
+
+#goalMarker {
+width: 24px;
+height: 70px;
+position: absolute;
+top: -10px;
+z-index: 200;
+}
+
+.advanced {
+background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%) !important;
+background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange) !important;
+background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%) !important;
+-webkit-animation-name: spin;
+-webkit-animation-duration: 3s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-timing-function: linear;
+-moz-animation-name: spin;
+-moz-animation-duration: 3s;
+-moz-animation-iteration-count: infinite;
+-moz-animation-timing-function: linear;
+-ms-animation-name: spin;
+-ms-animation-duration: 3s;
+-ms-animation-iteration-count: infinite;
+-ms-animation-timing-function: linear;
+}
+
+.circle {
+	margin-top: 190px;
+	width: 80px;
+	height: 80px;
+	background: grey;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+	margin-right: 20px;
+}
+
+</style>
+
+<div ng-controller="SiteConfigCtrl">
+	
+			<header>
+				<h4>Your Progress</h4>
+			</header>
+				<!-- ENCOURAGEMENT -->
+				<div id="retailTracker">
+					
+					<gh-progress data="prizes" points="prizes[1].prize.Inviter__Level__c"/>
+					
+				</div>
+	
+	</div>
